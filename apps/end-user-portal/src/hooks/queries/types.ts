@@ -1,4 +1,4 @@
-import type { PageInfo, ListResponse } from '@autional-cn/shared/generated/types';
+import type { PageInfo, ListResponse } from '@autional/shared/generated/types';
 
 export type PaginatedList<T> = ListResponse<T>;
 export { type PageInfo };

@@ -1,6 +1,6 @@
 import { describe, it, expect, vi } from 'vitest';
 
-vi.mock('@autional-cn/shared', () => ({
+vi.mock('@autional/shared', () => ({
 	useAuthStore: vi.fn(),
 	getAccessToken: vi.fn(() => null),
 	apiClient: { get: vi.fn(), put: vi.fn(), post: vi.fn(), delete: vi.fn() },

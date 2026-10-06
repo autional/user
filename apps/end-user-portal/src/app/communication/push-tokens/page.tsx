@@ -3,7 +3,7 @@ import { ROUTES } from '@/lib/routes';
 import { buildNavHref } from '@/lib/nav';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useAuth, extractApiError, useTenantSlug } from '@autional-cn/shared';
+import { useAuth, extractApiError, useTenantSlug } from '@autional/shared';
 import {
 	useCommunicationPushTokens,
 	useRegisterPushToken,
@@ -11,7 +11,7 @@ import {
 } from '@/hooks/queries';
 import { useToast } from '@/hooks/use-toast';
 import { formatTime } from '@/lib/format';
-import { SectionCard, ConsolePageHeader, LoadingScreen, ErrorState, ConfirmDialog } from '@autional-cn/ui';
+import { SectionCard, ConsolePageHeader, LoadingScreen, ErrorState, ConfirmDialog } from '@autional/ui';
 import { Link } from 'react-router';
 import { Smartphone, Monitor, Globe, Laptop, Plus, Trash2, ChevronLeft } from 'lucide-react';
 

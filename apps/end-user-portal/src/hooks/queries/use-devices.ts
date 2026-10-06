@@ -10,7 +10,7 @@ import {
 	authMeDevicesByDevicesDelete,
 	authMeDevicesTrustByDevicesPut,
 	iots,
-} from '@autional-cn/shared/generated/api';
+} from '@autional/shared/generated/api';
 import type { DeviceInfo, ThingInfo, FamilyMember } from './types';
 import type { PaginatedList } from './types';
 import { queryKeys } from './query-keys';
@@ -25,7 +25,7 @@ async function revokeDevice(id: string) {
 
 async function revokeAllDevices() {
 	// @generated-api-exempt — No bulk self-service device revoke in generated API
-	const { apiClient } = await import('@autional-cn/shared');
+	const { apiClient } = await import('@autional/shared');
 	await apiClient.delete('/identity/api/v1/devices'); // @generated-api-exempt
 }
 
@@ -82,7 +82,7 @@ export function useThingsList(): UseQueryResult<PaginatedList<ThingInfo>, Error>
 }
 
 async function pairDevice(data: { user_code: string }): Promise<unknown> {
-	const { iotsPairPost } = await import('@autional-cn/shared/generated/api');
+	const { iotsPairPost } = await import('@autional/shared/generated/api');
 	return iotsPairPost(data as any);
 }
 
@@ -95,7 +95,7 @@ export function usePairDevice(): UseMutationResult<unknown, Error, { user_code: 
 }
 
 async function getFamilyMembers(deviceId: string): Promise<FamilyMember[]> {
-	const { iotsFamilyAccessByIots } = await import('@autional-cn/shared/generated/api');
+	const { iotsFamilyAccessByIots } = await import('@autional/shared/generated/api');
 	// 后端 ListResponse → 拦截器解包后顶层即 items（勿再读 data?.data，双解包恒 undefined）。
 	const data = (await iotsFamilyAccessByIots(deviceId)) as { items?: FamilyMember[] } | undefined;
 	return data?.items || [];
@@ -105,12 +105,12 @@ async function addFamilyMember(
 	deviceId: string,
 	data: { email: string; role: string },
 ): Promise<unknown> {
-	const { iotsFamilyAccessByIotsPost } = await import('@autional-cn/shared/generated/api');
+	const { iotsFamilyAccessByIotsPost } = await import('@autional/shared/generated/api');
 	return iotsFamilyAccessByIotsPost(deviceId, data as any);
 }
 
 async function removeFamilyMember(deviceId: string, memberId: string): Promise<void> {
-	const { iotsFamilyAccessByIotsByFamilyAccessDelete } = await import('@autional-cn/shared/generated/api');
+	const { iotsFamilyAccessByIotsByFamilyAccessDelete } = await import('@autional/shared/generated/api');
 	await iotsFamilyAccessByIotsByFamilyAccessDelete(deviceId, memberId);
 }
 

@@ -2,16 +2,16 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Check, X, Shield, Plus, Trash2 } from 'lucide-react';
-import { useAuth, extractApiError } from '@autional-cn/shared';
+import { useAuth, extractApiError } from '@autional/shared';
 import {
 	profilesConsentsByProfiles,
 	profilesConsentsByProfilesPost,
 	profilesConsentsByProfilesByConsentsDelete,
-} from '@autional-cn/shared/generated/api';
+} from '@autional/shared/generated/api';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { SectionCard, ConsolePageHeader, LoadingScreen, Modal } from '@autional-cn/ui';
-import { ErrorState, EmptyState } from '@autional-cn/ui';
-import { showToast } from '@autional-cn/ui';
+import { SectionCard, ConsolePageHeader, LoadingScreen, Modal } from '@autional/ui';
+import { ErrorState, EmptyState } from '@autional/ui';
+import { showToast } from '@autional/ui';
 import { isNotFoundError } from '@/lib/api-error';
 
 interface ConsentField {

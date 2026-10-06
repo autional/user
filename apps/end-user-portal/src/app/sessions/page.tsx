@@ -16,7 +16,7 @@ import {
 import { useTranslation } from 'react-i18next';
 import { formatTime } from '@/lib/format';
 import { useToast } from '@/hooks/use-toast';
-import { extractApiError } from '@autional-cn/shared';
+import { extractApiError } from '@autional/shared';
 import {
 	useSessions,
 	useRevokeSession,
@@ -24,7 +24,7 @@ import {
 	CURRENT_SESSION_UNRESOLVABLE,
 } from '@/hooks/queries';
 import type { SessionInfo } from '@/hooks/queries';
-import { Alert, ConsolePageHeader, ErrorState, EmptyState, ConfirmDialog } from '@autional-cn/ui';
+import { Alert, ConsolePageHeader, ErrorState, EmptyState, ConfirmDialog } from '@autional/ui';
 import { SkeletonRow } from '@/components/ui/Skeleton';
 
 function parseUserAgent(ua?: string): { browser: string; os: string } {

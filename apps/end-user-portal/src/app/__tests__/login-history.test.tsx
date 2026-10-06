@@ -3,7 +3,7 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { TestWrapper } from '@/test/wrapper';
 import LoginHistoryPage from '@/app/security/login-history/page';
 import { useAuditLogs } from '@/hooks/queries';
-import { authMeAuditLogs } from '@autional-cn/shared/generated/api';
+import { authMeAuditLogs } from '@autional/shared/generated/api';
 
 vi.mock('@/hooks/use-toast', () => ({
 	useToast: vi.fn(() => ({ success: vi.fn(), error: vi.fn(), info: vi.fn() })),
@@ -14,9 +14,9 @@ vi.mock('@/hooks/queries', () => ({
 }));
 
 // UP-29：导出改为逐页直连 authMeAuditLogs（全量跨页），不再是列表数据的内存映射。
-vi.mock('@autional-cn/shared/generated/api', async () => {
-	const actual = await vi.importActual<typeof import('@autional-cn/shared/generated/api')>(
-		'@autional-cn/shared/generated/api',
+vi.mock('@autional/shared/generated/api', async () => {
+	const actual = await vi.importActual<typeof import('@autional/shared/generated/api')>(
+		'@autional/shared/generated/api',
 	);
 	return { ...actual, authMeAuditLogs: vi.fn() };
 });

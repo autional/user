@@ -5,7 +5,7 @@ import {
 	type UseQueryResult,
 	type UseMutationResult,
 } from '@tanstack/react-query';
-import { useAuth } from '@autional-cn/shared';
+import { useAuth } from '@autional/shared';
 import {
 	walletsBalanceByWallets,
 	walletsPost,
@@ -16,7 +16,7 @@ import {
 	walletsBalanceHistoryByWallets,
 	walletsDepositByWalletsPost,
 	walletsWithdrawRequestByWalletsPost,
-} from '@autional-cn/shared/generated/api';
+} from '@autional/shared/generated/api';
 import type { WalletBalance } from './types';
 import { queryKeys } from './query-keys';
 import { isNotFoundError } from '@/lib/api-error';

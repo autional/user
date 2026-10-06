@@ -1,15 +1,15 @@
 {
-  "name": "@autional-cn/user",
+  "name": "@autional/user",
   "version": "0.1.0",
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "pnpm --filter @autional-cn/end-user-portal dev",
-    "build": "pnpm --filter @autional-cn/end-user-portal... build",
-    "preview": "pnpm --filter @autional-cn/end-user-portal preview",
-    "typecheck": "pnpm --filter @autional-cn/end-user-portal typecheck",
-    "lint": "pnpm --filter @autional-cn/end-user-portal lint",
-    "test": "pnpm --filter @autional-cn/end-user-portal test"
+    "dev": "pnpm --filter @autional/end-user-portal dev",
+    "build": "pnpm --filter @autional/end-user-portal... build",
+    "preview": "pnpm --filter @autional/end-user-portal preview",
+    "typecheck": "pnpm --filter @autional/end-user-portal typecheck",
+    "lint": "pnpm --filter @autional/end-user-portal lint",
+    "test": "pnpm --filter @autional/end-user-portal test"
   },
   "packageManager": "pnpm@11.0.8",
   "engines": {

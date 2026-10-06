@@ -22,14 +22,14 @@ const h = vi.hoisted(() => ({
 	familyAccess: vi.fn(),
 }));
 
-vi.mock('@autional-cn/shared', () => ({
+vi.mock('@autional/shared', () => ({
 	useAuth: () => ({ user: { id: 'u1' }, userId: 'u1' }),
 	apiClient: { get: h.apiGet },
 }));
 
 // 全量显式工厂（仓内惯例）：列出被测 hook 模块顶层 import 的全部 generated api 函数，
 // 被断言者接 h.*，其余占位即可（测试不触发）。
-vi.mock('@autional-cn/shared/generated/api', () => ({
+vi.mock('@autional/shared/generated/api', () => ({
 	// billing
 	billingSubscriptionBySubscription: vi.fn(),
 	billingRecordsSearchByRecords: vi.fn(),

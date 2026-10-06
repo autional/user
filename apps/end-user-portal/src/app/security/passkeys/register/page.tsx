@@ -13,13 +13,13 @@ import {
 	extractApiError,
 	processPasswordForTransmission,
 	useTenantSlug,
-} from '@autional-cn/shared';
+} from '@autional/shared';
 import {
 	authWebauthnRegisterBeginPost,
 	authWebauthnRegisterCompletePost,
 	PublicAuthConfigByAuthConfig,
-} from '@autional-cn/shared/generated/api';
-import { Result, SectionCard, ConsolePageHeader, Button } from '@autional-cn/ui';
+} from '@autional/shared/generated/api';
+import { Result, SectionCard, ConsolePageHeader, Button } from '@autional/ui';
 
 export default function PasskeyRegisterPage() {
 	const tenantSlug = useTenantSlug();

@@ -2,12 +2,12 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { useAuth, extractApiError } from '@autional-cn/shared';
-import { authMeSamlLinks, authMeSamlLinksBySamlLinksDelete } from '@autional-cn/shared/generated/api';
+import { useAuth, extractApiError } from '@autional/shared';
+import { authMeSamlLinks, authMeSamlLinksBySamlLinksDelete } from '@autional/shared/generated/api';
 import { useToast } from '@/hooks/use-toast';
 import { formatTime } from '@/lib/format';
-import { Alert, SectionCard, ConsolePageHeader, LoadingScreen, Modal } from '@autional-cn/ui';
-import { ErrorState } from '@autional-cn/ui';
+import { Alert, SectionCard, ConsolePageHeader, LoadingScreen, Modal } from '@autional/ui';
+import { ErrorState } from '@autional/ui';
 import { Link2, Unlink, Loader2, ExternalLink, Info } from 'lucide-react';
 
 interface SammLinkedAccount {

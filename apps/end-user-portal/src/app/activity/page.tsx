@@ -5,10 +5,10 @@ import { useAuditLogs } from '@/hooks/queries';
 import type { AuditLogItem } from '@/hooks/queries';
 import { auditStatusKind, formatTime } from '@/lib/format';
 import { parseUserAgent } from '@/lib/user-agent';
-import { ConsolePageHeader, LoadingScreen, ErrorState, EmptyState, StatusBadge } from '@autional-cn/ui';
-import type { StatusVariant } from '@autional-cn/ui';
-import { DataTable, DateRangeFilter } from '@autional-cn/ui/antd';
-import type { DataTableColumns } from '@autional-cn/ui/antd';
+import { ConsolePageHeader, LoadingScreen, ErrorState, EmptyState, StatusBadge } from '@autional/ui';
+import type { StatusVariant } from '@autional/ui';
+import { DataTable, DateRangeFilter } from '@autional/ui/antd';
+import type { DataTableColumns } from '@autional/ui/antd';
 import { History, Download, CheckCircle2, XCircle, Clock, Monitor, Smartphone } from 'lucide-react';
 
 const ACTION_OPTIONS = [

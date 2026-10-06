@@ -1,7 +1,7 @@
 'use client';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { extractApiError } from '@autional-cn/shared';
+import { extractApiError } from '@autional/shared';
 import {
 	useChangePhone,
 	useVerifyPhoneChange,
@@ -14,7 +14,7 @@ import {
 	isReauthRequiredError,
 } from '@/hooks/queries/use-identifier-change';
 import { useToast } from '@/hooks/use-toast';
-import { Modal } from '@autional-cn/ui';
+import { Modal } from '@autional/ui';
 
 type ChangeKind = 'phone' | 'email';
 type Step = 'submit' | 'reauth' | 'verify' | 'done';

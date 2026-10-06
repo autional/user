@@ -12,9 +12,9 @@ import {
 } from 'lucide-react';
 import { Link } from 'react-router';
 import { useToast } from '@/hooks/use-toast';
-import { extractApiError, useTenantSlug } from '@autional-cn/shared';
-import { authMeExportDataPost } from '@autional-cn/shared/generated/api';
-import { Result, SectionCard, ConsolePageHeader, Button, ConfirmDialog } from '@autional-cn/ui';
+import { extractApiError, useTenantSlug } from '@autional/shared';
+import { authMeExportDataPost } from '@autional/shared/generated/api';
+import { Result, SectionCard, ConsolePageHeader, Button, ConfirmDialog } from '@autional/ui';
 
 export default function ExportDataPage() {
 	const tenantSlug = useTenantSlug();

@@ -1,4 +1,4 @@
-import { AppShell } from '@autional-cn/ui';
+import { AppShell } from '@autional/ui';
 
 // PortalChrome —— 页面级 story 的取景框：把页面放进**真实的外壳**里再截图。
 //

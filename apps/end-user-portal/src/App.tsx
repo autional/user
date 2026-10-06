@@ -10,8 +10,8 @@ import {
 	useTenantSlug,
 	useBranding,
 	BrandingInitializer,
-} from '@autional-cn/shared';
-import { ErrorBoundary, LoadingScreen } from '@autional-cn/ui';
+} from '@autional/shared';
+import { ErrorBoundary, LoadingScreen } from '@autional/ui';
 // 以前这里绕了一层本地包装（用 i18n 覆盖三段文案）。现在直接挂设计系统的 ErrorBoundary：
 // 它自带的字典按 <html lang> 选语言，而 src/i18n 已经会同步那个属性 —— 文案因此有四站同一份来源。
 import AppLayout from './components/layout/AppLayout';

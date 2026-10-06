@@ -5,7 +5,7 @@ import {
 	type UseQueryResult,
 	type UseMutationResult,
 } from '@tanstack/react-query';
-import { useAuth } from '@autional-cn/shared';
+import { useAuth } from '@autional/shared';
 import {
 	authMe,
 	authMePut,
@@ -15,7 +15,7 @@ import {
 	profilesPrivacyByProfilesPut,
 	authSendVerificationEmailPost,
 	authVerifyEmailPost,
-} from '@autional-cn/shared/generated/api';
+} from '@autional/shared/generated/api';
 import type { UserProfile } from './types';
 import { queryKeys } from './query-keys';
 

@@ -9,7 +9,7 @@ const { mockPost, authState } = vi.hoisted(() => ({
 	},
 }));
 
-vi.mock('@autional-cn/shared', () => ({
+vi.mock('@autional/shared', () => ({
 	useAuth: () => ({ userId: authState.userId }),
 	getAccessToken: () => authState.token,
 	isTokenExpired: () => false,

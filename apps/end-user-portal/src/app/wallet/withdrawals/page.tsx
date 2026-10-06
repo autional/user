@@ -3,12 +3,12 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useAuth } from '@autional-cn/shared';
-import { Alert, SectionCard, ConsolePageHeader, LoadingScreen, ErrorState, EmptyState, StatusBadge } from '@autional-cn/ui';
-import type { StatusVariant } from '@autional-cn/ui';
-import { DataTable } from '@autional-cn/ui/antd';
-import type { DataTableColumns } from '@autional-cn/ui/antd';
-import { FormInput, FormTextarea } from '@autional-cn/ui/rhf';
+import { useAuth } from '@autional/shared';
+import { Alert, SectionCard, ConsolePageHeader, LoadingScreen, ErrorState, EmptyState, StatusBadge } from '@autional/ui';
+import type { StatusVariant } from '@autional/ui';
+import { DataTable } from '@autional/ui/antd';
+import type { DataTableColumns } from '@autional/ui/antd';
+import { FormInput, FormTextarea } from '@autional/ui/rhf';
 import { useTranslation } from 'react-i18next';
 import { Wallet, ArrowDownCircle, Loader2, Banknote } from 'lucide-react';
 import {

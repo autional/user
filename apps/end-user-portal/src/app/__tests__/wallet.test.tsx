@@ -13,7 +13,7 @@ vi.mock('@/components/ui/Skeleton', () => ({
 		React.createElement('div', { className: 'animate-pulse', 'data-testid': 'skeleton-row' }),
 }));
 
-vi.mock('@autional-cn/shared', () => ({
+vi.mock('@autional/shared', () => ({
 	useAuth: vi.fn(() => ({ userId: 'u1' })),
 	useAuthStore: vi.fn((selector?: (s: any) => any) => {
 		const state = { user: { id: 'u1', username: 'test' } };

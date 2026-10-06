@@ -1,7 +1,7 @@
 'use client';
 import { useState } from 'react';
 import { useSearchParams, useNavigate, Link } from 'react-router';
-import { useTenantSlug, extractApiErrorMessage } from '@autional-cn/shared';
+import { useTenantSlug, extractApiErrorMessage } from '@autional/shared';
 import { buildNavHref } from '@/lib/nav';
 import { ROUTES } from '@/lib/routes';
 import { useTranslation } from 'react-i18next';
@@ -23,7 +23,7 @@ import {
 	SectionCard,
 	LoadingScreen,
 	ConfirmDialog,
-} from '@autional-cn/ui';
+} from '@autional/ui';
 
 const roleConfig: Record<string, { icon: typeof ShieldCheck; labelKey: string; color: string }> = {
 	parent_admin: { icon: Crown, labelKey: 'devices.family.role.parentAdmin', color: 'text-amber-600' },

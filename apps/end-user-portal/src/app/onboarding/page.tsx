@@ -1,7 +1,7 @@
 'use client';
 import { useState, useEffect, useMemo } from 'react';
 import { Link, useNavigate } from 'react-router';
-import { useTenantSlug } from '@autional-cn/shared';
+import { useTenantSlug } from '@autional/shared';
 import { buildNavHref } from '@/lib/nav';
 import { ROUTES } from '@/lib/routes';
 import { useTranslation } from 'react-i18next';
@@ -19,7 +19,7 @@ import {
 	RotateCcw,
 } from 'lucide-react';
 import { useMFAStatus, useProfile, useDevices, useNotificationPreferences } from '@/hooks/queries';
-import { Alert, SectionCard, ConsolePageHeader, LoadingScreen } from '@autional-cn/ui';
+import { Alert, SectionCard, ConsolePageHeader, LoadingScreen } from '@autional/ui';
 
 const STORAGE_KEY = 'autional_onboarding_completed';
 const STEPS_KEY = 'autional_onboarding_steps';

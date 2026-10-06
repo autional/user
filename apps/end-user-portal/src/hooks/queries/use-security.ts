@@ -5,7 +5,7 @@ import {
 	type UseQueryResult,
 	type UseMutationResult,
 } from '@tanstack/react-query';
-import { useAuth } from '@autional-cn/shared';
+import { useAuth } from '@autional/shared';
 import {
 	authMeSessions,
 	authMeSessionsBySessionsDelete,
@@ -20,7 +20,7 @@ import {
 	authMeWebauthnCredentialsByWebauthnCredentialsDelete,
 	authOauthAccounts,
 	authOauthUnbindPost,
-} from '@autional-cn/shared/generated/api';
+} from '@autional/shared/generated/api';
 import type {
 	SessionInfo,
 	MFAStatus,

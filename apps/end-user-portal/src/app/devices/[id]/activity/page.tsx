@@ -1,7 +1,7 @@
 'use client';
 
 import { useParams, useNavigate } from 'react-router';
-import { useTenantSlug } from '@autional-cn/shared';
+import { useTenantSlug } from '@autional/shared';
 import { buildNavHref } from '@/lib/nav';
 import { ROUTES } from '@/lib/routes';
 import { useTranslation } from 'react-i18next';
@@ -15,7 +15,7 @@ import {
 	Key,
 	RefreshCw,
 } from 'lucide-react';
-import { ConsolePageHeader, LoadingScreen, ErrorState, SectionCard } from '@autional-cn/ui';
+import { ConsolePageHeader, LoadingScreen, ErrorState, SectionCard } from '@autional/ui';
 
 const mockEvents = [
 	{

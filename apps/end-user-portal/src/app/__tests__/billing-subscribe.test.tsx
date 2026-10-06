@@ -12,7 +12,7 @@ const h = vi.hoisted(() => ({
 	subscribe: vi.fn(),
 }));
 
-vi.mock('@autional-cn/shared', () => ({
+vi.mock('@autional/shared', () => ({
 	useAuth: () => ({ user: { id: 'u1' } }),
 }));
 

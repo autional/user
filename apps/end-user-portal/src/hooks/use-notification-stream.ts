@@ -1,5 +1,5 @@
 import { useEffect, useRef, useCallback, useState } from 'react';
-import { useAuth, getAccessToken, isTokenExpired } from '@autional-cn/shared';
+import { useAuth, getAccessToken, isTokenExpired } from '@autional/shared';
 import type { NotificationItem } from './queries';
 
 interface NotificationStreamState {
@@ -11,7 +11,7 @@ interface NotificationStreamState {
 // P5-4：建流凭证 = JWT 保护端点签发的 60s 一次性票据。EventSource 无法携带 Authorization 头，
 // access token 不再进入 URL（?token= 会留存于 CDN/网关访问日志，窗口内可重放）。
 async function fetchStreamTicket(): Promise<string | null> {
-	const { apiClient } = await import('@autional-cn/shared');
+	const { apiClient } = await import('@autional/shared');
 	const res = await apiClient.post('/notification/api/v1/notifications/stream-ticket', {}); // @generated-api-exempt
 	return (res.data as { ticket?: string } | undefined)?.ticket || null;
 }

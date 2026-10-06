@@ -14,7 +14,7 @@ const h = vi.hoisted(() => ({
 	prefsPut: vi.fn(),
 }));
 
-vi.mock('@autional-cn/shared', () => ({
+vi.mock('@autional/shared', () => ({
 	useAuth: () => ({ user: { id: 'u1' }, userId: 'u1' }),
 	useAuthStore: { getState: () => ({ currentTenantId: '' }) },
 	extractApiError: (err: any, fallback: string) => ({ message: err?.message || fallback }),
@@ -24,7 +24,7 @@ vi.mock('@autional-cn/shared', () => ({
 	useTenantSlug: () => 'acme-corp',
 }));
 
-vi.mock('@autional-cn/shared/generated/api', () => ({
+vi.mock('@autional/shared/generated/api', () => ({
 	notificationsPreferencesByPreferences: h.prefsGet,
 	notificationsPreferencesByPreferencesPut: h.prefsPut,
 }));

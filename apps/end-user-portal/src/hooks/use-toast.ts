@@ -1,4 +1,4 @@
-import { useToast as useUiToast } from '@autional-cn/ui';
+import { useToast as useUiToast } from '@autional/ui';
 
 export function useToast() {
 	const { addToast } = useUiToast();

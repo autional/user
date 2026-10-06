@@ -1,5 +1,5 @@
 'use client';
-import { useAuth, useTenantSlug } from '@autional-cn/shared';
+import { useAuth, useTenantSlug } from '@autional/shared';
 import { Link } from 'react-router';
 import { useTranslation } from 'react-i18next';
 import { UserCircle, ShieldCheck, Monitor, Bell, Wallet, Coins } from 'lucide-react';
@@ -10,7 +10,7 @@ import {
 	useUnreadNotifications,
 	useMFAStatus,
 } from '@/hooks/queries';
-import { SectionCard, ConsolePageHeader, ErrorState } from '@autional-cn/ui';
+import { SectionCard, ConsolePageHeader, ErrorState } from '@autional/ui';
 import { SkeletonCard } from '@/components/ui/Skeleton';
 import { ROUTES } from '@/lib/routes';
 import { buildNavHref } from '@/lib/nav';

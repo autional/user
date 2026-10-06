@@ -2,7 +2,7 @@ import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Route, Routes } from 'react-router';
-import { TenantSlugProvider, useAuthStore } from '@autional-cn/shared';
+import { TenantSlugProvider, useAuthStore } from '@autional/shared';
 import AppLayout from '@/components/layout/AppLayout';
 import InvoicesPage from '@/app/billing/invoices/page';
 import { queryKeys } from '@/hooks/queries';

@@ -1,5 +1,5 @@
-import { pushSubscriptionsPost, pushSubscriptionsDelete } from '@autional-cn/shared/generated/api';
-export { getVapidPublicKey, subscribeBrowserPush, unsubscribeBrowserPush } from '@autional-cn/shared';
+import { pushSubscriptionsPost, pushSubscriptionsDelete } from '@autional/shared/generated/api';
+export { getVapidPublicKey, subscribeBrowserPush, unsubscribeBrowserPush } from '@autional/shared';
 
 export async function registerPushSubscription(subscription: PushSubscription): Promise<{
 	endpoint: string;

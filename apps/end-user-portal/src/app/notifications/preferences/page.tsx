@@ -1,7 +1,7 @@
 'use client';
 import { ROUTES } from '@/lib/routes';
 import { buildNavHref } from '@/lib/nav';
-import { useTenantSlug, extractApiErrorMessage } from '@autional-cn/shared';
+import { useTenantSlug, extractApiErrorMessage } from '@autional/shared';
 import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
@@ -18,7 +18,7 @@ import {
 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { useNotificationPreferences, useUpdateNotificationPreferences } from '@/hooks/queries';
-import { SectionCard, ConsolePageHeader, LoadingScreen, ErrorState } from '@autional-cn/ui';
+import { SectionCard, ConsolePageHeader, LoadingScreen, ErrorState } from '@autional/ui';
 import { Link } from 'react-router';
 
 const NOTIFICATION_TYPES = [

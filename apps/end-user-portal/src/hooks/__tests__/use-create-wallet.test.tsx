@@ -2,12 +2,12 @@ import React from 'react';
 import { renderHook, waitFor } from '@testing-library/react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { walletsPost } from '@autional-cn/shared/generated/api';
+import { walletsPost } from '@autional/shared/generated/api';
 import { useCreateWallet } from '@/hooks/queries/use-wallet';
 
-vi.mock('@autional-cn/shared/generated/api', async () => {
-	const actual = await vi.importActual<typeof import('@autional-cn/shared/generated/api')>(
-		'@autional-cn/shared/generated/api',
+vi.mock('@autional/shared/generated/api', async () => {
+	const actual = await vi.importActual<typeof import('@autional/shared/generated/api')>(
+		'@autional/shared/generated/api',
 	);
 	return { ...actual, walletsPost: vi.fn() };
 });

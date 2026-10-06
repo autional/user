@@ -18,7 +18,7 @@ import {
 } from 'lucide-react';
 import { Link } from 'react-router';
 import { useToast } from '@/hooks/use-toast';
-import { extractApiError, useTenantSlug } from '@autional-cn/shared';
+import { extractApiError, useTenantSlug } from '@autional/shared';
 import {
 	useProfile,
 	useUpdateProfile,
@@ -28,7 +28,7 @@ import {
 } from '@/hooks/queries';
 import { useLanguage } from '@/hooks/use-language';
 import { useTheme } from '@/hooks/use-theme';
-import { SectionCard, ConsolePageHeader, ErrorState } from '@autional-cn/ui';
+import { SectionCard, ConsolePageHeader, ErrorState } from '@autional/ui';
 import { SkeletonRow } from '@/components/ui/Skeleton';
 import { IdentifierChangeDialog } from '@/components/profile/IdentifierChangeDialog';
 

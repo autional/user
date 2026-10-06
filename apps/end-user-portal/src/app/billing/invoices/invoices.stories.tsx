@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { useAuthStore } from '@autional-cn/shared';
+import { useAuthStore } from '@autional/shared';
 import InvoicesPage from './page';
 import { queryKeys } from '@/hooks/queries';
 import { TestWrapper } from '@/test/wrapper';

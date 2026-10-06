@@ -14,7 +14,7 @@ import {
 	billingSubscribePost,
 	billingRecordsByRecords,
 	billingInvoiceByInvoice,
-} from '@autional-cn/shared/generated/api';
+} from '@autional/shared/generated/api';
 import type {
 	SubscriptionInfo,
 	PublicPlanResponse,

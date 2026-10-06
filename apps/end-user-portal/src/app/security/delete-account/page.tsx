@@ -15,13 +15,13 @@ import {
 	processPasswordForTransmission,
 	getCurrentTenantId,
 	useTenantSlug,
-} from '@autional-cn/shared';
+} from '@autional/shared';
 import {
 	authMeDeleteAccountPost,
 	PublicAuthConfigByAuthConfig,
-} from '@autional-cn/shared/generated/api';
-import { Alert, ConsolePageHeader, Button } from '@autional-cn/ui';
-import { FormInput } from '@autional-cn/ui/rhf';
+} from '@autional/shared/generated/api';
+import { Alert, ConsolePageHeader, Button } from '@autional/ui';
+import { FormInput } from '@autional/ui/rhf';
 import { deleteSchema, type DeleteFormData } from '@/lib/validators';
 
 export default function DeleteAccountPage() {

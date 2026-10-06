@@ -1,7 +1,7 @@
 'use client';
 import { ROUTES } from '@/lib/routes';
 import { buildNavHref } from '@/lib/nav';
-import { useTenantSlug } from '@autional-cn/shared';
+import { useTenantSlug } from '@autional/shared';
 import { Link } from 'react-router';
 import {
 	Smartphone,
@@ -21,7 +21,7 @@ import {
 import { useTranslation } from 'react-i18next';
 import { formatTime } from '@/lib/format';
 import { useThingsList } from '@/hooks/queries';
-import { SectionCard, ConsolePageHeader, ErrorState } from '@autional-cn/ui';
+import { SectionCard, ConsolePageHeader, ErrorState } from '@autional/ui';
 import { SkeletonCard } from '@/components/ui/Skeleton';
 
 const thingIcons: Record<string, typeof Smartphone> = {

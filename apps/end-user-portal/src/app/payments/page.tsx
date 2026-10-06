@@ -3,10 +3,10 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { CreditCard, Eye } from 'lucide-react';
-import { ConsolePageHeader, ErrorState, EmptyState, Modal, StatusBadge } from '@autional-cn/ui';
-import type { StatusVariant } from '@autional-cn/ui';
-import { DataTable } from '@autional-cn/ui/antd';
-import type { DataTableColumns } from '@autional-cn/ui/antd';
+import { ConsolePageHeader, ErrorState, EmptyState, Modal, StatusBadge } from '@autional/ui';
+import type { StatusVariant } from '@autional/ui';
+import { DataTable } from '@autional/ui/antd';
+import type { DataTableColumns } from '@autional/ui/antd';
 import { SkeletonRow } from '@/components/ui/Skeleton';
 import { usePayments, useReceipt, type PaymentInfo } from '@/hooks/queries';
 

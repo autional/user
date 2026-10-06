@@ -6,7 +6,7 @@ import {
 	authMeSessions,
 	authMeSessionsBySessionsDelete,
 	authMeSessionsDelete,
-} from '@autional-cn/shared/generated/api';
+} from '@autional/shared/generated/api';
 import {
 	useRevokeAllSessions,
 	CURRENT_SESSION_UNRESOLVABLE,
@@ -16,9 +16,9 @@ import {
 // 否则中止并抛哨兵错误。历史令牌缺 sid 时列表全 false——旧实现会 filter(!isCurrentSession)
 // 后逐条删除，把当前会话一并删掉（等效全登出自毁）。
 
-vi.mock('@autional-cn/shared/generated/api', async () => {
-	const actual = await vi.importActual<typeof import('@autional-cn/shared/generated/api')>(
-		'@autional-cn/shared/generated/api',
+vi.mock('@autional/shared/generated/api', async () => {
+	const actual = await vi.importActual<typeof import('@autional/shared/generated/api')>(
+		'@autional/shared/generated/api',
 	);
 	return {
 		...actual,

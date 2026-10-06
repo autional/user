@@ -8,14 +8,14 @@ import { useTranslation } from 'react-i18next';
 import { Mail, Phone, Plus, Trash2, ChevronLeft, Shield, Loader2, X } from 'lucide-react';
 import { Link } from 'react-router';
 import { useToast } from '@/hooks/use-toast';
-import { extractApiError, useTenantSlug } from '@autional-cn/shared';
+import { extractApiError, useTenantSlug } from '@autional/shared';
 import {
 	authMeRecoveryContacts,
 	authMeRecoveryContactsPost,
 	authMeRecoveryContactsByRecoveryContactsDelete,
-} from '@autional-cn/shared/generated/api';
-import { Alert, SectionCard, ConsolePageHeader, LoadingScreen, ErrorState, EmptyState, Button } from '@autional-cn/ui';
-import { FormInput } from '@autional-cn/ui/rhf';
+} from '@autional/shared/generated/api';
+import { Alert, SectionCard, ConsolePageHeader, LoadingScreen, ErrorState, EmptyState, Button } from '@autional/ui';
+import { FormInput } from '@autional/ui/rhf';
 import { addContactSchema, type AddContactFormData } from '@/lib/validators';
 
 interface RecoveryContact {

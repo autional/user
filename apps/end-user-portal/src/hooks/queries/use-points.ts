@@ -1,5 +1,5 @@
 import { useQuery, type UseQueryResult } from '@tanstack/react-query';
-import { useAuth } from '@autional-cn/shared';
+import { useAuth } from '@autional/shared';
 import {
 	pointsByPoints,
 	pointsTransactionsByPoints,
@@ -7,7 +7,7 @@ import {
 	pointsStatsByPoints,
 	pointsValueByPoints,
 	pointsRiskScoreByPoints,
-} from '@autional-cn/shared/generated/api';
+} from '@autional/shared/generated/api';
 import type { PointAccount } from './types';
 import { queryKeys } from './query-keys';
 import { isNotFoundError } from '@/lib/api-error';

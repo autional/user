@@ -27,7 +27,7 @@ const h = vi.hoisted(() => ({
 	deleteSpy: vi.fn(),
 }));
 
-vi.mock('@autional-cn/shared', () => ({
+vi.mock('@autional/shared', () => ({
 	useAuth: () => ({ user: { id: 'u1' }, userId: 'u1' }),
 	useAuthStore: { getState: () => ({ currentTenantId: '' }) },
 	extractApiError: (err: any, fallback: string) => ({
@@ -41,7 +41,7 @@ vi.mock('@autional-cn/shared', () => ({
 	useTenantSlug: () => 'acme-corp',
 }));
 
-vi.mock('@autional-cn/shared/generated/api', () => ({
+vi.mock('@autional/shared/generated/api', () => ({
 	PublicAuthConfigByAuthConfig: vi.fn(),
 	mfaMethodsByMethodsDelete: h.deleteSpy,
 }));

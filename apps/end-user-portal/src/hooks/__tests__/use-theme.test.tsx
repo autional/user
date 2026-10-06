@@ -1,7 +1,7 @@
 import { renderHook, act } from '@testing-library/react';
 import { describe, it, expect, beforeEach, vi } from 'vitest';
 import React from 'react';
-import { ThemeProvider } from '@autional-cn/ui';
+import { ThemeProvider } from '@autional/ui';
 
 let store: Map<string, string>;
 

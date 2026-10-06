@@ -2,11 +2,11 @@
 
 import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { SectionCard, ConsolePageHeader, ErrorState, EmptyState } from '@autional-cn/ui';
+import { SectionCard, ConsolePageHeader, ErrorState, EmptyState } from '@autional/ui';
 import { SkeletonCard } from '@/components/ui/Skeleton';
 import { ShieldCheck, Award, FileSearch, ChevronRight } from 'lucide-react';
-import { extractApiError } from '@autional-cn/shared';
-import { complianceProfile, complianceStatus } from '@autional-cn/shared/generated/api';
+import { extractApiError } from '@autional/shared';
+import { complianceProfile, complianceStatus } from '@autional/shared/generated/api';
 import { cn } from '@/lib/utils';
 import { isNotFoundError } from '@/lib/api-error';
 

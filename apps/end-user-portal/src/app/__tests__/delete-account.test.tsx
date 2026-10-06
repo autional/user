@@ -17,7 +17,7 @@ vi.mock('react-router', async () => {
 	};
 });
 
-vi.mock('@autional-cn/shared', () => ({
+vi.mock('@autional/shared', () => ({
 	apiClient: {
 		post: (...args: any[]) => mockPost(...args),
 	},
@@ -36,7 +36,7 @@ vi.mock('@autional-cn/shared', () => ({
 	}),
 }));
 
-vi.mock('@autional-cn/shared/generated/api', () => ({
+vi.mock('@autional/shared/generated/api', () => ({
 	authMeDeleteAccountPost: (...args: any[]) => mockPost(...args),
 	PublicAuthConfigByAuthConfig: async () => ({
 		passwordPolicy: { passwordTransmission: 'plain' },

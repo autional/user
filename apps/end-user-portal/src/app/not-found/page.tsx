@@ -2,7 +2,7 @@
 import { Link } from 'react-router';
 import { useTranslation } from 'react-i18next';
 import { FileQuestion } from 'lucide-react';
-import { Result } from '@autional-cn/ui';
+import { Result } from '@autional/ui';
 
 export default function NotFoundPage() {
 	const { t } = useTranslation();

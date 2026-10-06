@@ -22,7 +22,7 @@ import { useToast } from '@/hooks/use-toast';
 // 修复前把别名符号当常量插值进 URL（该导出实为函数）→ 字符串内嵌 function 源码文本 → 404。
 // UP-90：Passkey 卡由外跳 auth 站收敛为门户内导航（/security/passkeys/register），断言随之改探针形态。
 
-vi.mock('@autional-cn/shared', () => ({
+vi.mock('@autional/shared', () => ({
 	useAuth: () => ({ user: { id: 'u1' }, userId: 'u1' }),
 	useAuthStore: { getState: () => ({ currentTenantId: '' }) },
 	extractApiError: (err: any, fallback: string) => ({

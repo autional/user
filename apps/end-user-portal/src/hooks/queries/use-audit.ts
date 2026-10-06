@@ -1,5 +1,5 @@
 import { useQuery, type UseQueryResult } from '@tanstack/react-query';
-import { authMeAuditLogs } from '@autional-cn/shared/generated/api';
+import { authMeAuditLogs } from '@autional/shared/generated/api';
 import type { AuditLogItem } from './types';
 import type { PageInfo } from './types';
 import { queryKeys } from './query-keys';

@@ -5,7 +5,7 @@ import {
 	type UseQueryResult,
 	type UseMutationResult,
 } from '@tanstack/react-query';
-import { useAuth } from '@autional-cn/shared';
+import { useAuth } from '@autional/shared';
 import {
 	notifications,
 	notificationsReadByNotificationsPut,
@@ -14,7 +14,7 @@ import {
 	notificationsPreferencesByPreferences,
 	notificationsPreferencesByPreferencesPut,
 	announcements,
-} from '@autional-cn/shared/generated/api';
+} from '@autional/shared/generated/api';
 import type { NotificationItem, AnnouncementItem } from './types';
 import type { PaginatedList } from './types';
 import { queryKeys, commQueryKeys } from './query-keys';
@@ -51,7 +51,7 @@ async function getUnreadNotifications(_params?: { userId?: string }): Promise<No
 	try {
 		// generated notificationsUnread() 不透传查询参数，后端契约要求 page/page_size
 		// （UnreadNotificationsListQuery.Validate → ValidatePagination），故保留手写调用。
-		const { apiClient } = await import('@autional-cn/shared');
+		const { apiClient } = await import('@autional/shared');
 		const res = await apiClient.get('/notification/api/v1/notifications/unread', { // @generated-api-exempt
 			params: { page: 1, page_size: 20 },
 		});

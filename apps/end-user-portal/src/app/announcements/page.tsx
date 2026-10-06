@@ -1,11 +1,11 @@
 'use client';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useAuth } from '@autional-cn/shared';
+import { useAuth } from '@autional/shared';
 import { useAnnouncements } from '@/hooks/queries';
 import { formatTime } from '@/lib/format';
-import { SectionCard, ConsolePageHeader, LoadingScreen } from '@autional-cn/ui';
-import { ErrorState } from '@autional-cn/ui';
+import { SectionCard, ConsolePageHeader, LoadingScreen } from '@autional/ui';
+import { ErrorState } from '@autional/ui';
 import { Megaphone, ChevronDown, ChevronRight, ChevronLeft, Eye, X } from 'lucide-react';
 
 export default function AnnouncementsPage() {

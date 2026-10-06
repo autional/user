@@ -1,6 +1,6 @@
 'use client';
 import { useState } from 'react';
-import { useAuth, extractApiError } from '@autional-cn/shared';
+import { useAuth, extractApiError } from '@autional/shared';
 import { useTranslation } from 'react-i18next';
 import {
 	CheckCheck,
@@ -19,7 +19,7 @@ import {
 	useMarkNotificationRead,
 	useMarkAllNotificationsRead,
 } from '@/hooks/queries';
-import { SectionCard, ConsolePageHeader, ErrorState, EmptyState } from '@autional-cn/ui';
+import { SectionCard, ConsolePageHeader, ErrorState, EmptyState } from '@autional/ui';
 import { SkeletonRow } from '@/components/ui/Skeleton';
 
 export default function NotificationsPage() {

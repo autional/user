@@ -1,13 +1,13 @@
 'use client';
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
-import { useTenantSlug, extractApiErrorMessage } from '@autional-cn/shared';
+import { useTenantSlug, extractApiErrorMessage } from '@autional/shared';
 import { buildNavHref } from '@/lib/nav';
 import { ROUTES } from '@/lib/routes';
 import { useMutation } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
 import { Smartphone, ArrowLeft } from 'lucide-react';
-import { Alert, Result, SectionCard, ConsolePageHeader, Button, Input, Label, LoadingScreen, ErrorState } from '@autional-cn/ui';
+import { Alert, Result, SectionCard, ConsolePageHeader, Button, Input, Label, LoadingScreen, ErrorState } from '@autional/ui';
 import { useToast } from '@/hooks/use-toast';
 
 export default function DevicePairingPage() {
@@ -21,7 +21,7 @@ export default function DevicePairingPage() {
 
 	const pairMutation = useMutation({
 		mutationFn: async (userCode: string) => {
-			const { iotsPairPost } = await import('@autional-cn/shared/generated/api');
+			const { iotsPairPost } = await import('@autional/shared/generated/api');
 			return iotsPairPost({ user_code: userCode } as any);
 		},
 	});

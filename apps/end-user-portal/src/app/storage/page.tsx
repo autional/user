@@ -3,10 +3,10 @@
 import { useState, useRef, useCallback, useMemo } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
-import { useAuth, extractApiErrorMessage, extractList, apiClient } from '@autional-cn/shared';
-import * as Generated from '@autional-cn/shared/generated/api';
-import type { FileMetadataResponse, FolderMetadataResponse } from '@autional-cn/shared/generated/types';
-import { SectionCard, ConsolePageHeader, LoadingScreen, ErrorState, EmptyState, Modal } from '@autional-cn/ui';
+import { useAuth, extractApiErrorMessage, extractList, apiClient } from '@autional/shared';
+import * as Generated from '@autional/shared/generated/api';
+import type { FileMetadataResponse, FolderMetadataResponse } from '@autional/shared/generated/types';
+import { SectionCard, ConsolePageHeader, LoadingScreen, ErrorState, EmptyState, Modal } from '@autional/ui';
 import { useToast } from '@/hooks/use-toast';
 import { isNotFoundError } from '@/lib/api-error';
 import {

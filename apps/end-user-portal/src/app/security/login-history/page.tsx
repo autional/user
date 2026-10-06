@@ -4,15 +4,15 @@ import { useTranslation } from 'react-i18next';
 import { useToast } from '@/hooks/use-toast';
 import { useAuditLogs } from '@/hooks/queries';
 import type { AuditLogItem, AuditLogsParams } from '@/hooks/queries';
-import { authMeAuditLogs } from '@autional-cn/shared/generated/api';
+import { authMeAuditLogs } from '@autional/shared/generated/api';
 import { auditStatusKind, formatTime } from '@/lib/format';
 import { parseUserAgent } from '@/lib/user-agent';
-import { SectionCard, ConsolePageHeader, LoadingScreen } from '@autional-cn/ui';
-import { ErrorState } from '@autional-cn/ui';
-import { StatusBadge } from '@autional-cn/ui';
-import type { StatusVariant } from '@autional-cn/ui';
-import { DataTable, DateRangeFilter } from '@autional-cn/ui/antd';
-import type { DataTableColumns } from '@autional-cn/ui/antd';
+import { SectionCard, ConsolePageHeader, LoadingScreen } from '@autional/ui';
+import { ErrorState } from '@autional/ui';
+import { StatusBadge } from '@autional/ui';
+import type { StatusVariant } from '@autional/ui';
+import { DataTable, DateRangeFilter } from '@autional/ui/antd';
+import type { DataTableColumns } from '@autional/ui/antd';
 import {
 	History,
 	Download,

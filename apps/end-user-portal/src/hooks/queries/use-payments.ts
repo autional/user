@@ -8,17 +8,17 @@ async function getPayments(params?: {
 	pageSize?: number;
 	status?: string;
 }): Promise<PaginatedList<PaymentInfo>> {
-	const { payments } = await import('@autional-cn/shared/generated/api');
+	const { payments } = await import('@autional/shared/generated/api');
 	return payments(params as any) as Promise<PaginatedList<PaymentInfo>>;
 }
 
 async function getPaymentById(id: string): Promise<PaymentInfo> {
-	const { paymentsByPayments } = await import('@autional-cn/shared/generated/api');
+	const { paymentsByPayments } = await import('@autional/shared/generated/api');
 	return paymentsByPayments(id) as Promise<PaymentInfo>;
 }
 
 async function getReceipt(paymentId: string): Promise<ReceiptInfo> {
-	const { paymentsReceiptByPayments } = await import('@autional-cn/shared/generated/api');
+	const { paymentsReceiptByPayments } = await import('@autional/shared/generated/api');
 	return paymentsReceiptByPayments(paymentId) as Promise<ReceiptInfo>;
 }
 

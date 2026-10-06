@@ -15,7 +15,7 @@ const h = vi.hoisted(() => ({
 	authConfig: vi.fn(),
 }));
 
-vi.mock('@autional-cn/shared', () => ({
+vi.mock('@autional/shared', () => ({
 	useAuth: () => ({ user: h.user, userId: h.user?.id || '' }),
 	useAuthStore: { getState: () => ({ currentTenantId: 'tenant-1' }) },
 	extractApiError: (err: any, fallback: string) => ({ message: err?.message || fallback }),
@@ -28,7 +28,7 @@ vi.mock('@autional-cn/shared', () => ({
 	getAUTH_PAGES_URL: () => '/auth',
 }));
 
-vi.mock('@autional-cn/shared/generated/api', () => ({
+vi.mock('@autional/shared/generated/api', () => ({
 	authWebauthnRegisterBeginPost: h.begin,
 	authWebauthnRegisterCompletePost: h.complete,
 	PublicAuthConfigByAuthConfig: h.authConfig,

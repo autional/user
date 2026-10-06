@@ -2,8 +2,8 @@
 import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router';
-import { extractApiErrorMessage } from '@autional-cn/shared';
-import { Alert, SectionCard, Button, StatusBadge, showToast } from '@autional-cn/ui';
+import { extractApiErrorMessage } from '@autional/shared';
+import { Alert, SectionCard, Button, StatusBadge, showToast } from '@autional/ui';
 import { ShieldCheck, ExternalLink } from 'lucide-react';
 
 interface VerificationInfo {
@@ -32,7 +32,7 @@ export function VerificationStatus() {
 
 	const loadStatus = async () => {
 		try {
-			const { verificationMe } = await import('@autional-cn/shared/generated/api');
+			const { verificationMe } = await import('@autional/shared/generated/api');
 			// 后端 DataResponse → 拦截器解包后顶层即 VerificationStatusResponse（勿再读 res?.data）。
 			const res: any = await verificationMe();
 			setInfo(res || null);

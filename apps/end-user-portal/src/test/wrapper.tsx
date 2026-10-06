@@ -1,7 +1,7 @@
 import { I18nextProvider } from 'react-i18next';
 import { MemoryRouter } from 'react-router';
-import { ThemeProvider, ToastProvider } from '@autional-cn/ui';
-import { AntdThemeProvider } from '@autional-cn/ui/antd';
+import { ThemeProvider, ToastProvider } from '@autional/ui';
+import { AntdThemeProvider } from '@autional/ui/antd';
 import i18n from '@/i18n';
 
 // 测试中强制使用中文，避免 navigator 语言检测导致断言失败

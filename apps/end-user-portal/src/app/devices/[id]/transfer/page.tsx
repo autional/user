@@ -1,12 +1,12 @@
 'use client';
 
 import { useParams, useNavigate } from 'react-router';
-import { useTenantSlug } from '@autional-cn/shared';
+import { useTenantSlug } from '@autional/shared';
 import { buildNavHref } from '@/lib/nav';
 import { ROUTES } from '@/lib/routes';
 import { useTranslation } from 'react-i18next';
 import { ArrowLeftRight, ArrowLeft, Mail, Smartphone, UserCheck } from 'lucide-react';
-import { ConsolePageHeader, Button, Label, SectionCard, LoadingScreen, ErrorState } from '@autional-cn/ui';
+import { ConsolePageHeader, Button, Label, SectionCard, LoadingScreen, ErrorState } from '@autional/ui';
 
 // B2 待复核 #1 裁定：假成功面消除——转让链未接线（后端 POST /iots/:id/transfer 需
 // new_owner_id，缺 email→owner 解析与接收方确认链），页面不再模拟提交，改如实占位。

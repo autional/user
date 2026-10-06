@@ -1,5 +1,5 @@
-import { useTheme as useSharedTheme } from '@autional-cn/ui';
-import type { Theme } from '@autional-cn/ui';
+import { useTheme as useSharedTheme } from '@autional/ui';
+import type { Theme } from '@autional/ui';
 
 export type { Theme };
 

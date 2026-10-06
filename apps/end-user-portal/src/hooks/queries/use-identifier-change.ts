@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { apiClient, getCurrentTenantId, processPasswordForTransmission } from '@autional-cn/shared';
+import { apiClient, getCurrentTenantId, processPasswordForTransmission } from '@autional/shared';
 import {
 	authMeReauthenticatePost,
 	authMePhoneChangePost,
@@ -10,7 +10,7 @@ import {
 	authMePhoneChangeCancelPost,
 	authMeSessionsDelete,
 	PublicAuthConfigByAuthConfig,
-} from '@autional-cn/shared/generated/api';
+} from '@autional/shared/generated/api';
 import { queryKeys } from './query-keys';
 
 const STEP_UP_HEADER = 'X-StepUp-Token';

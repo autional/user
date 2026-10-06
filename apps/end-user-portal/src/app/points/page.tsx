@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useAuth } from '@autional-cn/shared';
+import { useAuth } from '@autional/shared';
 import {
 	usePointAccount,
 	usePointTransactions,
@@ -23,10 +23,10 @@ import {
 	Banknote,
 	Shield,
 } from 'lucide-react';
-import { Alert, SectionCard, ConsolePageHeader, ErrorState, EmptyState, StatusBadge } from '@autional-cn/ui';
-import type { StatusVariant } from '@autional-cn/ui';
-import { DataTable } from '@autional-cn/ui/antd';
-import type { DataTableColumns } from '@autional-cn/ui/antd';
+import { Alert, SectionCard, ConsolePageHeader, ErrorState, EmptyState, StatusBadge } from '@autional/ui';
+import type { StatusVariant } from '@autional/ui';
+import { DataTable } from '@autional/ui/antd';
+import type { DataTableColumns } from '@autional/ui/antd';
 import { SkeletonCard, SkeletonRow } from '@/components/ui/Skeleton';
 import { isWalletNotCreatedError } from '@/lib/api-error';
 

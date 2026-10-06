@@ -1,5 +1,5 @@
 {
-  "name": "@autional-cn/end-user-portal",
+  "name": "@autional/end-user-portal",
   "version": "0.1.0",
   "private": true,
   "description": "End-User Portal — Personal dashboard, profile, security, sessions, and notifications (Vite + React Router + Tailwind)",
@@ -18,10 +18,10 @@
     "build-storybook": "storybook build"
   },
   "dependencies": {
-    "@autional-cn/shared": "0.1.0-rc.26",
-    "@autional-cn/tailwind-preset": "0.1.0-rc.2",
-    "@autional-cn/tokens": "0.1.0-rc.7",
-    "@autional-cn/ui": "0.1.0-rc.38",
+    "@autional/shared": "0.1.0-rc.32",
+    "@autional/tailwind-preset": "0.1.0-rc.4",
+    "@autional/tokens": "0.1.0-rc.10",
+    "@autional/ui": "0.1.0-rc.42",
     "@hookform/resolvers": "3.10.0",
     "@tanstack/react-query": "5.100.9",
     "antd": "6.5.0",
@@ -40,8 +40,8 @@
     "zustand": "5.0.13"
   },
   "devDependencies": {
-    "@autional-cn/eslint-config": "0.1.0-rc.1",
-    "@autional-cn/tsconfig": "0.1.0-rc",
+    "@autional/eslint-config": "0.1.0-rc.1",
+    "@autional/tsconfig": "0.1.0-rc",
     "@storybook/addon-essentials": "8.6.14",
     "@storybook/addon-interactions": "8.6.14",
     "@storybook/react": "8.6.18",

@@ -1,5 +1,5 @@
 import { useCallback } from 'react';
-import { useAuthStore, getCurrentTenantId } from '@autional-cn/shared';
+import { useAuthStore, getCurrentTenantId } from '@autional/shared';
 import { useQueryClient } from '@tanstack/react-query';
 
 export function useTenant() {

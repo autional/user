@@ -10,7 +10,7 @@ import {
 	communicationPushTokens,
 	communicationPushTokensPost,
 	communicationPushTokensByPushTokensDelete,
-} from '@autional-cn/shared/generated/api';
+} from '@autional/shared/generated/api';
 import type { CommunicationLogItem, PushTokenItem } from './types';
 import type { PaginatedList } from './types';
 import { commQueryKeys } from './query-keys';

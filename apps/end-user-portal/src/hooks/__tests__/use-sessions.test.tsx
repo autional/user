@@ -2,19 +2,19 @@ import React from 'react';
 import { renderHook, waitFor } from '@testing-library/react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { authMeSessions } from '@autional-cn/shared/generated/api';
+import { authMeSessions } from '@autional/shared/generated/api';
 import { useSessions } from '@/hooks/queries/use-security';
 
 // UP-40 回归锁：翻页参数必须进 queryKey。旧实现 key 恒 ['sessions']，
 // 翻到第 2 页时 react-query 视为同一查询直接回放第 1 页缓存 —— 数据永远停在第一页。
 
-vi.mock('@autional-cn/shared', () => ({
+vi.mock('@autional/shared', () => ({
 	useAuth: () => ({ userId: 'u-test' }),
 }));
 
-vi.mock('@autional-cn/shared/generated/api', async () => {
-	const actual = await vi.importActual<typeof import('@autional-cn/shared/generated/api')>(
-		'@autional-cn/shared/generated/api',
+vi.mock('@autional/shared/generated/api', async () => {
+	const actual = await vi.importActual<typeof import('@autional/shared/generated/api')>(
+		'@autional/shared/generated/api',
 	);
 	return { ...actual, authMeSessions: vi.fn() };
 });

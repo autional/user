@@ -6,7 +6,7 @@ import { useTenant } from '@/hooks/use-tenant';
 
 import { ROUTES } from '@/lib/routes';
 import { buildNavHref, pickActiveNavPath, stripTenantPrefix } from '@/lib/nav';
-import { useTenantSlug, extractItem, usePortalCatalog } from '@autional-cn/shared';
+import { useTenantSlug, extractItem, usePortalCatalog } from '@autional/shared';
 import {
 	useAuth,
 	useLogout,
@@ -14,7 +14,7 @@ import {
 	refreshAccessToken,
 	logout,
 	getAUTH_PAGES_URL,
-} from '@autional-cn/shared';
+} from '@autional/shared';
 import { useQuery } from '@tanstack/react-query';
 import { useUnreadNotifications } from '@/hooks/queries';
 import { useNotificationStream } from '@/hooks/use-notification-stream';
@@ -27,7 +27,7 @@ import {
 	EmptyState,
 	PortalSwitcher,
 	UserMenu,
-} from '@autional-cn/ui';
+} from '@autional/ui';
 import {
 	LayoutDashboard,
 	UserCircle,
@@ -108,7 +108,7 @@ export default function AppLayout() {
 	const { data: gatesData } = useQuery({
 		queryKey: ['featureGates'],
 		queryFn: async () => {
-			const { billingFeatureGates } = await import('@autional-cn/shared/generated/api');
+			const { billingFeatureGates } = await import('@autional/shared/generated/api');
 			return billingFeatureGates();
 		},
 		staleTime: 5 * 60 * 1000,

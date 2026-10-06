@@ -32,8 +32,8 @@ import {
 	API_BASE_URL,
 	processPasswordForTransmission,
 	useTenantSlug,
-} from '@autional-cn/shared';
-import { PublicAuthConfigByAuthConfig } from '@autional-cn/shared/generated/api';
+} from '@autional/shared';
+import { PublicAuthConfigByAuthConfig } from '@autional/shared/generated/api';
 import {
 	useMFAStatus,
 	usePasskeys,
@@ -48,8 +48,8 @@ import {
 	useUnbindOAuth,
 } from '@/hooks/queries';
 import type { OAuthConnectionItem } from '@/hooks/queries';
-import { Alert, SectionCard, ConsolePageHeader, LoadingScreen, ErrorState, Modal } from '@autional-cn/ui';
-import { FormInput } from '@autional-cn/ui/rhf';
+import { Alert, SectionCard, ConsolePageHeader, LoadingScreen, ErrorState, Modal } from '@autional/ui';
+import { FormInput } from '@autional/ui/rhf';
 
 // message 一律用完整扁平 ns 键：i18n keySeparator:false，消费处 t(message) 才可解析（UP-14）。
 const passwordSchema = z
@@ -105,7 +105,7 @@ export default function SecurityPage() {
 	useEffect(() => {
 		const tenantId = useAuthStore.getState().currentTenantId;
 		if (!tenantId) return;
-		import('@autional-cn/shared/generated/api').then(({ PublicAuthConfigByAuthConfig }) => {
+		import('@autional/shared/generated/api').then(({ PublicAuthConfigByAuthConfig }) => {
 			PublicAuthConfigByAuthConfig(tenantId)
 				.then((res: any) => {
 					// 拦截器已解包信封：顶层即 auth-config 对象（勿再读 res?.data）。

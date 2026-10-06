@@ -1,10 +1,10 @@
 'use client';
 
 import { useState } from 'react';
-import { SectionCard, ConsolePageHeader, ErrorState, EmptyState, StatusBadge } from '@autional-cn/ui';
-import type { StatusVariant } from '@autional-cn/ui';
-import { DataTable } from '@autional-cn/ui/antd';
-import type { DataTableColumns } from '@autional-cn/ui/antd';
+import { SectionCard, ConsolePageHeader, ErrorState, EmptyState, StatusBadge } from '@autional/ui';
+import type { StatusVariant } from '@autional/ui';
+import { DataTable } from '@autional/ui/antd';
+import type { DataTableColumns } from '@autional/ui/antd';
 import { SkeletonCard, SkeletonRow } from '@/components/ui/Skeleton';
 import { useTranslation } from 'react-i18next';
 import { isNotFoundError } from '@/lib/api-error';
@@ -20,7 +20,7 @@ import {
 import type { BillingRecordItem } from '@/hooks/queries';
 import { useTenant } from '@/hooks/use-tenant';
 import { Link } from 'react-router';
-import { useTenantSlug } from '@autional-cn/shared';
+import { useTenantSlug } from '@autional/shared';
 import { ROUTES } from '@/lib/routes';
 import { buildNavHref } from '@/lib/nav';
 

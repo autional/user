@@ -4,13 +4,13 @@ import { buildNavHref } from '@/lib/nav';
 import { useTranslation } from 'react-i18next';
 import { useQuery } from '@tanstack/react-query';
 import { Link } from 'react-router';
-import { useAuth, useTenantSlug } from '@autional-cn/shared';
-import { profilesPrivacyImpactByProfiles } from '@autional-cn/shared/generated/api';
-import { SectionCard, ConsolePageHeader, LoadingScreen } from '@autional-cn/ui';
-import { ErrorState, EmptyState, StatusBadge } from '@autional-cn/ui';
-import type { StatusVariant } from '@autional-cn/ui';
-import { DataTable } from '@autional-cn/ui/antd';
-import type { DataTableColumns } from '@autional-cn/ui/antd';
+import { useAuth, useTenantSlug } from '@autional/shared';
+import { profilesPrivacyImpactByProfiles } from '@autional/shared/generated/api';
+import { SectionCard, ConsolePageHeader, LoadingScreen } from '@autional/ui';
+import { ErrorState, EmptyState, StatusBadge } from '@autional/ui';
+import type { StatusVariant } from '@autional/ui';
+import { DataTable } from '@autional/ui/antd';
+import type { DataTableColumns } from '@autional/ui/antd';
 import {
 	Eye,
 	EyeOff,

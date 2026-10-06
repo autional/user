@@ -2,19 +2,19 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { useAuth, extractApiError } from '@autional-cn/shared';
+import { useAuth, extractApiError } from '@autional/shared';
 import {
 	authMeRoleActivations,
 	authMeRoleActivationsPost,
-} from '@autional-cn/shared/generated/api';
+} from '@autional/shared/generated/api';
 import { useToast } from '@/hooks/use-toast';
 import { formatTime } from '@/lib/format';
-import { Alert, SectionCard, ConsolePageHeader, LoadingScreen } from '@autional-cn/ui';
-import { ErrorState } from '@autional-cn/ui';
-import { StatusBadge } from '@autional-cn/ui';
-import type { StatusVariant } from '@autional-cn/ui';
-import { DataTable } from '@autional-cn/ui/antd';
-import type { DataTableColumns } from '@autional-cn/ui/antd';
+import { Alert, SectionCard, ConsolePageHeader, LoadingScreen } from '@autional/ui';
+import { ErrorState } from '@autional/ui';
+import { StatusBadge } from '@autional/ui';
+import type { StatusVariant } from '@autional/ui';
+import { DataTable } from '@autional/ui/antd';
+import type { DataTableColumns } from '@autional/ui/antd';
 import {
 	ShieldCheck,
 	Clock,
@@ -67,7 +67,7 @@ async function fetchAvailableRoles(): Promise<RoleItem[]> {
 	// TODO: No generated function for GET /auth/me/role-activations/available-roles — missing from api.ts
 	// 同页 cancelActivation 先例：未生成端点走 apiClient 直连。admin 级 /rbac/api/v1/admin/roles 对
 	// 租户角色恒 403 entry_plane_forbidden（UP-20），且 catch 吞错会把失败渲染成空白下拉。
-	const { apiClient: api } = await import('@autional-cn/shared');
+	const { apiClient: api } = await import('@autional/shared');
 	const res = await api.get('/identity/api/v1/auth/me/role-activations/available-roles'); // @generated-api-exempt
 	const data = res.data as RoleItem[];
 	return Array.isArray(data) ? data : [];
@@ -83,7 +83,7 @@ async function requestActivation(data: {
 
 async function cancelActivation(activationId: string): Promise<void> {
 	// TODO: No generated function for DELETE /auth/me/role-activations/:id — authMeRoleActivationsByIdDelete missing from api.ts
-	const { apiClient: api } = await import('@autional-cn/shared');
+	const { apiClient: api } = await import('@autional/shared');
 	await api.delete(`/identity/api/v1/auth/me/role-activations/${activationId}`); // @generated-api-exempt
 }
 

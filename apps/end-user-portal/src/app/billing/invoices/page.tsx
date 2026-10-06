@@ -3,15 +3,15 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Eye, Download, Loader2 } from 'lucide-react';
-import { ConsolePageHeader, ErrorState, EmptyState, StatusBadge, Modal } from '@autional-cn/ui';
-import type { StatusVariant } from '@autional-cn/ui';
-import { DataTable } from '@autional-cn/ui/antd';
-import type { DataTableColumns } from '@autional-cn/ui/antd';
+import { ConsolePageHeader, ErrorState, EmptyState, StatusBadge, Modal } from '@autional/ui';
+import type { StatusVariant } from '@autional/ui';
+import { DataTable } from '@autional/ui/antd';
+import type { DataTableColumns } from '@autional/ui/antd';
 import { SkeletonRow } from '@/components/ui/Skeleton';
 import { useTenant } from '@/hooks/use-tenant';
 import { useInvoices, useInvoice } from '@/hooks/queries';
 import type { BillingRecord, InvoiceLineItem } from '@/hooks/queries';
-import { apiClient, extractApiErrorMessage } from '@autional-cn/shared';
+import { apiClient, extractApiErrorMessage } from '@autional/shared';
 import { useToast } from '@/hooks/use-toast';
 
 // 状态 → 设计系统徽标档位。这里**只做映射，不做样式**。

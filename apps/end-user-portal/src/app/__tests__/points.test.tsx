@@ -31,7 +31,7 @@ vi.mock('@/hooks/use-toast', () => ({
 	})),
 }));
 
-vi.mock('@autional-cn/shared', () => ({
+vi.mock('@autional/shared', () => ({
 	useAuth: vi.fn(() => ({ userId: 'user1' })),
 	useAuthStore: vi.fn(() => ({
 		user: { id: 'user1', name: 'Test User' },
