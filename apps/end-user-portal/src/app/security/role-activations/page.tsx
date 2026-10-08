@@ -9,7 +9,7 @@ import {
 } from '@autional/shared/generated/api';
 import { useToast } from '@/hooks/use-toast';
 import { formatTime } from '@/lib/format';
-import { Alert, SectionCard, ConsolePageHeader, LoadingScreen } from '@autional/ui';
+import { Alert, SectionCard, AppPageHeader, LoadingScreen } from '@autional/ui';
 import { ErrorState } from '@autional/ui';
 import { StatusBadge } from '@autional/ui';
 import type { StatusVariant } from '@autional/ui';
@@ -260,7 +260,7 @@ export default function RoleActivationsPage() {
 
 	return (
 		<div className="space-y-6">
-			<ConsolePageHeader
+			<AppPageHeader
 				title={t('roleActivations.title')}
 				description={t('roleActivations.subtitle')}
 				actions={

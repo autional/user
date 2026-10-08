@@ -7,7 +7,7 @@ import { ROUTES } from '@/lib/routes';
 import { useMutation } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
 import { Smartphone, ArrowLeft } from 'lucide-react';
-import { Alert, Result, SectionCard, ConsolePageHeader, Button, Input, Label, LoadingScreen, ErrorState } from '@autional/ui';
+import { Alert, Result, SectionCard, AppPageHeader, Button, Input, Label, LoadingScreen, ErrorState } from '@autional/ui';
 import { useToast } from '@/hooks/use-toast';
 
 export default function DevicePairingPage() {
@@ -56,7 +56,7 @@ export default function DevicePairingPage() {
 				{t('devices.pair.back')}
 			</button>
 
-			<ConsolePageHeader
+			<AppPageHeader
 				title={t('devices.pair.title')}
 				description={t('devices.pair.subtitle')}
 			/>

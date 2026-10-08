@@ -24,7 +24,7 @@ import {
 	CURRENT_SESSION_UNRESOLVABLE,
 } from '@/hooks/queries';
 import type { SessionInfo } from '@/hooks/queries';
-import { Alert, ConsolePageHeader, ErrorState, EmptyState, ConfirmDialog } from '@autional/ui';
+import { Alert, AppPageHeader, ErrorState, EmptyState, ConfirmDialog } from '@autional/ui';
 import { SkeletonRow } from '@/components/ui/Skeleton';
 
 function parseUserAgent(ua?: string): { browser: string; os: string } {
@@ -150,7 +150,7 @@ export default function SessionsPage() {
 
 	return (
 		<div className="space-y-6">
-			<ConsolePageHeader
+			<AppPageHeader
 				title={t('sessions.title')}
 				description={t('sessions.subtitle')}
 				actions={

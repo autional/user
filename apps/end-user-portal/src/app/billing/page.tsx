@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { SectionCard, ConsolePageHeader, ErrorState, EmptyState, StatusBadge } from '@autional/ui';
+import { SectionCard, AppPageHeader, ErrorState, EmptyState, StatusBadge } from '@autional/ui';
 import type { StatusVariant } from '@autional/ui';
 import { DataTable } from '@autional/ui/antd';
 import type { DataTableColumns } from '@autional/ui/antd';
@@ -190,7 +190,7 @@ export default function BillingPage() {
 
 	return (
 		<div className="max-w-4xl mx-auto space-y-6">
-			<ConsolePageHeader title={t('billing.title')} />
+			<AppPageHeader title={t('billing.title')} />
 
 			{/* UP-57：订阅 / 发票 / 支付三路由原零站内入口，账单页补快速入口。 */}
 			<div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
@@ -227,7 +227,7 @@ export default function BillingPage() {
 							<span className="text-neutral-600">{t('billing.status')}</span>
 							<p className="font-medium">
 								<span
-									className={`inline-block px-2 py-0.5 rounded text-xs ${planStatus === 'active' ? 'bg-success-soft text-success' : planStatus === 'trial' ? 'bg-info-soft text-info' : planStatus === 'cancelled' ? 'bg-danger-soft text-danger' : planStatus === 'past_due' ? 'bg-amber-50 text-amber-600' : 'bg-neutral-200 text-neutral-600'}`}
+									className={`inline-block px-2 py-0.5 rounded text-xs ${planStatus === 'active' ? 'bg-success-soft text-success' : planStatus === 'trial' ? 'bg-info-soft text-info' : planStatus === 'cancelled' ? 'bg-danger-soft text-danger' : planStatus === 'past_due' ? 'bg-warning-soft text-warning-text' : 'bg-neutral-200 text-neutral-600'}`}
 								>
 									{t(
 										planStatus === 'active'
@@ -279,7 +279,7 @@ export default function BillingPage() {
 				{stats && (
 					<SectionCard>
 						<div className="flex items-center gap-3 mb-3">
-							<div className="flex h-10 w-10 items-center justify-center rounded-md bg-purple-50 text-purple-700">
+							<div className="flex h-10 w-10 items-center justify-center rounded-md bg-chart-7/10 text-chart-7">
 								<BarChart3 size={20} />
 							</div>
 							<div>
@@ -355,7 +355,7 @@ export default function BillingPage() {
 						percent={apiPercent}
 					/>
 					<UsageCard
-						icon={<HardDrive className="w-5 h-5 text-purple-500" />}
+						icon={<HardDrive className="w-5 h-5 text-chart-7" />}
 						label={t('billing.storageUsage')}
 						value={`${(usage?.storageGb ?? 0).toLocaleString()} GB`}
 						max={maxStorage}
@@ -445,7 +445,7 @@ function UsageCard({
 				<>
 					<div className="w-full bg-neutral-200 rounded-full h-2 mb-1">
 						<div
-							className={`h-2 rounded-full transition-all ${percent > 80 ? 'bg-danger' : percent > 60 ? 'bg-amber-500' : 'bg-success'}`}
+							className={`h-2 rounded-full transition-all ${percent > 80 ? 'bg-danger' : percent > 60 ? 'bg-warning' : 'bg-success'}`}
 							style={{ width: `${Math.max(percent, 2)}%` }}
 						/>
 					</div>

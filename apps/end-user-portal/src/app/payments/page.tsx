@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { CreditCard, Eye } from 'lucide-react';
-import { ConsolePageHeader, ErrorState, EmptyState, Modal, StatusBadge } from '@autional/ui';
+import { AppPageHeader, ErrorState, EmptyState, Modal, StatusBadge } from '@autional/ui';
 import type { StatusVariant } from '@autional/ui';
 import { DataTable } from '@autional/ui/antd';
 import type { DataTableColumns } from '@autional/ui/antd';
@@ -155,7 +155,7 @@ export default function PaymentsPage() {
 
 	return (
 		<div className="max-w-4xl mx-auto space-y-6">
-			<ConsolePageHeader title={t('payments.title')} />
+			<AppPageHeader title={t('payments.title')} />
 
 			{/* 外面那层 overflow-x-auto rounded-lg border 由 DataTable 自带容器接管，不再手拼。
 				rowKey 兜下标：paymentId 缺失时若统一兜成 '-' 会让多行同 key（React 会告警）。 */}

@@ -15,7 +15,7 @@ import {
 	Key,
 	RefreshCw,
 } from 'lucide-react';
-import { ConsolePageHeader, LoadingScreen, ErrorState, SectionCard } from '@autional/ui';
+import { AppPageHeader, LoadingScreen, ErrorState, SectionCard } from '@autional/ui';
 
 const mockEvents = [
 	{
@@ -95,7 +95,7 @@ export default function DeviceActivityPage() {
 				{t('devices.activity.back')}
 			</button>
 
-			<ConsolePageHeader
+			<AppPageHeader
 				title={t('devices.activity.title')}
 				description={t('devices.activity.subtitle')}
 			/>

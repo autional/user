@@ -28,7 +28,7 @@ import {
 } from '@/hooks/queries';
 import { useLanguage } from '@/hooks/use-language';
 import { useTheme } from '@/hooks/use-theme';
-import { SectionCard, ConsolePageHeader, ErrorState } from '@autional/ui';
+import { SectionCard, AppPageHeader, ErrorState } from '@autional/ui';
 import { SkeletonRow } from '@/components/ui/Skeleton';
 import { IdentifierChangeDialog } from '@/components/profile/IdentifierChangeDialog';
 
@@ -195,7 +195,7 @@ export default function ProfilePage() {
 
 	return (
 		<div className="space-y-6">
-			<ConsolePageHeader
+			<AppPageHeader
 				title={t('profile.title')}
 				actions={
 					<>

@@ -21,7 +21,7 @@ import {
 import { useTranslation } from 'react-i18next';
 import { formatTime } from '@/lib/format';
 import { useThingsList } from '@/hooks/queries';
-import { SectionCard, ConsolePageHeader, ErrorState } from '@autional/ui';
+import { SectionCard, AppPageHeader, ErrorState } from '@autional/ui';
 import { SkeletonCard } from '@/components/ui/Skeleton';
 
 const thingIcons: Record<string, typeof Smartphone> = {
@@ -80,7 +80,7 @@ export default function DevicesPage() {
 
 	return (
 		<div className="space-y-6">
-			<ConsolePageHeader
+			<AppPageHeader
 				title={t('devices.title')}
 				description={t('devices.subtitle')}
 				actions={

@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { useAuth } from '@autional/shared';
 import { useAnnouncements } from '@/hooks/queries';
 import { formatTime } from '@/lib/format';
-import { SectionCard, ConsolePageHeader, LoadingScreen } from '@autional/ui';
+import { SectionCard, AppPageHeader, LoadingScreen } from '@autional/ui';
 import { ErrorState } from '@autional/ui';
 import { Megaphone, ChevronDown, ChevronRight, ChevronLeft, Eye, X } from 'lucide-react';
 
@@ -66,7 +66,7 @@ export default function AnnouncementsPage() {
 
 	return (
 		<div className="space-y-6">
-			<ConsolePageHeader
+			<AppPageHeader
 				title={t('announcements.title', 'Announcements')}
 				description={t('announcements.description', 'Stay updated with the latest news and updates')}
 			/>

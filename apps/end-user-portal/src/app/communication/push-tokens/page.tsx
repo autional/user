@@ -11,7 +11,7 @@ import {
 } from '@/hooks/queries';
 import { useToast } from '@/hooks/use-toast';
 import { formatTime } from '@/lib/format';
-import { SectionCard, ConsolePageHeader, LoadingScreen, ErrorState, ConfirmDialog } from '@autional/ui';
+import { SectionCard, AppPageHeader, LoadingScreen, ErrorState, ConfirmDialog } from '@autional/ui';
 import { Link } from 'react-router';
 import { Smartphone, Monitor, Globe, Laptop, Plus, Trash2, ChevronLeft } from 'lucide-react';
 
@@ -23,7 +23,7 @@ const platformMeta: Record<string, { icon: typeof Smartphone; labelKey: string; 
 		color: 'text-success',
 	},
 	web: { icon: Globe, labelKey: 'communication.platform.web', color: 'text-info' },
-	desktop: { icon: Monitor, labelKey: 'communication.platform.desktop', color: 'text-purple-700' },
+	desktop: { icon: Monitor, labelKey: 'communication.platform.desktop', color: 'text-chart-7' },
 };
 
 export default function PushTokensPage() {
@@ -93,7 +93,7 @@ export default function PushTokensPage() {
 				<ChevronLeft size={14} />
 				{t('communication.backToHistory', 'History')}
 			</Link>
-			<ConsolePageHeader
+			<AppPageHeader
 				title={t('communication.pushTokens.title', 'Push Tokens')}
 				description={t(
 					'communication.pushTokens.description',

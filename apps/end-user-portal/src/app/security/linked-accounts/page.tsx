@@ -6,7 +6,7 @@ import { useAuth, extractApiError } from '@autional/shared';
 import { authMeSamlLinks, authMeSamlLinksBySamlLinksDelete } from '@autional/shared/generated/api';
 import { useToast } from '@/hooks/use-toast';
 import { formatTime } from '@/lib/format';
-import { Alert, SectionCard, ConsolePageHeader, LoadingScreen, Modal } from '@autional/ui';
+import { Alert, SectionCard, AppPageHeader, LoadingScreen, Modal } from '@autional/ui';
 import { ErrorState } from '@autional/ui';
 import { Link2, Unlink, Loader2, ExternalLink, Info } from 'lucide-react';
 
@@ -89,7 +89,7 @@ export default function LinkedAccountsPage() {
 
 	return (
 		<div className="space-y-6">
-			<ConsolePageHeader
+			<AppPageHeader
 				title={t('linkedAccounts.title')}
 				description={t('linkedAccounts.subtitle')}
 			/>

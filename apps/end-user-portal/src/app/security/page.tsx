@@ -48,7 +48,7 @@ import {
 	useUnbindOAuth,
 } from '@/hooks/queries';
 import type { OAuthConnectionItem } from '@/hooks/queries';
-import { Alert, SectionCard, ConsolePageHeader, LoadingScreen, ErrorState, Modal } from '@autional/ui';
+import { Alert, SectionCard, AppPageHeader, LoadingScreen, ErrorState, Modal } from '@autional/ui';
 import { FormInput } from '@autional/ui/rhf';
 
 // message 一律用完整扁平 ns 键：i18n keySeparator:false，消费处 t(message) 才可解析（UP-14）。
@@ -454,7 +454,7 @@ export default function SecurityPage() {
 
 	return (
 		<div className="space-y-6">
-			<ConsolePageHeader title={t('security.title')} description={t('security.subtitle')} />
+			<AppPageHeader title={t('security.title')} description={t('security.subtitle')} />
 
 			{/* Quick Links to Security Sub-pages */}
 			<div className="grid gap-4 sm:grid-cols-2">

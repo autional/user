@@ -23,7 +23,7 @@ import {
 	Banknote,
 	Shield,
 } from 'lucide-react';
-import { Alert, SectionCard, ConsolePageHeader, ErrorState, EmptyState, StatusBadge } from '@autional/ui';
+import { Alert, SectionCard, AppPageHeader, ErrorState, EmptyState, StatusBadge } from '@autional/ui';
 import type { StatusVariant } from '@autional/ui';
 import { DataTable } from '@autional/ui/antd';
 import type { DataTableColumns } from '@autional/ui/antd';
@@ -169,7 +169,7 @@ export default function PointsPage() {
 
 	return (
 		<div className="max-w-4xl mx-auto space-y-6">
-			<ConsolePageHeader title={t('points.title')} />
+			<AppPageHeader title={t('points.title')} />
 
 			{/* UP-52：5 张卡与 4 列栅格错配致第 5 卡孤行换行；改 5 列消除孤卡 */}
 			<div className="grid grid-cols-1 md:grid-cols-5 gap-4">
@@ -189,7 +189,7 @@ export default function PointsPage() {
 					value={value?.cashValue != null ? `¥${value.cashValue}` : '-'}
 				/>
 				<Card
-					icon={<Shield className="w-5 h-5 text-purple-500" />}
+					icon={<Shield className="w-5 h-5 text-chart-7" />}
 					label={t('points.riskScore')}
 					/* UP-51：等级此前仅靠颜色传达（绿=低风险），色觉障碍用户丢失语义 —— 颜色+文字双通道。 */
 					value={

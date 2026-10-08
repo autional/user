@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '@autional/shared';
-import { Alert, ConsolePageHeader, ErrorState } from '@autional/ui';
+import { Alert, AppPageHeader, ErrorState } from '@autional/ui';
 import { SkeletonCard } from '@/components/ui/Skeleton';
 import { useTenant } from '@/hooks/use-tenant';
 import {
@@ -27,23 +27,25 @@ const CYCLE_DISCOUNT: Record<string, number> = {
 
 const planIcons: Record<string, React.ReactNode> = {
 	free: <Zap className="w-8 h-8 text-neutral-500" />,
-	basic: <Zap className="w-8 h-8 text-info" />,
-	pro: <Crown className="w-8 h-8 text-amber-500" />,
-	enterprise: <Building2 className="w-8 h-8 text-purple-500" />,
+	// 套餐档位是**分类**不是状态（DESIGN.md §3：并列的分类走 chart-N）——
+	// 原来 basic 用 info 语义令牌、pro 用 warning 语义令牌、enterprise 用紫色阶，三种语言混在一张表里。
+	basic: <Zap className="w-8 h-8 text-chart-3" />,
+	pro: <Crown className="w-8 h-8 text-chart-4" />,
+	enterprise: <Building2 className="w-8 h-8 text-chart-7" />,
 };
 
 const planColors: Record<string, string> = {
 	free: 'border-neutral-300',
-	basic: 'border-info',
-	pro: 'border-amber-300',
-	enterprise: 'border-purple-300',
+	basic: 'border-chart-3',
+	pro: 'border-chart-4',
+	enterprise: 'border-chart-7',
 };
 
 const planActiveColors: Record<string, string> = {
 	free: 'ring-neutral-300 bg-neutral-50',
-	basic: 'ring-info bg-info-soft',
-	pro: 'ring-amber-500 bg-amber-50',
-	enterprise: 'ring-purple-500 bg-purple-50',
+	basic: 'ring-chart-3 bg-chart-3/10',
+	pro: 'ring-chart-4 bg-chart-4/10',
+	enterprise: 'ring-chart-7 bg-chart-7/10',
 };
 
 // UP-58：服务端 features 是语言包键原文（service-core lang_base 缺包/缺键时原样返回键、丢参数），
@@ -172,7 +174,7 @@ export default function SubscribePage() {
 
 	return (
 		<div className="max-w-4xl mx-auto space-y-6">
-			<ConsolePageHeader title={t('billing.subscribe.title')} description={t('billing.subscribe.subtitle')} />
+			<AppPageHeader title={t('billing.subscribe.title')} description={t('billing.subscribe.subtitle')} />
 
 			{currentSub?.plan && (
 				<div className="text-center">

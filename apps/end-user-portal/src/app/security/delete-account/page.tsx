@@ -20,7 +20,7 @@ import {
 	authMeDeleteAccountPost,
 	PublicAuthConfigByAuthConfig,
 } from '@autional/shared/generated/api';
-import { Alert, ConsolePageHeader, Button } from '@autional/ui';
+import { Alert, AppPageHeader, Button } from '@autional/ui';
 import { FormInput } from '@autional/ui/rhf';
 import { deleteSchema, type DeleteFormData } from '@/lib/validators';
 
@@ -90,7 +90,7 @@ export default function DeleteAccountPage() {
 			>
 				<ChevronLeft size={20} />
 			</Link>
-			<ConsolePageHeader
+			<AppPageHeader
 				title={t('security.deleteAccount.pageTitle')}
 				description={t('security.deleteAccount.pageSubtitle')}
 			/>

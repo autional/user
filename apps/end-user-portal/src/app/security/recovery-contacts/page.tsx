@@ -14,7 +14,7 @@ import {
 	authMeRecoveryContactsPost,
 	authMeRecoveryContactsByRecoveryContactsDelete,
 } from '@autional/shared/generated/api';
-import { Alert, SectionCard, ConsolePageHeader, LoadingScreen, ErrorState, EmptyState, Button } from '@autional/ui';
+import { Alert, SectionCard, AppPageHeader, LoadingScreen, ErrorState, EmptyState, Button } from '@autional/ui';
 import { FormInput } from '@autional/ui/rhf';
 import { addContactSchema, type AddContactFormData } from '@/lib/validators';
 
@@ -112,7 +112,7 @@ export default function RecoveryContactsPage() {
 			>
 				<ChevronLeft size={20} />
 			</Link>
-			<ConsolePageHeader
+			<AppPageHeader
 				title={t('security.recoveryContacts.title')}
 				description={t('security.recoveryContacts.subtitle')}
 			/>

@@ -14,7 +14,7 @@ import { Link } from 'react-router';
 import { useToast } from '@/hooks/use-toast';
 import { extractApiError, useTenantSlug } from '@autional/shared';
 import { authMeExportDataPost } from '@autional/shared/generated/api';
-import { Result, SectionCard, ConsolePageHeader, Button, ConfirmDialog } from '@autional/ui';
+import { Result, SectionCard, AppPageHeader, Button, ConfirmDialog } from '@autional/ui';
 
 export default function ExportDataPage() {
 	const tenantSlug = useTenantSlug();
@@ -74,7 +74,7 @@ export default function ExportDataPage() {
 			>
 				<ChevronLeft size={20} />
 			</Link>
-			<ConsolePageHeader
+			<AppPageHeader
 				title={t('privacy.exportData.title')}
 				description={t('privacy.exportData.subtitle')}
 			/>

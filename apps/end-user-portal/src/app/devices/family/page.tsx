@@ -15,7 +15,7 @@ import {
 	type FamilyMember,
 } from '@/hooks/queries';
 import {
-	ConsolePageHeader,
+	AppPageHeader,
 	ErrorState,
 	Button,
 	Input,
@@ -153,7 +153,7 @@ export default function FamilyAccessPage() {
 				{t('devices.family.back')}
 			</button>
 
-			<ConsolePageHeader
+			<AppPageHeader
 				title={t('devices.family.title')}
 				description={t('devices.family.subtitle')}
 				actions={

@@ -234,7 +234,7 @@ export default function AppLayout() {
 						<div className="relative">
 							<Building2
 								size={14}
-								className="absolute left-2.5 top-1/2 -translate-y-1/2 text-neutral-400"
+								className="absolute left-2.5 top-1/2 -translate-y-1/2 text-[var(--color-text-muted)]"
 							/>
 							<select
 								value={currentTenant.id}
@@ -249,7 +249,7 @@ export default function AppLayout() {
 							</select>
 							<ChevronDown
 								size={14}
-								className="absolute right-2.5 top-1/2 -translate-y-1/2 text-neutral-400 pointer-events-none"
+								className="absolute right-2.5 top-1/2 -translate-y-1/2 text-[var(--color-text-muted)] pointer-events-none"
 							/>
 						</div>
 					</div>
@@ -274,7 +274,7 @@ export default function AppLayout() {
 											className={`flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium transition-colors ${
 												isActive
 													? 'bg-primary-50 text-primary-700 dark:bg-primary-900/30 dark:text-primary-400'
-													: 'text-neutral-600 hover:bg-neutral-100 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:hover:text-neutral-200'
+													: 'text-neutral-600 hover:bg-neutral-100 hover:text-neutral-900 dark:text-[var(--color-text-muted)] dark:hover:bg-neutral-700 dark:hover:text-neutral-200'
 											}`}
 										>
 											<item.icon size={18} />
@@ -290,7 +290,7 @@ export default function AppLayout() {
 			headerLeft={
 				<>
 					<button
-						className="lg:hidden text-neutral-500 hover:text-neutral-800 dark:text-neutral-400 dark:hover:text-neutral-200"
+						className="lg:hidden text-neutral-500 hover:text-neutral-800 dark:text-[var(--color-text-muted)] dark:hover:text-neutral-200"
 						onClick={() => setSidebarOpen(true)}
 						aria-label={t('nav.openMenu')}
 					>
@@ -307,13 +307,13 @@ export default function AppLayout() {
 
 					<button
 						onClick={() => navigate(navHref(ROUTES.notifications))}
-						className="relative rounded-md p-2 text-neutral-500 hover:bg-neutral-100 hover:text-neutral-700 dark:text-neutral-400 dark:hover:text-neutral-200 transition-colors"
+						className="relative rounded-md p-2 text-neutral-500 hover:bg-neutral-100 hover:text-neutral-700 dark:text-[var(--color-text-muted)] dark:hover:text-neutral-200 transition-colors"
 						title={t('nav.notifications')}
 						aria-label={t('nav.notifications')}
 					>
 						<Bell size={18} />
 						{unreadCount > 0 && (
-							<span className="absolute -top-0.5 -right-0.5 flex h-4 min-w-[16px] items-center justify-center rounded-full bg-red-500 px-1 text-[10px] font-bold text-white leading-none">
+							<span className="absolute -top-0.5 -right-0.5 flex h-4 min-w-[16px] items-center justify-center rounded-full bg-danger px-1 text-[10px] font-bold text-white leading-none">
 								{unreadCount > 99 ? '99+' : unreadCount}
 							</span>
 						)}
@@ -321,7 +321,7 @@ export default function AppLayout() {
 
 					<button
 						onClick={() => navigate(navHref(ROUTES.announcements))}
-						className="rounded-md p-2 text-neutral-500 hover:bg-neutral-100 hover:text-neutral-700 dark:text-neutral-400 dark:hover:text-neutral-200 transition-colors"
+						className="rounded-md p-2 text-neutral-500 hover:bg-neutral-100 hover:text-neutral-700 dark:text-[var(--color-text-muted)] dark:hover:text-neutral-200 transition-colors"
 						title={t('nav.announcements')}
 						aria-label={t('nav.announcements')}
 					>
@@ -332,11 +332,11 @@ export default function AppLayout() {
 					{/* 文字档不能停在 neutral-500（#8896a6 对白底 3.02:1，12px 正文要 4.5:1）——
 					   这是 L24 的目标页第一次把真实顶栏渲染进闸门时当场量出来的：图标档 3:1 的门槛
 					   与文字档 4.5:1 的门槛不是一回事，同一个色阶不能两边都用。 */}
-					<LanguageSwitcher className="rounded-md px-2 py-1 text-sm text-neutral-600 hover:bg-neutral-100 hover:text-neutral-700 transition-colors dark:text-neutral-400 dark:hover:text-neutral-200" />
+					<LanguageSwitcher className="rounded-md px-2 py-1 text-sm text-neutral-600 hover:bg-neutral-100 hover:text-neutral-700 transition-colors dark:text-[var(--color-text-muted)] dark:hover:text-neutral-200" />
 
 					{/* Theme toggle */}
 					<ThemeToggle
-						className="text-neutral-500 hover:bg-neutral-100 hover:text-neutral-800 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:hover:text-neutral-200"
+						className="text-neutral-500 hover:bg-neutral-100 hover:text-neutral-800 dark:text-[var(--color-text-muted)] dark:hover:bg-neutral-700 dark:hover:text-neutral-200"
 						iconSize={18}
 					/>
 

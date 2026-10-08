@@ -19,7 +19,7 @@ import {
 	useMarkNotificationRead,
 	useMarkAllNotificationsRead,
 } from '@/hooks/queries';
-import { SectionCard, ConsolePageHeader, ErrorState, EmptyState } from '@autional/ui';
+import { SectionCard, AppPageHeader, ErrorState, EmptyState } from '@autional/ui';
 import { SkeletonRow } from '@/components/ui/Skeleton';
 
 export default function NotificationsPage() {
@@ -56,8 +56,8 @@ export default function NotificationsPage() {
 			},
 			billing: {
 				icon: CreditCard,
-				color: 'text-amber-700',
-				bg: 'bg-amber-50',
+				color: 'text-warning-text',
+				bg: 'bg-warning-soft',
 				label: t('notifications.type.billing'),
 			},
 			activity: {
@@ -68,14 +68,14 @@ export default function NotificationsPage() {
 			},
 			account: {
 				icon: Info,
-				color: 'text-purple-700',
-				bg: 'bg-purple-50',
+				color: 'text-primary-900',
+				bg: 'bg-chart-7/10',
 				label: t('notifications.type.account'),
 			},
 			marketing: {
 				icon: Info,
-				color: 'text-pink-700',
-				bg: 'bg-pink-50',
+				color: 'text-primary-900',
+				bg: 'bg-chart-4/10',
 				label: t('notifications.type.marketing'),
 			},
 			// 公告类通知：服务端发布公告时创建的通知 type = "announcement"（announcement_service.go）。
@@ -125,7 +125,7 @@ export default function NotificationsPage() {
 
 	return (
 		<div className="space-y-6">
-			<ConsolePageHeader
+			<AppPageHeader
 				title={t('notifications.title')}
 				description={
 					<>

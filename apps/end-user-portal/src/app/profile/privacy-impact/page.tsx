@@ -6,7 +6,7 @@ import { useQuery } from '@tanstack/react-query';
 import { Link } from 'react-router';
 import { useAuth, useTenantSlug } from '@autional/shared';
 import { profilesPrivacyImpactByProfiles } from '@autional/shared/generated/api';
-import { SectionCard, ConsolePageHeader, LoadingScreen } from '@autional/ui';
+import { SectionCard, AppPageHeader, LoadingScreen } from '@autional/ui';
 import { ErrorState, EmptyState, StatusBadge } from '@autional/ui';
 import type { StatusVariant } from '@autional/ui';
 import { DataTable } from '@autional/ui/antd';
@@ -54,9 +54,9 @@ const RISK_COLORS = {
 		icon: CheckCircle2,
 	},
 	medium: {
-		bg: 'bg-amber-50',
-		text: 'text-amber-700',
-		border: 'border-amber-200',
+		bg: 'bg-warning-soft',
+		text: 'text-warning-text',
+		border: 'border-warning-soft',
 		icon: AlertTriangle,
 	},
 	high: { bg: 'bg-danger-soft', text: 'text-danger', border: 'border-danger-soft', icon: AlertTriangle },
@@ -64,7 +64,7 @@ const RISK_COLORS = {
 
 const RISK_BAR_COLORS = {
 	low: 'bg-success',
-	medium: 'bg-amber-500',
+	medium: 'bg-warning',
 	high: 'bg-danger',
 };
 
@@ -258,7 +258,7 @@ export default function PrivacyImpactPage() {
 
 	return (
 		<div className="space-y-6">
-			<ConsolePageHeader
+			<AppPageHeader
 				title={t('privacyImpact.title')}
 				description={t('privacyImpact.subtitle')}
 			/>

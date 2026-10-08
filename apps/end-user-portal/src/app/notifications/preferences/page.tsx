@@ -18,7 +18,7 @@ import {
 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { useNotificationPreferences, useUpdateNotificationPreferences } from '@/hooks/queries';
-import { SectionCard, ConsolePageHeader, LoadingScreen, ErrorState } from '@autional/ui';
+import { SectionCard, AppPageHeader, LoadingScreen, ErrorState } from '@autional/ui';
 import { Link } from 'react-router';
 
 const NOTIFICATION_TYPES = [
@@ -147,7 +147,7 @@ export default function NotificationPreferencesPage() {
 
 	return (
 		<div className="space-y-6">
-			<ConsolePageHeader
+			<AppPageHeader
 				title={t('notifications.prefs.title', '通知偏好设置')}
 				description={t('notifications.prefs.description', '管理您希望接收的通知类型和渠道')}
 			/>

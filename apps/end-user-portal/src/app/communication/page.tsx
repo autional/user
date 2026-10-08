@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useCommunicationLogs } from '@/hooks/queries';
 import { formatTime } from '@/lib/format';
-import { ConsolePageHeader, ErrorState, StatusBadge } from '@autional/ui';
+import { AppPageHeader, ErrorState, StatusBadge } from '@autional/ui';
 import type { StatusVariant } from '@autional/ui';
 import { DataTable } from '@autional/ui/antd';
 import type { DataTableColumns } from '@autional/ui/antd';
@@ -14,7 +14,7 @@ import { Mail, Smartphone, Bell, History, Filter } from 'lucide-react';
 const channelMeta: Record<string, { icon: typeof Mail; labelKey: string; color: string }> = {
 	sms: { icon: Smartphone, labelKey: 'communication.channel.sms', color: 'text-success' },
 	email: { icon: Mail, labelKey: 'communication.channel.email', color: 'text-info' },
-	push: { icon: Bell, labelKey: 'communication.channel.push', color: 'text-purple-700' },
+	push: { icon: Bell, labelKey: 'communication.channel.push', color: 'text-chart-7' },
 };
 
 const channelOptions = ['', 'sms', 'email', 'push'];
@@ -159,7 +159,7 @@ export default function CommunicationHistoryPage() {
 
 	return (
 		<div className="space-y-6">
-			<ConsolePageHeader
+			<AppPageHeader
 				title={t('communication.historyTitle', 'Communication History')}
 				description={total > 0
 					? t('communication.totalLogs', { total })

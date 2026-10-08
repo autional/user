@@ -19,7 +19,7 @@ import {
 	authWebauthnRegisterCompletePost,
 	PublicAuthConfigByAuthConfig,
 } from '@autional/shared/generated/api';
-import { Result, SectionCard, ConsolePageHeader, Button } from '@autional/ui';
+import { Result, SectionCard, AppPageHeader, Button } from '@autional/ui';
 
 export default function PasskeyRegisterPage() {
 	const tenantSlug = useTenantSlug();
@@ -152,7 +152,7 @@ export default function PasskeyRegisterPage() {
 			>
 				<ChevronLeft size={20} />
 			</Link>
-			<ConsolePageHeader
+			<AppPageHeader
 				title={t('security.passkeys.register.title')}
 				description={t('security.passkeys.register.subtitle')}
 			/>

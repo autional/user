@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Eye, Download, Loader2 } from 'lucide-react';
-import { ConsolePageHeader, ErrorState, EmptyState, StatusBadge, Modal } from '@autional/ui';
+import { AppPageHeader, ErrorState, EmptyState, StatusBadge, Modal } from '@autional/ui';
 import type { StatusVariant } from '@autional/ui';
 import { DataTable } from '@autional/ui/antd';
 import type { DataTableColumns } from '@autional/ui/antd';
@@ -185,7 +185,7 @@ export default function InvoicesPage() {
 
 	return (
 		<div className="max-w-4xl mx-auto space-y-6">
-			<ConsolePageHeader title={t('billing.invoices.title')} />
+			<AppPageHeader title={t('billing.invoices.title')} />
 
 			{/* rowKey 用 id 兜 invoiceNumber：两者都可能为空，兜底成 '-' 会让多行同 key（React 会告警）。
 			   此处 id 是后端主键，invoiceNumber 只是展示字段。 */}

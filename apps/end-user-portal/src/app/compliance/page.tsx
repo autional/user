@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { SectionCard, ConsolePageHeader, ErrorState, EmptyState } from '@autional/ui';
+import { SectionCard, AppPageHeader, ErrorState, EmptyState } from '@autional/ui';
 import { SkeletonCard } from '@/components/ui/Skeleton';
 import { ShieldCheck, Award, FileSearch, ChevronRight } from 'lucide-react';
 import { extractApiError } from '@autional/shared';
@@ -75,7 +75,7 @@ export default function CompliancePage() {
 						: score >= 70
 							? { label: 'C', color: 'text-warning-text', bar: 'bg-warning' }
 							: { label: 'D', color: 'text-danger-text', bar: 'bg-danger' }
-			: { label: '—', color: 'text-muted-foreground', bar: 'bg-muted' };
+			: { label: '—', color: 'text-[var(--color-text-muted)]', bar: 'bg-muted' };
 
 	const frameworks = profile?.enabledFrameworks || [];
 	const standards = profile?.selectedStandards || [];
@@ -83,7 +83,7 @@ export default function CompliancePage() {
 
 	return (
 		<div className="max-w-3xl mx-auto">
-			<ConsolePageHeader
+			<AppPageHeader
 				title={
 					<span className="flex items-center gap-2">
 						<ShieldCheck className="h-5 w-5 text-[var(--color-brand)]" />
@@ -129,13 +129,13 @@ export default function CompliancePage() {
 						<div className="space-y-2">
 							{standards.map((s: string) => (
 								<div key={s} className="flex items-center gap-2 text-sm">
-									<ChevronRight className="w-3 h-3 text-muted-foreground" />
+									<ChevronRight className="w-3 h-3 text-[var(--color-text-muted)]" />
 									<span>{s}</span>
 								</div>
 							))}
 						</div>
 					) : (
-						<p className="text-muted-foreground text-sm">
+						<p className="text-[var(--color-text-muted)] text-sm">
 							{t('compliance.noStandards', '暂未选择特定合规标准')}
 						</p>
 					)}

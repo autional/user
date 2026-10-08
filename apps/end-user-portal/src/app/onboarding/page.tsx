@@ -19,7 +19,7 @@ import {
 	RotateCcw,
 } from 'lucide-react';
 import { useMFAStatus, useProfile, useDevices, useNotificationPreferences } from '@/hooks/queries';
-import { Alert, SectionCard, ConsolePageHeader, LoadingScreen } from '@autional/ui';
+import { Alert, SectionCard, AppPageHeader, LoadingScreen } from '@autional/ui';
 
 const STORAGE_KEY = 'autional_onboarding_completed';
 const STEPS_KEY = 'autional_onboarding_steps';
@@ -167,7 +167,7 @@ export default function OnboardingPage() {
 
 	return (
 		<div className="mx-auto max-w-2xl space-y-8">
-			<ConsolePageHeader
+			<AppPageHeader
 				title={
 					<span className="flex items-center gap-2">
 						<Compass className="h-5 w-5 text-primary-600" />

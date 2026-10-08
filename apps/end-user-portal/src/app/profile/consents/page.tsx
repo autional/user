@@ -9,7 +9,7 @@ import {
 	profilesConsentsByProfilesByConsentsDelete,
 } from '@autional/shared/generated/api';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { SectionCard, ConsolePageHeader, LoadingScreen, Modal } from '@autional/ui';
+import { SectionCard, AppPageHeader, LoadingScreen, Modal } from '@autional/ui';
 import { ErrorState, EmptyState } from '@autional/ui';
 import { showToast } from '@autional/ui';
 import { isNotFoundError } from '@/lib/api-error';
@@ -167,7 +167,7 @@ export default function ConsentsPage() {
 
 	return (
 		<div className="space-y-6">
-			<ConsolePageHeader
+			<AppPageHeader
 				title={t('consents.title')}
 				description={t('consents.subtitle')}
 				actions={

@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useAuth } from '@autional/shared';
-import { Alert, SectionCard, ConsolePageHeader, ErrorState, EmptyState, StatusBadge } from '@autional/ui';
+import { Alert, SectionCard, AppPageHeader, ErrorState, EmptyState, StatusBadge } from '@autional/ui';
 import type { StatusVariant } from '@autional/ui';
 import { DataTable } from '@autional/ui/antd';
 import type { DataTableColumns } from '@autional/ui/antd';
@@ -243,7 +243,7 @@ export default function WalletPage() {
 
 	return (
 		<div className="max-w-4xl mx-auto space-y-6">
-			<ConsolePageHeader title={t('wallet.title')} />
+			<AppPageHeader title={t('wallet.title')} />
 
 			<div className="grid grid-cols-1 md:grid-cols-4 gap-4">
 				<Card
@@ -257,7 +257,7 @@ export default function WalletPage() {
 					value={`${currency === 'CNY' ? '¥' : ''}${Number(frozen).toLocaleString(undefined, { minimumFractionDigits: 2 })}`}
 				/>
 				<Card
-					icon={<Receipt className="w-5 h-5 text-purple-500" />}
+					icon={<Receipt className="w-5 h-5 text-chart-7" />}
 					label={t('wallet.currency')}
 					value={currency}
 				/>
