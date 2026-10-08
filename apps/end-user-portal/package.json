@@ -5,8 +5,8 @@
   "description": "End-User Portal — Personal dashboard, profile, security, sessions, and notifications (Vite + React Router + Tailwind)",
   "type": "module",
   "scripts": {
-    "dev": "vite --port 13104",
-    "build": "tsc && vite build",
+    "dev": "node ../../scripts/gen-env.mjs && vite --port 13104",
+    "build": "node ../../scripts/gen-env.mjs && tsc && vite build",
     "preview": "vite preview --port 13104",
     "lint": "eslint src/",
     "typecheck": "tsc --noEmit",

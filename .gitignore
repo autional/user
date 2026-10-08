@@ -6,3 +6,7 @@ storybook-static/
 .env
 .env.local
 *.log
+
+# B3 生成物（scripts/gen-env.mjs）——勿手改、勿入库
+apps/end-user-portal/public/env.js
+apps/end-user-portal/public/robots.txt

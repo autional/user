@@ -1,4 +1,0 @@
-# user.autional.cn — 用户中心：不收录（登录后使用，无公开内容）。
-# 不用 Disallow：保持可抓取，搜索引擎才能读到 index.html 里的 robots noindex。
-User-agent: *
-Allow: /
