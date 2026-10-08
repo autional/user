@@ -9,8 +9,22 @@ export const queryKeys = {
 	notifications: (params?: Record<string, unknown>) => ['notifications', params] as const,
 	unreadNotifications: ['notifications', 'unread'] as const,
 	wallet: (userId: string) => ['wallet', userId] as const,
-	walletTransactions: (userId: string, page: number, pageSize: number) =>
-		['wallet-transactions', userId, page, pageSize] as const,
+	// 第 63 轮（L8）：筛选下推服务端之后，筛选条件必须进缓存键 —— 否则「待审的第三页」
+	// 会命中「全部的第二页」的缓存，这是比 total 不一致更隐蔽的一类错。
+	walletTransactions: (
+		userId: string,
+		page: number,
+		pageSize: number,
+		filters?: { type?: string; status?: string },
+	) =>
+		[
+			'wallet-transactions',
+			userId,
+			page,
+			pageSize,
+			filters?.type ?? null,
+			filters?.status ?? null,
+		] as const,
 	walletStats: (userId: string) => ['wallet-stats', userId] as const,
 	walletCoupons: (userId: string) => ['wallet-coupons', userId] as const,
 	walletBalanceHistory: (userId: string) => ['wallet-balance-history', userId] as const,

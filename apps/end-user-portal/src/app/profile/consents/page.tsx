@@ -300,7 +300,7 @@ export default function ConsentsPage() {
 									type="checkbox"
 									checked={selectedFields.has(field.key)}
 									onChange={() => toggleField(field.key)}
-									className="mt-0.5 h-4 w-4 rounded border-neutral-300 text-primary-600 focus:ring-primary-500"
+									className="mt-0.5 h-4 w-4 rounded-xs border-neutral-300 text-primary-600 focus:ring-primary-500"
 								/>
 								<div className="flex-1 min-w-0">
 									<p className="text-sm font-medium text-neutral-900">{t(field.labelKey)}</p>

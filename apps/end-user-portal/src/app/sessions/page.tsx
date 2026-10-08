@@ -197,7 +197,7 @@ export default function SessionsPage() {
 				return (
 					<div
 						key={session.id}
-						className={`rounded-lg border p-5 shadow-sm ${
+						className={`rounded-lg border p-5 shadow-card ${
 							session.isCurrentSession
 								? 'border-primary-200 bg-primary-50/40'
 								: 'border-neutral-200 bg-white'

@@ -114,7 +114,7 @@ export default function DevicesPage() {
 						return (
 							<div
 								key={thing.id}
-								className="rounded-lg border border-neutral-200 bg-white p-5 shadow-sm"
+								className="rounded-lg border border-neutral-200 bg-white p-5 shadow-card"
 							>
 								<div className="flex items-start justify-between gap-4">
 									<div className="flex items-start gap-4">

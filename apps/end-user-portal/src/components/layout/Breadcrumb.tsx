@@ -74,7 +74,6 @@ export function Breadcrumb() {
 			labels={labels}
 			home={{ label: t('nav.overview'), href: buildNavHref(ROUTES.dashboard, tenantSlug) }}
 			buildHref={(path) => buildNavHref(path, tenantSlug)}
-			className="mb-6"
 		/>
 	);
 }

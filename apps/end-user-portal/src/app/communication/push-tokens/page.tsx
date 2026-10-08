@@ -206,7 +206,7 @@ export default function PushTokensPage() {
 					return (
 						<div
 							key={token.id}
-							className="rounded-lg border border-neutral-200 bg-white p-5 shadow-sm hover:shadow-md transition-shadow"
+							className="rounded-lg border border-neutral-200 bg-white p-5 shadow-card transition-colors hover:border-neutral-300"
 						>
 							<div className="flex items-start justify-between">
 								<div className="flex items-center gap-3">

@@ -184,7 +184,7 @@ export default function NotificationPreferencesPage() {
 								}`}
 							>
 								<span
-									className={`pointer-events-none inline-block h-5 w-5 rounded-full bg-white shadow ring-0 transition-transform ${
+									className={`pointer-events-none inline-block h-5 w-5 rounded-full bg-white shadow-soft ring-0 transition-transform ${
 										typeToggles[nt.key] ? 'translate-x-5' : 'translate-x-0'
 									}`}
 								/>
@@ -223,7 +223,7 @@ export default function NotificationPreferencesPage() {
 								}`}
 							>
 								<span
-									className={`pointer-events-none inline-block h-5 w-5 rounded-full bg-white shadow ring-0 transition-transform ${
+									className={`pointer-events-none inline-block h-5 w-5 rounded-full bg-white shadow-soft ring-0 transition-transform ${
 										channelToggles[ch.key] ? 'translate-x-5' : 'translate-x-0'
 									}`}
 								/>

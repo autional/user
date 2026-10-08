@@ -28,7 +28,7 @@ const CYCLE_DISCOUNT: Record<string, number> = {
 const planIcons: Record<string, React.ReactNode> = {
 	free: <Zap className="w-8 h-8 text-neutral-500" />,
 	// 套餐档位是**分类**不是状态（DESIGN.md §3：并列的分类走 chart-N）——
-	// 原来 basic 用 info 语义令牌、pro 用 warning 语义令牌、enterprise 用紫色阶，三种语言混在一张表里。
+	// 原来 big basic 用 info 语义令牌、pro 用 amber 品牌色阶、enterprise 用 chart-7，三种语言混在一张表里。
 	basic: <Zap className="w-8 h-8 text-chart-3" />,
 	pro: <Crown className="w-8 h-8 text-chart-4" />,
 	enterprise: <Building2 className="w-8 h-8 text-chart-7" />,
@@ -226,7 +226,7 @@ export default function SubscribePage() {
 								isSelected
 									? `ring-2 ${planActiveColors[plan.plan] || 'ring-[var(--color-brand)] bg-primary-50'}`
 									: planColors[plan.plan] || 'border-neutral-300'
-							} hover:shadow-lg`}
+							} hover:border-neutral-400`}
 						>
 							{/* UP-60：整卡选择此前是 div[onClick] —— 无键盘可达、无选中态语义。
 							    透明覆盖按钮承担指针+键盘交互（Enter/Space 可选卡）；卡内订阅按钮抬到 z-10 之上。 */}

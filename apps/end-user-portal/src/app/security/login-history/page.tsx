@@ -254,9 +254,9 @@ export default function LoginHistoryPage() {
 								setStatusFilter(f);
 								setPage(1);
 							}}
-							className={`rounded px-3 py-1 text-xs font-medium transition-colors ${
+							className={`rounded-xs px-3 py-1 text-xs font-medium transition-colors ${
 								statusFilter === f
-									? 'bg-white text-neutral-900 shadow-sm'
+									? 'bg-white text-neutral-900 shadow-card'
 									: 'text-neutral-600 hover:text-neutral-700'
 							}`}
 						>
@@ -293,7 +293,7 @@ export default function LoginHistoryPage() {
 						onChange={(e) => setKeywordInput(e.target.value)}
 						placeholder={t('loginHistory.searchPlaceholder')}
 						aria-label={t('loginHistory.searchPlaceholder')}
-						className="h-8 w-56 rounded-md border border-neutral-300 bg-white pl-8 pr-2 text-xs text-neutral-900 placeholder:text-[var(--color-text-muted)] focus:border-primary-500 focus:outline-none"
+						className="h-8 w-56 rounded-md border border-neutral-300 bg-white pl-8 pr-2 text-xs text-neutral-900 placeholder:text-neutral-400 focus:border-primary-500 focus:outline-none"
 					/>
 				</div>
 			</SectionCard>

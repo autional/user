@@ -299,7 +299,7 @@ export function IdentifierChangeDialog({ kind, open, onClose }: Props) {
 							type="checkbox"
 							checked={revokeOthers}
 							onChange={(e) => setRevokeOthers(e.target.checked)}
-							className="h-4 w-4 rounded border-neutral-300 text-primary-600"
+							className="h-4 w-4 rounded-xs border-neutral-300 text-primary-600"
 						/>
 						{t('profile.identifierChange.revokeOthers')}
 					</label>

@@ -133,7 +133,6 @@ export default function ActivityPage() {
 			t('activity.table.action'),
 			t('activity.table.ip'),
 			t('activity.table.device'),
-			t('activity.table.location'),
 			t('activity.table.result'),
 		];
 		const rows = items.map((log) => {
@@ -148,8 +147,9 @@ export default function ActivityPage() {
 				log.ip || '',
 				// UP-36：与登录历史页 CSV 同口径（解析后的「浏览器 (平台)」而非 40 字符断尾原文）。
 				log.userAgent ? `${ua.browser} ${ua.os}`.trim() : '—',
-				// 空值同显「—」（与登录历史表/CSV 同族判定，AC-02-2/3）。
-				log.location || '—',
+				// L6（第 63 轮）：这里原本导出 log.location，而**表格里没有这一列**，
+				// 登录历史页的表与 CSV 也都没有 —— 导出物比页面多一列，属于「看到的不等于导出的」。
+				// 处置：以表格为准（IP 已经能定位，位置是衍生信息），列与键一并删掉。
 				// 三态：'' 既不算成功也不算失败（与表格列同一语义）。
 				resultKind === 'success'
 					? t('activity.status.success')

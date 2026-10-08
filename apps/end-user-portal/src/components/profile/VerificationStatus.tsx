@@ -47,13 +47,13 @@ export function VerificationStatus() {
 		return (
 			<div
 				id={SKELETON_PLACEHOLDER}
-				className="animate-pulse rounded-lg border border-neutral-200 bg-white p-5 shadow-sm"
+				className="animate-pulse rounded-lg border border-neutral-200 bg-white p-5 shadow-card"
 			>
 				<div className="flex items-center gap-3">
 					<div className="h-10 w-10 rounded-md bg-neutral-200" />
 					<div className="flex-1 space-y-2">
-						<div className="h-4 w-1/3 rounded bg-neutral-200" />
-						<div className="h-3 w-2/3 rounded bg-neutral-100" />
+						<div className="h-4 w-1/3 rounded-xs bg-neutral-200" />
+						<div className="h-3 w-2/3 rounded-xs bg-neutral-100" />
 					</div>
 				</div>
 			</div>

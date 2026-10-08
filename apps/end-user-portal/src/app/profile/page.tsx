@@ -8,7 +8,7 @@ import {
 	Mail,
 	Phone,
 	Calendar,
-	Edit2,
+	Pencil,
 	Save,
 	X,
 	Camera,
@@ -204,7 +204,7 @@ export default function ProfilePage() {
 								onClick={startEdit}
 								className="flex items-center gap-1.5 rounded-md border border-neutral-200 bg-white px-3 py-1.5 text-sm font-medium text-neutral-700 hover:bg-neutral-50 transition-colors"
 							>
-								<Edit2 size={14} />
+								<Pencil size={14} />
 								{t('profile.edit')}
 							</button>
 						) : activeTab === 'basic' && editing ? (

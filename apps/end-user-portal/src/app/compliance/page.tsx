@@ -152,7 +152,7 @@ export default function CompliancePage() {
 						{frameworks.map((fw: string) => (
 							<span
 								key={fw}
-								className="px-3 py-1 rounded-full bg-[var(--color-brand)]/10 text-[var(--color-brand)] text-sm font-medium"
+								className="px-3 py-1 rounded-full bg-brand/10 text-[var(--color-brand)] text-sm font-medium"
 							>
 								{fw.toUpperCase()}
 							</span>

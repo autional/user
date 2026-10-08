@@ -460,7 +460,7 @@ export default function SecurityPage() {
 			<div className="grid gap-4 sm:grid-cols-2">
 				<Link
 					to={buildNavHref(ROUTES.roleActivations, tenantSlug)}
-					className="flex items-center gap-4 rounded-lg border border-neutral-200 bg-white p-4 shadow-sm hover:shadow-md hover:border-neutral-300 transition-all"
+					className="flex items-center gap-4 rounded-lg border border-neutral-200 bg-white p-4 shadow-card hover:border-neutral-300 transition-all"
 				>
 					<div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-primary-50 text-primary-700">
 						<KeyRound size={20} />
@@ -473,7 +473,7 @@ export default function SecurityPage() {
 				</Link>
 				<Link
 					to={buildNavHref(ROUTES.linkedAccounts, tenantSlug)}
-					className="flex items-center gap-4 rounded-lg border border-neutral-200 bg-white p-4 shadow-sm hover:shadow-md hover:border-neutral-300 transition-all"
+					className="flex items-center gap-4 rounded-lg border border-neutral-200 bg-white p-4 shadow-card hover:border-neutral-300 transition-all"
 				>
 					<div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-primary-50 text-primary-700">
 						<ExternalLink size={20} />
@@ -560,7 +560,7 @@ export default function SecurityPage() {
 									{[1, 2, 3, 4, 5].map((i) => (
 										<div
 											key={i}
-											className={`h-1 flex-1 rounded ${i <= strength.score ? strength.color : 'bg-neutral-200'}`}
+											className={`h-1 flex-1 rounded-xs ${i <= strength.score ? strength.color : 'bg-neutral-200'}`}
 										/>
 									))}
 								</div>
@@ -858,7 +858,7 @@ export default function SecurityPage() {
 			</Modal>
 
 			{/* Account Deletion */}
-			<div className="rounded-lg border border-danger/30 bg-danger/5 p-6 shadow-sm">
+			<div className="rounded-lg border border-danger/30 bg-danger/5 p-6 shadow-card">
 				<div className="flex items-start gap-3">
 					<div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-danger/10 text-danger">
 						<AlertTriangle size={20} />
@@ -986,7 +986,7 @@ export default function SecurityPage() {
 								{backupCodes.map((code, idx) => (
 									<code
 										key={idx}
-										className="rounded bg-white px-2 py-1 text-center text-sm font-mono text-neutral-800 border border-amber-100"
+										className="rounded-xs bg-white px-2 py-1 text-center text-sm font-mono text-neutral-800 border border-amber-100"
 									>
 										{code}
 									</code>

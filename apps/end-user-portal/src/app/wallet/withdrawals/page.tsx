@@ -61,7 +61,20 @@ export default function WithdrawalsPage() {
 
 	const [page, setPage] = useState(1);
 	const [statusFilter, setStatusFilter] = useState<string>('all');
-	const { data: txs } = useWalletTransactions(userId, { page, pageSize: 20 }, !!userId);
+	// 第 63 轮（L8）：筛选**下推服务端**。此前这里只取一页、再在本页上 filter 状态，
+	// 而分页的 total 是服务端全量 —— 于是「筛了状态」之后行数变少、页数不变，翻页翻出空页。
+	// type 同样下推：'withdraw' 是**规范值**（见 wallet 页的 txTypes 映射：deposit/withdraw/
+	// transfer/transfer_in/transfer_out），旧代码里那个 `|| 'withdrawal'` 的兜底没有依据。
+	const { data: txs } = useWalletTransactions(
+		userId,
+		{
+			page,
+			pageSize: 20,
+			type: 'withdraw',
+			status: statusFilter === 'all' ? undefined : statusFilter,
+		},
+		!!userId,
+	);
 
 	const {
 		register,
@@ -140,13 +153,8 @@ export default function WithdrawalsPage() {
 		balance?.availableBalance ?? balance?.available ?? balance?.balance ?? '0',
 	);
 
-	const withdrawalTxs = (txs?.items ?? []).filter((tx) => {
-		if (tx.type === 'withdraw' || tx.type === 'withdrawal') {
-			if (statusFilter === 'all') return true;
-			return tx.status === statusFilter;
-		}
-		return false;
-	});
+	// 服务端已经按 type/status 筛过，这里直接渲染这一页 —— 行数与 total 同源，不再是两种口径。
+	const withdrawalTxs = txs?.items ?? [];
 
 	// 列定义：只描述**这一页有哪些列**；表头 / 悬浮态 / 边框 / 行高 / 分页外观
 	// 由设计系统下发的组件级令牌决定 —— 四个门户吃的是同一份令牌。

@@ -1,4 +1,5 @@
 {
+  "app.brand": "Autional",
   "common": {
     "loading": "Loading...",
     "loadingData": "Loading data...",
@@ -2167,7 +2168,6 @@
   "activity.table.action": "Action",
   "activity.table.ip": "IP",
   "activity.table.device": "Device",
-  "activity.table.location": "Location",
   "activity.table.result": "Result",
   "activity.status.success": "Success",
   "activity.status.failed": "Failed",

@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next';
 import { useAuth, extractApiErrorMessage, extractList, apiClient } from '@autional/shared';
 import * as Generated from '@autional/shared/generated/api';
 import type { FileMetadataResponse, FolderMetadataResponse } from '@autional/shared/generated/types';
-import { SectionCard, AppPageHeader, LoadingScreen, ErrorState, EmptyState, Modal } from '@autional/ui';
+import { SectionCard, AppPageHeader, LoadingScreen, ErrorState, EmptyState, Modal, Input } from '@autional/ui';
 import { useToast } from '@/hooks/use-toast';
 import { isNotFoundError } from '@/lib/api-error';
 import {
@@ -325,14 +325,16 @@ export default function StoragePage() {
 
 			{/* Toolbar */}
 			<div className="flex items-center gap-2 flex-wrap">
-				<div className="relative flex-1 min-w-[200px] max-w-sm">
-					<Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-neutral-500" />
-					<input
+				{/* 图标几何交给设计系统的 Input prefix 槽（第 61 轮）—— 原来这里手写着
+				    absolute 图标 + 算出来的 pl-9（= 12 起点 + 16 图标 + 8 间隙）。 */}
+				<div className="flex-1 min-w-[200px] max-w-sm">
+					<Input
 						type="text"
+						size="sm"
 						placeholder={t('storage.search')}
 						value={searchQuery}
 						onChange={(e) => setSearchQuery(e.target.value)}
-						className="w-full pl-9 pr-3 py-2 border rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-brand)]"
+						prefix={<Search size={16} />}
 					/>
 				</div>
 				{folderStack.length > 0 && (
@@ -362,7 +364,7 @@ export default function StoragePage() {
 				</button>
 				<button
 					onClick={() => fileInputRef.current?.click()}
-					className="flex items-center gap-1.5 px-3 py-2 bg-[var(--color-brand)] text-white rounded-md text-sm hover:bg-[var(--color-brand)]/90"
+					className="flex items-center gap-1.5 px-3 py-2 bg-[var(--color-brand)] text-white rounded-md text-sm hover:bg-brand/90"
 				>
 					<Upload size={16} />
 					<span className="hidden sm:inline">{t('storage.upload')}</span>
@@ -382,7 +384,7 @@ export default function StoragePage() {
 						return (
 							<div
 								key={id}
-								className="bg-white rounded-lg border p-4 hover:shadow-md transition-shadow cursor-pointer relative group"
+								className="bg-white rounded-lg border p-4 transition-colors cursor-pointer relative group hover:border-neutral-300"
 								onDoubleClick={() =>
 									entry._type === 'folder' && id && navigateTo(id, entry.name || '')
 								}
@@ -413,7 +415,7 @@ export default function StoragePage() {
 											e.stopPropagation();
 											setContextMenu(contextMenu?.entry === entry ? null : { entry, x: 0, y: 0 });
 										}}
-										className="p-1 rounded hover:bg-neutral-200"
+										className="p-1 rounded-xs hover:bg-neutral-200"
 									>
 										<MoreVertical size={14} />
 									</button>
@@ -421,7 +423,7 @@ export default function StoragePage() {
 								{/* Context Menu */}
 								{contextMenu?.entry === entry && (
 									<div
-										className="absolute top-8 right-2 z-50 bg-white border rounded-lg shadow-lg py-1 min-w-[140px]"
+										className="absolute top-8 right-2 z-50 bg-white border rounded-lg shadow-brand py-1 min-w-[140px]"
 										onClick={(e) => e.stopPropagation()}
 									>
 										{entry._type === 'file' && (

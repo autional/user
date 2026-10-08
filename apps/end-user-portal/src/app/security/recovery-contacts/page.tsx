@@ -147,7 +147,7 @@ export default function RecoveryContactsPage() {
 					{contacts.map((contact) => (
 						<div
 							key={contact.id}
-							className="flex items-center justify-between rounded-lg border border-neutral-200 bg-white p-4 shadow-sm"
+							className="flex items-center justify-between rounded-lg border border-neutral-200 bg-white p-4 shadow-card"
 						>
 							<div className="flex items-center gap-3">
 								<div className="flex h-9 w-9 items-center justify-center rounded-md bg-neutral-100 text-neutral-600">

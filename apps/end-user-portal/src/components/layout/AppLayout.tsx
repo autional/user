@@ -218,14 +218,21 @@ export default function AppLayout() {
 			{/* UP-09：skip link —— 键盘/读屏用户跳过侧栏直达主内容（全站首个可聚焦元素，聚焦时可见）。 */}
 			<a
 				href="#main-content"
-				className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-md focus:bg-white focus:px-4 focus:py-2 focus:text-sm focus:font-medium focus:text-primary-700 focus:shadow-lg focus:outline-none focus:ring-2 focus:ring-primary-500 dark:focus:bg-neutral-800 dark:focus:text-primary-400"
+				className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-md focus:bg-white focus:px-4 focus:py-2 focus:text-sm focus:font-medium focus:text-primary-700 focus:shadow-card focus:outline-none focus:ring-2 focus:ring-primary-500 dark:focus:bg-neutral-800 dark:focus:text-primary-400"
 			>
 				{t('nav.skipToContent')}
 			</a>
+			{/*
+			 * L16 顺带查出：brand 槽是侧栏顶部的**产品名**，这里却填了 t('dashboard.title')（=「总览」）
+			 * —— 于是全站每个页面的侧栏都写着「总览」。按舰队口径改成 app.brand
+			 * （admin 用 'Autional'，platform 用 'Autional 平台管理'）。
+			 * 注意：JSX **属性位置**不能放表达式容器注释（只有子节点位置合法）——
+			 * 第一版就把它塞在 brand= 上方，eslint 直接 Parsing error，被 lint 闸门当场抓住。
+			 */}
 			<AppShell
 			brand={
 				<span className="truncate text-lg font-bold text-primary-700 dark:text-primary-400">
-					{t('dashboard.title')}
+					{t('app.brand')}
 				</span>
 			}
 			sidebarExtra={
@@ -274,7 +281,7 @@ export default function AppLayout() {
 											className={`flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium transition-colors ${
 												isActive
 													? 'bg-primary-50 text-primary-700 dark:bg-primary-900/30 dark:text-primary-400'
-													: 'text-neutral-600 hover:bg-neutral-100 hover:text-neutral-900 dark:text-[var(--color-text-muted)] dark:hover:bg-neutral-700 dark:hover:text-neutral-200'
+													: 'text-neutral-600 hover:bg-neutral-100 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:hover:text-neutral-200'
 											}`}
 										>
 											<item.icon size={18} />
@@ -290,15 +297,20 @@ export default function AppLayout() {
 			headerLeft={
 				<>
 					<button
-						className="lg:hidden text-neutral-500 hover:text-neutral-800 dark:text-[var(--color-text-muted)] dark:hover:text-neutral-200"
+						className="lg:hidden text-neutral-500 hover:text-neutral-800 dark:text-neutral-400 dark:hover:text-neutral-200"
 						onClick={() => setSidebarOpen(true)}
 						aria-label={t('nav.openMenu')}
 					>
 						<Menu size={20} />
 					</button>
-					<h1 className="text-base font-semibold text-neutral-800 dark:text-neutral-200">
-						{t('dashboard.title')}
-					</h1>
+					{/*
+					 * L16：顶栏左侧从「写死的标题」换成面包屑。
+					 * 原来这里恒显 t('dashboard.title')（=「总览」），而全站 30+ 个页面里只有一个是总览
+					 * —— 也就是说每个用户在任何页面看到的都是错的标题。页面的真标题归页面自己
+					 * （AppPageHeader 渲染 h1），外壳只负责**位置感**，而位置感正是面包屑的职责。
+					 * 这也是舰队里另外两个在册门户（admin / platform）早就收敛到的形态：headerLeft=<Breadcrumb />。
+					 */}
+					<Breadcrumb />
 				</>
 			}
 			headerRight={
@@ -307,7 +319,7 @@ export default function AppLayout() {
 
 					<button
 						onClick={() => navigate(navHref(ROUTES.notifications))}
-						className="relative rounded-md p-2 text-neutral-500 hover:bg-neutral-100 hover:text-neutral-700 dark:text-[var(--color-text-muted)] dark:hover:text-neutral-200 transition-colors"
+						className="relative rounded-md p-2 text-neutral-500 hover:bg-neutral-100 hover:text-neutral-700 dark:text-neutral-400 dark:hover:text-neutral-200 transition-colors"
 						title={t('nav.notifications')}
 						aria-label={t('nav.notifications')}
 					>
@@ -321,7 +333,7 @@ export default function AppLayout() {
 
 					<button
 						onClick={() => navigate(navHref(ROUTES.announcements))}
-						className="rounded-md p-2 text-neutral-500 hover:bg-neutral-100 hover:text-neutral-700 dark:text-[var(--color-text-muted)] dark:hover:text-neutral-200 transition-colors"
+						className="rounded-md p-2 text-neutral-500 hover:bg-neutral-100 hover:text-neutral-700 dark:text-neutral-400 dark:hover:text-neutral-200 transition-colors"
 						title={t('nav.announcements')}
 						aria-label={t('nav.announcements')}
 					>
@@ -332,11 +344,11 @@ export default function AppLayout() {
 					{/* 文字档不能停在 neutral-500（#8896a6 对白底 3.02:1，12px 正文要 4.5:1）——
 					   这是 L24 的目标页第一次把真实顶栏渲染进闸门时当场量出来的：图标档 3:1 的门槛
 					   与文字档 4.5:1 的门槛不是一回事，同一个色阶不能两边都用。 */}
-					<LanguageSwitcher className="rounded-md px-2 py-1 text-sm text-neutral-600 hover:bg-neutral-100 hover:text-neutral-700 transition-colors dark:text-[var(--color-text-muted)] dark:hover:text-neutral-200" />
+					<LanguageSwitcher className="rounded-md px-2 py-1 text-sm text-neutral-600 hover:bg-neutral-100 hover:text-neutral-700 transition-colors dark:text-neutral-400 dark:hover:text-neutral-200" />
 
 					{/* Theme toggle */}
 					<ThemeToggle
-						className="text-neutral-500 hover:bg-neutral-100 hover:text-neutral-800 dark:text-[var(--color-text-muted)] dark:hover:bg-neutral-700 dark:hover:text-neutral-200"
+						className="text-neutral-500 hover:bg-neutral-100 hover:text-neutral-800 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:hover:text-neutral-200"
 						iconSize={18}
 					/>
 
@@ -358,7 +370,6 @@ export default function AppLayout() {
 			onMobileClose={() => setSidebarOpen(false)}
 			closeLabel={t('nav.closeMenu')}
 		>
-			<Breadcrumb />
 			{/* UP-09：skip link 落点 —— tabIndex=-1 使程序化/锚点聚焦可落于容器；outline-none 防聚焦描边闪现在整块内容上。 */}
 			<div id="main-content" tabIndex={-1} className="outline-none">
 				<Outlet />

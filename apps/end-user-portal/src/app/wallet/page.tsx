@@ -28,7 +28,7 @@ import {
 	TrendingUp,
 	TrendingDown,
 	Ticket,
-	ArrowRightLeft,
+	ArrowLeftRight,
 } from 'lucide-react';
 
 export default function WalletPage() {
@@ -273,7 +273,7 @@ export default function WalletPage() {
 					<StatBox
 						label={t('wallet.transactionCount')}
 						value={stats.transactionCount?.toLocaleString()}
-						icon={<ArrowRightLeft className="w-4 h-4 text-info" />}
+						icon={<ArrowLeftRight className="w-4 h-4 text-info" />}
 					/>
 					<StatBox
 						label={t('wallet.totalDeposits')}
@@ -338,7 +338,7 @@ export default function WalletPage() {
 						<button
 							onClick={handleRedeem}
 							disabled={!couponCode.trim() || redeemQ.isPending}
-							className="px-4 py-2 bg-[var(--color-brand)] text-white rounded-md text-sm font-medium disabled:opacity-50 hover:bg-[var(--color-brand)]/90 transition-colors"
+							className="px-4 py-2 bg-[var(--color-brand)] text-white rounded-md text-sm font-medium disabled:opacity-50 hover:bg-brand/90 transition-colors"
 						>
 							{redeemQ.isPending ? t('wallet.redeeming') : t('wallet.redeem')}
 						</button>
@@ -391,7 +391,7 @@ export default function WalletPage() {
 									</div>
 									<span
 										className={cn(
-											'text-xs px-2 py-0.5 rounded',
+											'text-xs px-2 py-0.5 rounded-xs',
 											c.status === 'unused'
 												? 'bg-success-soft text-success'
 												: c.status === 'used'

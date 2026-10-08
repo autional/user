@@ -182,7 +182,7 @@ export default function CommunicationHistoryPage() {
 								setChannelFilter(ch);
 								setPage(1);
 							}}
-							className={`rounded px-3 py-1 text-sm font-medium transition-colors ${
+							className={`rounded-xs px-3 py-1 text-sm font-medium transition-colors ${
 								channelFilter === ch
 									? 'bg-primary-100 text-primary-700'
 									: 'text-neutral-600 hover:bg-neutral-100 hover:text-neutral-900'

@@ -77,23 +77,32 @@ async function getWalletTransactions(
 	userId: string,
 	page: number,
 	pageSize: number,
+	filters?: { type?: string; status?: string },
 ): Promise<WalletTransactionList> {
 	return walletsTransactionsByWallets(userId, {
 		page,
 		page_size: pageSize,
+		// 筛选**下推服务端**（第 63 轮，L8）：接口签名里一直有 type / status / start_date / end_date
+		// （见 @autional/shared/generated/api 的 walletsTransactionsByWallets），只是没人传 ——
+		// 于是页面在本页数据上做客户端 filter，而分页的 total 来自服务端全量：
+		// 一筛状态就「行数变少、页数不变」，翻到后面是空页。筛选一下推，两者同源。
+		...(filters?.type ? { type: filters.type } : {}),
+		...(filters?.status ? { status: filters.status } : {}),
 	}) as Promise<WalletTransactionList>;
 }
 
 export function useWalletTransactions(
 	userId: string,
-	params?: { page?: number; pageSize?: number },
+	params?: { page?: number; pageSize?: number; type?: string; status?: string },
 	enabled?: boolean,
 ) {
 	const p = params?.page ?? 1;
 	const ps = params?.pageSize ?? 20;
+	const type = params?.type;
+	const status = params?.status;
 	return useQuery<WalletTransactionList, Error>({
-		queryKey: queryKeys.walletTransactions(userId, p, ps),
-		queryFn: () => getWalletTransactions(userId || '', p, ps),
+		queryKey: queryKeys.walletTransactions(userId, p, ps, { type, status }),
+		queryFn: () => getWalletTransactions(userId || '', p, ps, { type, status }),
 		enabled: enabled ?? !!userId,
 		retry: 1,
 	});

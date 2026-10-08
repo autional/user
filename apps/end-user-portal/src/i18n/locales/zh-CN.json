@@ -1,4 +1,5 @@
 {
+  "app.brand": "Autional",
   "common": {
     "loading": "加载中...",
     "loadingData": "加载数据中...",
@@ -2167,7 +2168,6 @@
   "activity.table.action": "操作",
   "activity.table.ip": "IP",
   "activity.table.device": "设备",
-  "activity.table.location": "位置",
   "activity.table.result": "结果",
   "activity.status.success": "成功",
   "activity.status.failed": "失败",

@@ -212,7 +212,7 @@ export default function DashboardPage() {
 						<Link
 							key={item.to}
 							to={item.to}
-							className="group flex items-start gap-4 rounded-lg border border-neutral-200 bg-white p-5 shadow-sm transition hover:shadow-md hover:border-neutral-300"
+							className="group flex items-start gap-4 rounded-lg border border-neutral-200 bg-white p-5 shadow-card transition hover:border-neutral-300"
 						>
 							<div
 								className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-md ${item.color}`}
@@ -233,12 +233,12 @@ export default function DashboardPage() {
 			{/* Tips */}
 			{isStatsLoading ? (
 				<div className="rounded-lg border border-neutral-200 bg-white p-6 animate-pulse">
-					<div className="h-6 w-1/3 rounded bg-neutral-200" />
+					<div className="h-6 w-1/3 rounded-xs bg-neutral-200" />
 					<div className="mt-4 space-y-3">
-						<div className="h-4 w-2/3 rounded bg-neutral-100" />
-						<div className="h-4 w-3/4 rounded bg-neutral-100" />
-						<div className="h-4 w-1/2 rounded bg-neutral-100" />
-						<div className="h-4 w-5/6 rounded bg-neutral-100" />
+						<div className="h-4 w-2/3 rounded-xs bg-neutral-100" />
+						<div className="h-4 w-3/4 rounded-xs bg-neutral-100" />
+						<div className="h-4 w-1/2 rounded-xs bg-neutral-100" />
+						<div className="h-4 w-5/6 rounded-xs bg-neutral-100" />
 					</div>
 				</div>
 			) : (

@@ -95,7 +95,7 @@ export default function DeleteAccountPage() {
 				description={t('security.deleteAccount.pageSubtitle')}
 			/>
 
-			<div className="rounded-lg border border-danger-soft bg-white p-6 shadow-sm">
+			<div className="rounded-lg border border-danger-soft bg-white p-6 shadow-card">
 				<div className="flex items-start gap-4">
 					<div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-danger-soft text-danger-text">
 						<ShieldOff size={24} />
