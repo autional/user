@@ -5,7 +5,7 @@
  * 值为 React Router 内部路径（不含 basename / tenantSlug 前缀）。
  * AppLayout 组装导航链接时用 buildNavPath() 统一拼接 tenantSlug。
  *
- * 2026-10-03：路由统一为干净资源形态，淘汰原 AuthMS 单仓遗留的一批
+ * 2026-10-03：路由统一为干净资源形态，淘汰旧版单仓遗留的一批
  * /xxx/api/v1/xxx 形态前端路径（如 /session/api/v1/sessions → /sessions）。
  * 旧路径在 App.tsx 以 LegacyRedirect 全量保留（保 query/hash），书签、跨站深链、
  * 登录回跳不受影响；对应首段仍登记在 non-tenant-segments.ts。

@@ -154,7 +154,7 @@ function appRoutes() {
 			<Route path="communication/push-tokens" element={<PushTokensPage />} />
 			<Route path="announcements" element={<AnnouncementsPage />} />
 
-			{/* 旧路径（原 AuthMS 的 /xxx/api/v1/xxx 形态）全量重定向，勿删：书签、跨站深链、
+			{/* 旧路径（旧版 /xxx/api/v1/xxx 形态）全量重定向，勿删：书签、跨站深链、
 			    登录回跳都指向它们。发送消息页已移除，其旧路径回落通信记录（发送能力属平台/
 			    开发者面，演示职能由 comm-demo 服务演示台承载）。首段名单需同步
 			    non-tenant-segments.ts（ui 仓 scripts/check-non-tenant.mjs 有闸门比对）。 */}
