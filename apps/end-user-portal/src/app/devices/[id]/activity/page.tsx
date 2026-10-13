@@ -9,56 +9,11 @@ import {
 	Activity,
 	ArrowLeft,
 	History,
-	Wifi,
-	WifiOff,
 	Shield,
 	Key,
 	RefreshCw,
 } from 'lucide-react';
 import { AppPageHeader, LoadingScreen, ErrorState, SectionCard } from '@autional/ui';
-
-const mockEvents = [
-	{
-		id: '1',
-		type: 'online',
-		label: 'devices.activity.events.online',
-		icon: Wifi,
-		iconColor: 'text-success',
-		time: '2026-06-09T10:30:00Z',
-	},
-	{
-		id: '2',
-		type: 'offline',
-		label: 'devices.activity.events.offline',
-		icon: WifiOff,
-		iconColor: 'text-neutral-600',
-		time: '2026-06-09T08:15:00Z',
-	},
-	{
-		id: '3',
-		type: 'firmware',
-		label: 'devices.activity.events.firmware',
-		icon: RefreshCw,
-		iconColor: 'text-primary-500',
-		time: '2026-06-08T22:00:00Z',
-	},
-	{
-		id: '4',
-		type: 'cert_rotated',
-		label: 'devices.activity.events.certRotated',
-		icon: Key,
-		iconColor: 'text-amber-500',
-		time: '2026-06-07T14:00:00Z',
-	},
-	{
-		id: '5',
-		type: 'policy_change',
-		label: 'devices.activity.events.policyChange',
-		icon: Shield,
-		iconColor: 'text-info',
-		time: '2026-06-06T09:00:00Z',
-	},
-];
 
 function formatTime(iso: string, t: (k: string) => string): string {
 	try {
