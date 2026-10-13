@@ -279,10 +279,7 @@ export default function PushTokensPage() {
 			<ConfirmDialog
 				open={deleteTarget !== null}
 				title={t('communication.pushTokens.confirmDeleteTitle', '删除推送令牌')}
-				description={t(
-					'communication.pushTokens.confirmDeleteDesc',
-					'删除后该设备将不再接收推送通知，需要重新注册令牌才能恢复。',
-				)}
+				description={t('communication.pushTokens.confirmDeleteDesc')}
 				variant="danger"
 				confirmText={t('communication.pushTokens.delete', '删除')}
 				onConfirm={handleDeleteConfirm}

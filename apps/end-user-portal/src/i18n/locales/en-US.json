@@ -1729,6 +1729,7 @@
   "security.oauth.facebookDesc": "Link your Facebook account",
   "security.oauth.microsoftDesc": "Link your Microsoft account",
   "security.oauth.linkedinDesc": "Link your LinkedIn account",
+  "security.oauth.bindDesc": "Link your {{name}} account",
   "security.oauth.bindPrompt": "Select a third-party account to link:",
   "security.oauth.linkedAt": "Linked at",
   "security.passwordMinLength": "At least 8 characters",

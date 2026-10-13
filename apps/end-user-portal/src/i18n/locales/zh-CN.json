@@ -1729,6 +1729,7 @@
   "security.oauth.facebookDesc": "绑定 Facebook 账号",
   "security.oauth.microsoftDesc": "绑定 Microsoft 账号",
   "security.oauth.linkedinDesc": "绑定 LinkedIn 账号",
+  "security.oauth.bindDesc": "绑定 {{name}} 账号",
   "security.oauth.bindPrompt": "选择要绑定的第三方账号：",
   "security.oauth.linkedAt": "绑定于",
   "security.passwordMinLength": "至少8个字符",
