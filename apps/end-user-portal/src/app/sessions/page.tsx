@@ -104,12 +104,7 @@ export default function SessionsPage() {
 			// 操作已在 mutationFn 中止（否则会把当前会话一并删除），此处给出可读提示。
 			if (err?.message === CURRENT_SESSION_UNRESOLVABLE) {
 				setRevokeAllOpen(false);
-				toast.error(
-					t(
-						'sessions.revokeAllUnresolvable',
-						'无法识别当前会话，已中止操作以保护您的登录。请刷新页面后重试。',
-					),
-				);
+				toast.error(t('sessions.revokeAllUnresolvable'));
 				return;
 			}
 			toast.error(extractApiError(err, t('common.error')).message);
@@ -315,10 +310,7 @@ export default function SessionsPage() {
 			<ConfirmDialog
 				open={revokeTarget !== null}
 				title={t('sessions.revokeConfirmTitle', '注销该会话')}
-				description={t(
-					'sessions.revokeConfirmDesc',
-					'该设备将被退出登录，需要重新认证才能访问账户。',
-				)}
+				description={t('sessions.revokeConfirmDesc')}
 				variant="danger"
 				confirmText={t('sessions.revoke', '注销')}
 				onConfirm={handleRevokeConfirm}
@@ -327,10 +319,7 @@ export default function SessionsPage() {
 			<ConfirmDialog
 				open={revokeAllOpen}
 				title={t('sessions.revokeAllConfirmTitle', '注销所有其他会话')}
-				description={t(
-					'sessions.revokeAllConfirm',
-					'确定要注销所有其他设备的会话吗？当前会话不受影响。',
-				)}
+				description={t('sessions.revokeAllConfirm')}
 				variant="danger"
 				confirmText={t('sessions.revokeAll', '注销其他设备')}
 				onConfirm={handleRevokeAllConfirm}

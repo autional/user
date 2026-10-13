@@ -121,10 +121,7 @@ export default function WithdrawalsPage() {
 				<div className="max-w-4xl mx-auto px-4 py-8 space-y-4">
 					<EmptyState
 						title={t('wallet.empty', '暂无钱包数据')}
-						description={t(
-							'wallet.withdrawals.emptyDesc',
-							'当前账户尚未开通钱包，开通后即可申请提现',
-						)}
+						description={t('wallet.withdrawals.emptyDesc')}
 					/>
 					<div className="flex justify-center">
 						<button

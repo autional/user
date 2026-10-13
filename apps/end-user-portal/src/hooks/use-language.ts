@@ -4,7 +4,7 @@ import i18n from '@/i18n';
 export type SupportedLanguage = 'zh-CN' | 'en-US';
 
 const LANGUAGE_LABELS: Record<SupportedLanguage, string> = {
-	'zh-CN': '简体中文',
+	'zh-CN': '简体中文', // i18n-exempt: 语言切换器显示语言本名（endonym），不随当前语言翻译
 	'en-US': 'English',
 };
 

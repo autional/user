@@ -848,7 +848,7 @@ export default function SecurityPage() {
 								<div>
 									<p className="text-sm font-medium text-neutral-900">{p.name}</p>
 									<p className="text-xs text-neutral-600">
-										{t(`security.oauth.${p.id}Desc`, `绑定 ${p.name} 账号`)}
+										{t(`security.oauth.${p.id}Desc`, t('security.oauth.bindDesc', { name: p.name }))}
 									</p>
 								</div>
 							</button>
@@ -867,12 +867,7 @@ export default function SecurityPage() {
 						<h3 className="font-semibold text-neutral-900">
 							{t('security.deleteAccountTitle', '删除账户')}
 						</h3>
-						<p className="mt-1 text-sm text-neutral-600">
-							{t(
-								'security.deleteAccountDesc',
-								'此操作将永久删除您的账户及所有相关数据。根据GDPR规定，您的数据将在30天内被永久删除。此操作不可撤销。',
-							)}
-						</p>
+						<p className="mt-1 text-sm text-neutral-600">{t('security.deleteAccountDesc')}</p>
 						{/* UP-18：原有就地弹窗把确认文本当密码提交（假成功/死路），收敛到 /security/delete-account 单一路径 */}
 						<Link
 							to={buildNavHref(ROUTES.deleteAccount, tenantSlug)}

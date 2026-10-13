@@ -173,10 +173,7 @@ export default function ExportDataPage() {
 			<ConfirmDialog
 				open={confirmOpen}
 				title={t('privacy.exportData.confirmTitle', '确认导出个人数据')}
-				description={t(
-					'privacy.exportData.confirmDesc',
-					'将生成包含您个人数据的 JSON 文件并开始下载。请确认由您本人操作。',
-				)}
+				description={t('privacy.exportData.confirmDesc')}
 				variant="neutral"
 				confirmText={t('privacy.exportData.confirmAction', '开始导出')}
 				onConfirm={() => {

@@ -80,7 +80,7 @@ export default function App() {
 	return (
 		<ErrorBoundary devMode={import.meta.env.DEV}>
 			<BrandingInitializer />
-			<Suspense fallback={<LoadingScreen message="加载中…" />}>
+			<Suspense fallback={<LoadingScreen />}>
 				<Routes>
 					<Route path="/oauth/callback" element={<OAuthCallbackPage />} />
 
@@ -92,7 +92,7 @@ export default function App() {
 						element={
 							/* notFound：确定性未知 slug（by-slug 404）原地渲染 404，不发弹跳（F-W6） */
 							<RequireAuth notFound={<NotFoundPage />}>
-								<Suspense fallback={<LoadingScreen message="加载中…" />}>
+								<Suspense fallback={<LoadingScreen />}>
 									<LayoutWrapper />
 								</Suspense>
 							</RequireAuth>
