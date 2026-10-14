@@ -88,7 +88,8 @@ export function isEmptyStateError(error: unknown): boolean {
 	return code !== undefined && EMPTY_STATE_CODES.has(code);
 }
 
-/** HTTP 404：按标识寻址的资源不存在。是否属于「空态」另由 `isUnprovisionedError` 判定。 */
+/** HTTP 404：按标识寻址的资源不存在（absence=entity）。注：`isUnprovisionedError` 现**无生产调用者**
+ *  （台账清空 ⇒ UNPROVISIONED_CODES 为空集）；保留为契约派生的安全网 + 回归锁，不再有任何页面分支依赖它。 */
 export function isNotFoundError(err: unknown): boolean {
 	return getHttpStatus(err) === 404;
 }

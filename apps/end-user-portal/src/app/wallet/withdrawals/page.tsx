@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useAuth } from '@autional/shared';
-import { Alert, SectionCard, AppPageHeader, LoadingScreen, ErrorState, EmptyState, StatusBadge } from '@autional/ui';
+import { Alert, SectionCard, AppPageHeader, LoadingScreen, ErrorState, StatusBadge } from '@autional/ui';
 import type { StatusVariant } from '@autional/ui';
 import { DataTable } from '@autional/ui/antd';
 import type { DataTableColumns } from '@autional/ui/antd';
@@ -15,11 +15,10 @@ import {
 	useWalletBalance,
 	useWithdrawWallet,
 	useWalletTransactions,
-	useCreateWallet,
+
 } from '@/hooks/queries';
 import type { WalletTransactionItem } from '@/hooks/queries';
 import { withdrawalSchema, type WithdrawalFormData } from '@/lib/validators';
-import { isUnprovisionedError } from '@/lib/error-semantics';
 
 const WITHDRAWAL_STATUSES = ['all', 'pending', 'approved', 'rejected', 'completed'] as const;
 
@@ -44,7 +43,6 @@ export default function WithdrawalsPage() {
 	} = useWalletBalance();
 	const withdrawMutation = useWithdrawWallet();
 	// 开通钱包：成功后 hook 失效钱包查询 → useWalletBalance 自动重拉，提现表单可达。
-	const createWallet = useCreateWallet();
 
 	const channels = [
 		{
@@ -115,29 +113,6 @@ export default function WithdrawalsPage() {
 	if (balanceLoading) return <LoadingScreen message={t('wallet.loadingBalance', '正在加载钱包余额…')} />;
 
 	if (balanceError) {
-		// 404 细分：仅 61060101 走「空态 + 开通钱包 CTA」；其他 404/错误保持错误态。
-		if (isUnprovisionedError(balanceError)) {
-			return (
-				<div className="max-w-4xl mx-auto px-4 py-8 space-y-4">
-					<EmptyState
-						title={t('wallet.empty', '暂无钱包数据')}
-						description={t('wallet.withdrawals.emptyDesc')}
-					/>
-					<div className="flex justify-center">
-						<button
-							type="button"
-							onClick={() => userId && createWallet.mutate({ userId })}
-							disabled={!userId || createWallet.isPending}
-							className="rounded-lg bg-[var(--color-brand)] px-6 py-3 font-semibold text-white hover:bg-primary-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-						>
-							{createWallet.isPending
-								? t('wallet.creatingWallet', '正在开通…')
-								: t('wallet.createWallet', '开通钱包')}
-						</button>
-					</div>
-				</div>
-			);
-		}
 		return (
 			<ErrorState
 				message={t('wallet.loadBalanceError', '钱包余额加载失败')}
