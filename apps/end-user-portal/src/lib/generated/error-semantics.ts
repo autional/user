@@ -1,7 +1,7 @@
 // GENERATED FILE — DO NOT EDIT.
 // Source: contracts/errors.semantics.json（镜像自 service-core base/error/testdata/errors.semantics.json）
 // Regenerate: pnpm gen:errors · Verify: pnpm gen:errors:check
-// rows: 784 · source sha256: 507d2fca00ed4c19502ae4c104135b980f8184caa87786470a15666f8ac934dd
+// rows: 784 · source sha256: 9d413b41bd1ccd7eed70df2602f5ddec5ed7afc0902a1bab86586b68bda367ce
 //
 // 单一真源链：service-core/base/error/semantics.go（Go）→ errors.semantics.json → 本文件。
 // ⚠️ 禁止在本文件或页面里手抄错误码分支：请消费 ERROR_SEMANTICS / UNPROVISIONED_CODES。
@@ -593,7 +593,7 @@ export const ERROR_SEMANTICS: Readonly<Record<number, ErrorSemantics>> = {
 	61070003: { code: 61070003, httpStatus: 403, class: 'forbidden', absence: '', uiObservation: 'forbidden', retryable: false, docsPath: '/errors/61070003' },
 	61070004: { code: 61070004, httpStatus: 404, class: 'not_found', absence: 'entity', uiObservation: 'not_found_page', retryable: false, docsPath: '/errors/61070004' },
 	61070005: { code: 61070005, httpStatus: 500, class: 'internal', absence: '', uiObservation: 'unexpected', retryable: false, docsPath: '/errors/61070005' },
-	61070010: { code: 61070010, httpStatus: 404, class: 'not_found', absence: 'unprovisioned', uiObservation: 'empty_state', retryable: false, docsPath: '/errors/61070010' },
+	61070010: { code: 61070010, httpStatus: 404, class: 'not_found', absence: 'entity', uiObservation: 'not_found_page', retryable: false, docsPath: '/errors/61070010' },
 	61070011: { code: 61070011, httpStatus: 409, class: 'conflict', absence: '', uiObservation: 'conflict', retryable: false, docsPath: '/errors/61070011' },
 	61070012: { code: 61070012, httpStatus: 404, class: 'not_found', absence: 'entity', uiObservation: 'not_found_page', retryable: false, docsPath: '/errors/61070012' },
 	61070013: { code: 61070013, httpStatus: 410, class: 'gone', absence: '', uiObservation: 'not_found_page', retryable: false, docsPath: '/errors/61070013' },
@@ -833,12 +833,12 @@ export const ERROR_SEMANTICS: Readonly<Record<number, ErrorSemantics>> = {
  * 「未开通」码：用户级单例尚未初始化。**不是错误** —— 必须渲染空态（可带开通 CTA），不得当失败。
  * 目标态：后端改为 200 + status 后，本集合应随契约自动缩小至空。
  */
-export const UNPROVISIONED_CODES: ReadonlySet<number> = new Set([61070010]);
+export const UNPROVISIONED_CODES: ReadonlySet<number> = new Set([]);
 
 /** 客户端应渲染空态的码（当前等同于未开通集合，随契约演进）。 */
-export const EMPTY_STATE_CODES: ReadonlySet<number> = new Set([61070010]);
+export const EMPTY_STATE_CODES: ReadonlySet<number> = new Set([]);
 
 export const ERROR_SEMANTICS_META = {
 	rowCount: 784,
-	sourceSha256: '507d2fca00ed4c19502ae4c104135b980f8184caa87786470a15666f8ac934dd',
+	sourceSha256: '9d413b41bd1ccd7eed70df2602f5ddec5ed7afc0902a1bab86586b68bda367ce',
 } as const;

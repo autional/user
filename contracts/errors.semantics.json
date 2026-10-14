@@ -4502,8 +4502,8 @@
     "code": 61070010,
     "http_status": 404,
     "class": "not_found",
-    "absence": "unprovisioned",
-    "ui_observation": "empty_state",
+    "absence": "entity",
+    "ui_observation": "not_found_page",
     "retryable": false,
     "docs_path": "/errors/61070010"
   },
