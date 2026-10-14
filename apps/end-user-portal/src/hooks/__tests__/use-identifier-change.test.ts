@@ -19,6 +19,11 @@ describe('isReauthRequiredError (AC-010)', () => {
 		expect(isReauthRequiredError(err)).toBe(true);
 	});
 
+	it('非纯数字包装串（如 "errors/61002201"）**不再**按重认证处理（契约要求纯数字码；收紧登记）', () => {
+		const err = { response: { status: 200, data: { code: 'errors/61002201' } } };
+		expect(isReauthRequiredError(err)).toBe(false);
+	});
+
 	it('包装串 "61002201" → true（String(code).includes 兼容）', () => {
 		const err = { response: { status: 403, data: { code: '61002201' } } };
 		expect(isReauthRequiredError(err)).toBe(true);
