@@ -1,6 +1,16 @@
 /**
  * 错误语义消费层（页面唯一入口）。
  *
+ * ⚠️ 临时桥（带移除触发条件，非隐性债）：
+ *   本文件的「码 → 语义」目录与判定应当**居住在 `@autional/shared`**（该包的
+ *   `utils/query-state.ts` 已是状态单一真源，同族目录放一起才是单一出处）。
+ *   现状：`@autional/shared` 为**已发布 npm 包**，加导出需发版 + 各站升版，
+ *   故先在站内落地以保证修复不被发布节奏阻塞。
+ *   移除触发条件：`@autional/shared` 发布含 `error-semantics`（目录 + shouldRetry +
+ *   isUnprovisionedError）的版本后，本文件**删除**，各站点改为从包导入；
+ *   生成器 `scripts/gen-error-semantics.mjs` 与 `contracts/` 随之下沉到 ui 仓。
+ *   到期检查：升级 `@autional/shared` 时若发现包内已有该导出 → 立即执行移除。
+ *
  * 两个真源，各司其职、**不重复**：
  *  1) `@autional/shared/utils/query-state`（RC-B4-01 / ADR-B4-01）= **状态**单一真源：
  *     error / 空 / 无权 / 可重试（按 HTTP 状态判定）。
