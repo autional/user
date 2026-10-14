@@ -54,7 +54,6 @@ export function useCommunicationLogs(params?: {
 	return useQuery<PaginatedList<CommunicationLogItem>, Error>({
 		queryKey: [...commQueryKeys.logs, params],
 		queryFn: () => getCommunicationLogs(params),
-		retry: 1,
 	});
 }
 
@@ -66,7 +65,6 @@ export function useCommunicationPushTokens(params?: {
 	return useQuery<PaginatedList<PushTokenItem>, Error>({
 		queryKey: [...commQueryKeys.pushTokens, params],
 		queryFn: () => getCommunicationPushTokens(params),
-		retry: 1,
 	});
 }
 

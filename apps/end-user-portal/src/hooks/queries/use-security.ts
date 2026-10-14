@@ -44,7 +44,6 @@ export function useSessions(
 			return (res as { items?: SessionInfo[] }).items || [];
 		},
 		enabled: !!userId,
-		retry: 1,
 	});
 }
 
@@ -114,7 +113,6 @@ export function useMFAStatus(): UseQueryResult<MFAStatus, Error> {
 		queryKey: queryKeys.mfa(userId || ''),
 		queryFn: () => getMFAStatus(userId || ''),
 		enabled: !!userId,
-		retry: 1,
 	});
 }
 
@@ -183,7 +181,6 @@ export function usePasskeys(): UseQueryResult<PasskeyCredential[], Error> {
 	return useQuery<PasskeyCredential[], Error>({
 		queryKey: queryKeys.passkeys,
 		queryFn: getPasskeys,
-		retry: 1,
 	});
 }
 
@@ -214,7 +211,6 @@ export function useOAuthConnections(): UseQueryResult<OAuthConnectionItem[], Err
 		queryKey: queryKeys.oauthConnections(userId || ''),
 		queryFn: getOAuthConnections,
 		enabled: !!userId,
-		retry: 1,
 	});
 }
 

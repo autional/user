@@ -8,7 +8,7 @@ import * as Generated from '@autional/shared/generated/api';
 import type { FileMetadataResponse, FolderMetadataResponse } from '@autional/shared/generated/types';
 import { SectionCard, AppPageHeader, LoadingScreen, ErrorState, EmptyState, Modal, Input } from '@autional/ui';
 import { useToast } from '@/hooks/use-toast';
-import { isNotFoundError } from '@/lib/api-error';
+import { isNotFoundError } from '@/lib/error-semantics';
 import {
 	FolderOpen,
 	File,

@@ -48,7 +48,6 @@ export function useProfile(): UseQueryResult<UserProfile, Error> {
 	return useQuery<UserProfile, Error>({
 		queryKey: queryKeys.profile,
 		queryFn: getUserProfile,
-		retry: 1,
 		staleTime: 5 * 60 * 1000,
 	});
 }
@@ -125,7 +124,6 @@ export function usePrivacy(): UseQueryResult<PrivacySettings, Error> {
 		queryKey: [...queryKeys.profile, 'privacy'] as const,
 		queryFn: () => getPrivacy(userId || ''),
 		enabled: !!userId,
-		retry: 1,
 	});
 }
 

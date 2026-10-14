@@ -102,7 +102,6 @@ export default function RoleActivationsPage() {
 		queryKey: ['role-activations', userId],
 		queryFn: fetchRoleActivations,
 		enabled: !!userId,
-		retry: 1,
 	});
 
 	const {
@@ -113,7 +112,6 @@ export default function RoleActivationsPage() {
 	} = useQuery<RoleItem[], Error>({
 		queryKey: ['available-roles'],
 		queryFn: fetchAvailableRoles,
-		retry: 1,
 		staleTime: 5 * 60 * 1000,
 	});
 

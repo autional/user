@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client';
 import { BrowserRouter } from 'react-router';
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { shouldRetry } from '@/lib/error-semantics';
 import { ToastProvider, ThemeProvider } from '@autional/ui';
 // antd 桥：user 站此前是「0 处 import antd + 13 个手写 <table>」。接入是为了让那 13 个手写表
 // 换成设计系统的 DataTable（否则各站表格长相必然分叉）。桥必须挂在 ThemeProvider 之内：
@@ -20,7 +21,10 @@ registerSW({ immediate: true });
 const queryClient = new QueryClient({
 	defaultOptions: {
 		queries: {
-			retry: 1,
+			// 重试策略唯一实现：`shouldRetry`（lib/error-semantics.ts）——
+			// 只重试「重试可能改变结果」的错误（无状态码 / 5xx / 408 / 429）；4xx（含 404）不重试。
+			// ⚠️ hook / 页面**禁止**再写 retry: 1 或自定义 retry：函数式覆盖会盖过本默认，使 404 被重试。
+			retry: shouldRetry,
 			refetchOnWindowFocus: false,
 		},
 	},

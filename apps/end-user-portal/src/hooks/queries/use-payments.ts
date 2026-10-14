@@ -30,7 +30,6 @@ export function usePayments(params?: {
 	return useQuery<PaginatedList<PaymentInfo>, Error>({
 		queryKey: queryKeys.payments(params),
 		queryFn: () => getPayments(params),
-		retry: 1,
 	});
 }
 
@@ -39,7 +38,6 @@ export function usePayment(id: string): UseQueryResult<PaymentInfo, Error> {
 		queryKey: queryKeys.payment(id),
 		queryFn: () => getPaymentById(id),
 		enabled: !!id,
-		retry: 1,
 	});
 }
 
@@ -48,6 +46,5 @@ export function useReceipt(paymentId: string): UseQueryResult<ReceiptInfo, Error
 		queryKey: queryKeys.receipt(paymentId),
 		queryFn: () => getReceipt(paymentId),
 		enabled: !!paymentId,
-		retry: 1,
 	});
 }

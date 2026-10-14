@@ -84,7 +84,6 @@ export function useNotifications(params?: {
 	return useQuery<PaginatedList<NotificationItem>, Error>({
 		queryKey: queryKeys.notifications({ ...params, userId }),
 		queryFn: () => getNotifications({ userId: userId || '', ...params }),
-		retry: 1,
 		enabled: !!userId,
 	});
 }
@@ -94,7 +93,6 @@ export function useUnreadNotifications(): UseQueryResult<NotificationItem[], Err
 	return useQuery<NotificationItem[], Error>({
 		queryKey: queryKeys.unreadNotifications,
 		queryFn: () => getUnreadNotifications({ userId: userId || '' }),
-		retry: 1,
 		enabled: !!userId,
 	});
 }
@@ -157,7 +155,6 @@ export function useNotificationPreferences(): UseQueryResult<NotificationPrefere
 		queryKey: ['notifications', 'preferences', userId],
 		queryFn: () => getNotificationPreferences(userId || ''),
 		enabled: !!userId,
-		retry: 1,
 	});
 }
 
@@ -197,6 +194,5 @@ export function useAnnouncements(params?: {
 	return useQuery<PaginatedList<AnnouncementItem>, Error>({
 		queryKey: [...commQueryKeys.announcements, params],
 		queryFn: () => getAnnouncements(params),
-		retry: 1,
 	});
 }

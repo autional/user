@@ -10,7 +10,6 @@ import {
 } from '@autional/shared/generated/api';
 import type { PointAccount } from './types';
 import { queryKeys } from './query-keys';
-import { isNotFoundError } from '@/lib/api-error';
 
 async function getPointAccount(userId: string): Promise<PointAccount> {
 	return pointsByPoints(userId) as Promise<PointAccount>;
@@ -22,8 +21,8 @@ export function usePointAccount(): UseQueryResult<PointAccount, Error> {
 		queryKey: queryKeys.points(userId || ''),
 		queryFn: () => getPointAccount(userId || ''),
 		enabled: !!userId,
-		// UP-01：积分账户 404（point account not found）= 业务空态，不重试；其余错误保持 1 次重试。
-		retry: (failureCount, err) => !isNotFoundError(err) && failureCount < 1,
+		// 重试策略唯一实现在 QueryClient 默认（见 src/main.tsx / lib/error-semantics.ts 的 shouldRetry）。
+		// 此处**不得**再写 per-hook retry：函数式覆盖会盖过全局默认，使「404 不重试」失效。
 	});
 }
 
@@ -66,7 +65,6 @@ export function usePointTransactions(
 		queryKey: queryKeys.pointTransactions(userId, p, ps),
 		queryFn: () => getPointTransactions(userId || '', p, ps),
 		enabled: enabled ?? !!userId,
-		retry: 1,
 	});
 }
 
@@ -94,7 +92,6 @@ export function useExpiringPoints(userId: string, days?: number, enabled?: boole
 		queryKey: queryKeys.expiringPoints(userId, days ?? 30),
 		queryFn: () => getExpiringPoints(userId || '', days ?? 30),
 		enabled: enabled ?? !!userId,
-		retry: 1,
 	});
 }
 
@@ -118,7 +115,6 @@ export function usePointStats(userId: string, enabled?: boolean) {
 		queryKey: queryKeys.pointStats(userId),
 		queryFn: () => getPointStats(userId || ''),
 		enabled: enabled ?? !!userId,
-		retry: 1,
 	});
 }
 
@@ -139,7 +135,6 @@ export function usePointValue(userId: string, enabled?: boolean) {
 		queryKey: queryKeys.pointValue(userId),
 		queryFn: () => getPointValue(userId || ''),
 		enabled: enabled ?? !!userId,
-		retry: 1,
 	});
 }
 
@@ -159,6 +154,5 @@ export function usePointRiskScore(userId: string, enabled?: boolean) {
 		queryKey: queryKeys.pointRiskScore(userId),
 		queryFn: () => getPointRiskScore(userId || ''),
 		enabled: enabled ?? !!userId,
-		retry: 1,
 	});
 }

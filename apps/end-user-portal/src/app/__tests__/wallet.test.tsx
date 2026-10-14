@@ -13,13 +13,18 @@ vi.mock('@/components/ui/Skeleton', () => ({
 		React.createElement('div', { className: 'animate-pulse', 'data-testid': 'skeleton-row' }),
 }));
 
-vi.mock('@autional/shared', () => ({
-	useAuth: vi.fn(() => ({ userId: 'u1' })),
-	useAuthStore: vi.fn((selector?: (s: any) => any) => {
-		const state = { user: { id: 'u1', username: 'test' } };
-		return selector ? selector(state) : state;
-	}),
-}));
+// 保留真实导出（含 @autional/shared/utils/query-state 的状态单一真源），只覆盖登录态。
+vi.mock('@autional/shared', async (importOriginal) => {
+	const actual = await importOriginal<typeof import('@autional/shared')>();
+	return {
+		...actual,
+		useAuth: vi.fn(() => ({ userId: 'u1' })),
+		useAuthStore: vi.fn((selector?: (s: any) => any) => {
+			const state = { user: { id: 'u1', username: 'test' } };
+			return selector ? selector(state) : state;
+		}),
+	};
+});
 
 vi.mock('@/hooks/use-toast', () => ({
 	useToast: vi.fn(() => ({

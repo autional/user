@@ -24,7 +24,7 @@ import type {
 } from './types';
 import type { PaginatedList } from './types';
 import { queryKeys } from './query-keys';
-import { isNotFoundError } from '@/lib/api-error';
+import { isNotFoundError } from '@/lib/error-semantics';
 
 interface BillingSubscriptionInfo {
 	tenantId?: string;
@@ -56,7 +56,6 @@ export function useBillingSubscription(tenantId: string, enabled?: boolean) {
 			return r;
 		},
 		enabled: enabled ?? !!tenantId,
-		retry: 1,
 	});
 }
 
@@ -102,7 +101,6 @@ export function useBillingRecords(
 		queryKey: queryKeys.billingRecords(tenantId, p, ps),
 		queryFn: () => getBillingRecords(tenantId, p, ps),
 		enabled: enabled ?? !!tenantId,
-		retry: 1,
 	});
 }
 
@@ -133,7 +131,6 @@ export function useBillingUsage(tenantId: string, enabled?: boolean) {
 			}
 		},
 		enabled: enabled ?? !!tenantId,
-		retry: 1,
 	});
 }
 
@@ -159,7 +156,6 @@ export function useBillingStatistics(tenantId: string, enabled?: boolean) {
 			return r;
 		},
 		enabled: enabled ?? !!tenantId,
-		retry: 1,
 	});
 }
 
@@ -199,7 +195,6 @@ export function usePublicPlans(): UseQueryResult<PaginatedList<PublicPlanRespons
 	return useQuery<PaginatedList<PublicPlanResponse>, Error>({
 		queryKey: queryKeys.publicPlans,
 		queryFn: getPublicPlans,
-		retry: 1,
 		staleTime: 5 * 60 * 1000,
 	});
 }
@@ -249,7 +244,6 @@ export function useSubscription(tenantId: string): UseQueryResult<SubscriptionIn
 		queryKey: queryKeys.subscription(tenantId),
 		queryFn: () => getSubscription(tenantId),
 		enabled: !!tenantId,
-		retry: 1,
 	});
 }
 
@@ -268,7 +262,6 @@ export function useInvoices(
 		queryKey: queryKeys.invoices(tenantId, params),
 		queryFn: () => getInvoices(tenantId, params),
 		enabled: !!tenantId,
-		retry: 1,
 	});
 }
 
@@ -291,6 +284,5 @@ export function useInvoice(invoiceNumber: string): UseQueryResult<InvoiceInfo, E
 		queryKey: queryKeys.invoice(invoiceNumber),
 		queryFn: () => getInvoice(invoiceNumber),
 		enabled: !!invoiceNumber,
-		retry: 1,
 	});
 }

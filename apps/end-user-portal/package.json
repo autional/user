@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "dev": "node ../../scripts/gen-env.mjs && vite --port 13104",
-    "build": "node ../../scripts/gen-env.mjs && tsc && vite build",
+    "build": "node ../../scripts/gen-env.mjs && node ../../scripts/gen-error-semantics.mjs --check && tsc && vite build",
     "preview": "vite preview --port 13104",
     "lint": "eslint src/",
     "typecheck": "tsc --noEmit",

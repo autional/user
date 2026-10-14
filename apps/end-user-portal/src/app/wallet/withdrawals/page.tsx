@@ -19,7 +19,7 @@ import {
 } from '@/hooks/queries';
 import type { WalletTransactionItem } from '@/hooks/queries';
 import { withdrawalSchema, type WithdrawalFormData } from '@/lib/validators';
-import { isWalletNotCreatedError } from '@/lib/api-error';
+import { isUnprovisionedError } from '@/lib/error-semantics';
 
 const WITHDRAWAL_STATUSES = ['all', 'pending', 'approved', 'rejected', 'completed'] as const;
 
@@ -116,7 +116,7 @@ export default function WithdrawalsPage() {
 
 	if (balanceError) {
 		// 404 细分：仅 61060101 走「空态 + 开通钱包 CTA」；其他 404/错误保持错误态。
-		if (isWalletNotCreatedError(balanceError)) {
+		if (isUnprovisionedError(balanceError)) {
 			return (
 				<div className="max-w-4xl mx-auto px-4 py-8 space-y-4">
 					<EmptyState

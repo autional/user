@@ -14,7 +14,7 @@ import { SectionCard, AppPageHeader, ErrorState } from '@autional/ui';
 import { SkeletonCard } from '@/components/ui/Skeleton';
 import { ROUTES } from '@/lib/routes';
 import { buildNavHref } from '@/lib/nav';
-import { isNotFoundError } from '@/lib/api-error';
+import { isNotFoundError } from '@/lib/error-semantics';
 
 export default function DashboardPage() {
 	const { t } = useTranslation();

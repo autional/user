@@ -7,7 +7,7 @@ import { DataTable } from '@autional/ui/antd';
 import type { DataTableColumns } from '@autional/ui/antd';
 import { SkeletonCard, SkeletonRow } from '@/components/ui/Skeleton';
 import { useTranslation } from 'react-i18next';
-import { isNotFoundError } from '@/lib/api-error';
+import { isNotFoundError } from '@/lib/error-semantics';
 import {
 	useBillingSubscription,
 	useBillingRecords,

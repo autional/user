@@ -31,14 +31,20 @@ vi.mock('@/hooks/use-toast', () => ({
 	})),
 }));
 
-vi.mock('@autional/shared', () => ({
-	useAuth: vi.fn(() => ({ userId: 'user1' })),
-	useAuthStore: vi.fn(() => ({
-		user: { id: 'user1', name: 'Test User' },
+// 保留真实导出（含 @autional/shared/utils/query-state 的状态单一真源），只覆盖登录态相关。
+// 否则错误语义层（isUnprovisionedError → getHttpStatus）在测试里会拿到 undefined。
+vi.mock('@autional/shared', async (importOriginal) => {
+	const actual = await importOriginal<typeof import('@autional/shared')>();
+	return {
+		...actual,
+		useAuth: vi.fn(() => ({ userId: 'user1' })),
+		useAuthStore: vi.fn(() => ({
+			user: { id: 'user1', name: 'Test User' },
+			getAccessToken: vi.fn(() => 'mock-token'),
+		})),
 		getAccessToken: vi.fn(() => 'mock-token'),
-	})),
-	getAccessToken: vi.fn(() => 'mock-token'),
-}));
+	};
+});
 
 vi.mock('@/hooks/queries', () => ({
 	usePointAccount: vi.fn(),
@@ -226,6 +232,22 @@ describe('PointsPage', () => {
 		fireEvent.click(cta);
 
 		expect(mutate).toHaveBeenCalledWith({ userId: 'user1' }, expect.objectContaining({ onSuccess: expect.any(Function) }));
+	});
+
+	it('事故回归：404 + 61070010（积分账户未开通）→ 空态 + CTA（此前落到「加载失败」）', () => {
+		// 2026-10-14 novel-demo：page 原先只认钱包码 61060101，61070010 被归入「其他 404」→ 错误态。
+		vi.mocked(usePointAccount).mockReturnValue({
+			data: undefined,
+			isLoading: false,
+			error: { response: { status: 404, data: { code: 61070010 } } },
+			refetch: vi.fn(),
+		} as any);
+
+		render(<PointsPage />, { wrapper: TestWrapper });
+
+		expect(screen.getByText('暂无积分数据')).toBeInTheDocument();
+		expect(screen.getByRole('button', { name: '开通钱包' })).toBeInTheDocument();
+		expect(screen.queryByText('积分信息加载失败')).not.toBeInTheDocument();
 	});
 
 	it('keeps error state for other 404 codes (no CTA)', () => {

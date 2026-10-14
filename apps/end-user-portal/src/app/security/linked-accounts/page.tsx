@@ -46,7 +46,6 @@ export default function LinkedAccountsPage() {
 		queryKey: ['saml-linked-accounts', userId],
 		queryFn: fetchSammLinkedAccounts,
 		enabled: !!userId,
-		retry: 1,
 	});
 
 	const unlinkMutation = useMutation<unknown, Error, string>({

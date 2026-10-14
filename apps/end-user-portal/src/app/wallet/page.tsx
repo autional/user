@@ -8,7 +8,7 @@ import { DataTable } from '@autional/ui/antd';
 import type { DataTableColumns } from '@autional/ui/antd';
 import { SkeletonCard, SkeletonRow } from '@/components/ui/Skeleton';
 import { useTranslation } from 'react-i18next';
-import { isWalletNotCreatedError } from '@/lib/api-error';
+import { isUnprovisionedError } from '@/lib/error-semantics';
 import { useQueries } from '@tanstack/react-query';
 import {
 	useWalletTransactions,
@@ -41,7 +41,6 @@ export default function WalletPage() {
 				queryKey: queryKeys.wallet(userId || ''),
 				queryFn: () => getWalletBalance(userId || ''),
 				enabled: !!userId,
-				retry: 1,
 			},
 			{
 				queryKey: queryKeys.walletStats(userId || ''),
@@ -50,19 +49,16 @@ export default function WalletPage() {
 					return r.data;
 				},
 				enabled: !!userId,
-				retry: 1,
 			},
 			{
 				queryKey: queryKeys.walletCoupons(userId || ''),
 				queryFn: () => getWalletCoupons(userId || ''),
 				enabled: !!userId,
-				retry: 1,
 			},
 			{
 				queryKey: queryKeys.walletBalanceHistory(userId || ''),
 				queryFn: () => getWalletBalanceHistory(userId || ''),
 				enabled: !!userId,
-				retry: 1,
 			},
 		],
 	});
@@ -105,7 +101,7 @@ export default function WalletPage() {
 
 	if (balanceError) {
 		// 404 细分（AC-05-2/05-3）：仅 61060101 走「空态 + 开通钱包 CTA」；其他 404/错误保持错误态。
-		if (isWalletNotCreatedError(balanceError)) {
+		if (isUnprovisionedError(balanceError)) {
 			return (
 				<div className="max-w-4xl mx-auto px-4 py-8 space-y-4">
 					<EmptyState

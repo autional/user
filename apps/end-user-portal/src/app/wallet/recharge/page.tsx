@@ -14,7 +14,7 @@ import { useWalletBalance, useRechargeWallet, useCreateWallet } from '@/hooks/qu
 import { buildNavHref } from '@/lib/nav';
 import { ROUTES } from '@/lib/routes';
 import { rechargeSchema, type RechargeFormData } from '@/lib/validators';
-import { isWalletNotCreatedError } from '@/lib/api-error';
+import { isUnprovisionedError } from '@/lib/error-semantics';
 
 const PRESET_AMOUNTS = [100, 500, 1000];
 
@@ -113,7 +113,7 @@ export default function WalletRechargePage() {
 
 	if (balanceError) {
 		// 404 细分：仅 61060101 走「空态 + 开通钱包 CTA」；其他 404/错误保持错误态。
-		if (isWalletNotCreatedError(balanceError)) {
+		if (isUnprovisionedError(balanceError)) {
 			return (
 				<div className="max-w-2xl mx-auto px-4 py-8 space-y-4">
 					<EmptyState

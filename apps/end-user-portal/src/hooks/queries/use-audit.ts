@@ -37,6 +37,5 @@ export function useAuditLogs(params?: AuditLogsParams): UseQueryResult<
 	return useQuery<{ items?: AuditLogItem[]; total?: number; pagination?: PageInfo }, Error>({
 		queryKey: queryKeys.auditLogs(params),
 		queryFn: () => getAuditLogs(params),
-		retry: 1,
 	});
 }

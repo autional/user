@@ -28,7 +28,7 @@ import type { StatusVariant } from '@autional/ui';
 import { DataTable } from '@autional/ui/antd';
 import type { DataTableColumns } from '@autional/ui/antd';
 import { SkeletonCard, SkeletonRow } from '@/components/ui/Skeleton';
-import { isWalletNotCreatedError } from '@/lib/api-error';
+import { isUnprovisionedError } from '@/lib/error-semantics';
 
 // 交易类型 → 设计系统徽标档位。只做映射，配色归设计系统（-soft/-text 是成对的、做过对比度验证）。
 // 原来这里是一张 typeBadges 表，8 种类型各配一对裸色阶（text-success bg-success-soft …）：
@@ -85,7 +85,7 @@ export default function PointsPage() {
 		);
 	if (accountError) {
 		// 404 细分：仅 61060101（钱包未开通）走「空态 + 开通钱包 CTA」；其他 404/错误保持错误态。
-		if (isWalletNotCreatedError(accountError)) {
+		if (isUnprovisionedError(accountError)) {
 			return (
 				<div className="max-w-4xl mx-auto px-4 py-8 space-y-4">
 					<EmptyState

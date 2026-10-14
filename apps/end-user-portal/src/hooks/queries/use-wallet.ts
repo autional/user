@@ -19,7 +19,6 @@ import {
 } from '@autional/shared/generated/api';
 import type { WalletBalance } from './types';
 import { queryKeys } from './query-keys';
-import { isNotFoundError } from '@/lib/api-error';
 
 export async function getWalletBalance(userId: string): Promise<WalletBalance> {
 	return walletsBalanceByWallets(userId) as Promise<WalletBalance>;
@@ -31,8 +30,8 @@ export function useWalletBalance(): UseQueryResult<WalletBalance, Error> {
 		queryKey: queryKeys.wallet(userId || ''),
 		queryFn: () => getWalletBalance(userId || ''),
 		enabled: !!userId,
-		// UP-01：wallet not found（404）= 业务空态，重试无意义（原 retry:1 造成 404×2 console 噪声）；其余错误保持 1 次重试。
-		retry: (failureCount, err) => !isNotFoundError(err) && failureCount < 1,
+		// 重试策略已收口到 QueryClient 默认（见 src/main.tsx）：此处不再写 per-hook retry，
+		// 避免 404 被重试（原写法在 404 时仍重试一次，产生重复请求 + console 噪声）。
 	});
 }
 
@@ -104,7 +103,6 @@ export function useWalletTransactions(
 		queryKey: queryKeys.walletTransactions(userId, p, ps, { type, status }),
 		queryFn: () => getWalletTransactions(userId || '', p, ps, { type, status }),
 		enabled: enabled ?? !!userId,
-		retry: 1,
 	});
 }
 
@@ -133,7 +131,6 @@ export function useWalletStats(userId: string, enabled?: boolean) {
 			return r.data;
 		},
 		enabled: enabled ?? !!userId,
-		retry: 1,
 	});
 }
 
@@ -165,7 +162,6 @@ export function useWalletCoupons(userId: string, enabled?: boolean) {
 		queryKey: queryKeys.walletCoupons(userId),
 		queryFn: () => getWalletCoupons(userId || ''),
 		enabled: enabled ?? !!userId,
-		retry: 1,
 	});
 }
 
@@ -212,7 +208,6 @@ export function useWalletBalanceHistory(userId: string, enabled?: boolean) {
 		queryKey: queryKeys.walletBalanceHistory(userId),
 		queryFn: () => getWalletBalanceHistory(userId || ''),
 		enabled: enabled ?? !!userId,
-		retry: 1,
 	});
 }
 

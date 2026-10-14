@@ -33,7 +33,6 @@ export function useDevices(): UseQueryResult<PaginatedList<DeviceInfo>, Error> {
 	return useQuery<PaginatedList<DeviceInfo>, Error>({
 		queryKey: queryKeys.devices,
 		queryFn: getDevices,
-		retry: 1,
 	});
 }
 
@@ -77,7 +76,6 @@ export function useThingsList(): UseQueryResult<PaginatedList<ThingInfo>, Error>
 	return useQuery<PaginatedList<ThingInfo>, Error>({
 		queryKey: queryKeys.things,
 		queryFn: getThings,
-		retry: 1,
 	});
 }
 
@@ -119,7 +117,6 @@ export function useFamilyMembers(deviceId: string): UseQueryResult<FamilyMember[
 		queryKey: queryKeys.familyMembers(deviceId),
 		queryFn: () => getFamilyMembers(deviceId),
 		enabled: !!deviceId,
-		retry: 1,
 	});
 }
 

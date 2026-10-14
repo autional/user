@@ -12,7 +12,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { SectionCard, AppPageHeader, LoadingScreen, Modal } from '@autional/ui';
 import { ErrorState, EmptyState } from '@autional/ui';
 import { showToast } from '@autional/ui';
-import { isNotFoundError } from '@/lib/api-error';
+import { isNotFoundError } from '@/lib/error-semantics';
 
 interface ConsentField {
 	fieldKey: string;
@@ -96,7 +96,6 @@ export default function ConsentsPage() {
 		queryKey: ['consents', userId],
 		queryFn: () => fetchConsents(userId),
 		enabled: !!userId,
-		retry: 1,
 	});
 
 	const grantMutation = useMutation<void, Error, string[]>({

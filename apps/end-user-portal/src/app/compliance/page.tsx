@@ -8,7 +8,7 @@ import { ShieldCheck, Award, FileSearch, ChevronRight } from 'lucide-react';
 import { extractApiError } from '@autional/shared';
 import { complianceProfile, complianceStatus } from '@autional/shared/generated/api';
 import { cn } from '@/lib/utils';
-import { isNotFoundError } from '@/lib/api-error';
+import { isNotFoundError } from '@/lib/error-semantics';
 
 export default function CompliancePage() {
 	const { t } = useTranslation();

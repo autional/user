@@ -125,7 +125,6 @@ export default function PrivacyImpactPage() {
 		queryKey: ['privacy-impact', userId],
 		queryFn: () => fetchPrivacyImpact(userId),
 		enabled: !!userId,
-		retry: 1,
 	});
 
 	const fieldExposures: FieldExposure[] = [
