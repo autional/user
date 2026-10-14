@@ -27,7 +27,10 @@ const h = vi.hoisted(() => ({
 	deleteSpy: vi.fn(),
 }));
 
-vi.mock('@autional/shared', () => ({
+// 语义（semanticsOfError 等）实现已下沉到 @autional/shared；本 mock 只覆盖本用例需要的面，
+// 其余用 importOriginal 透传**真实模块**（否则页面经转发层拿到的 semanticsOfError 会是 undefined）。
+vi.mock('@autional/shared', async (importOriginal) => ({
+	...(await importOriginal<typeof import('@autional/shared')>()),
 	useAuth: () => ({ user: { id: 'u1' }, userId: 'u1' }),
 	useAuthStore: { getState: () => ({ currentTenantId: '' }) },
 	extractApiError: (err: any, fallback: string) => ({
