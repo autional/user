@@ -215,39 +215,23 @@ describe('PointsPage', () => {
 		expect(screen.getByText('积分信息加载失败')).toBeInTheDocument();
 	});
 
-	it('renders create-wallet CTA for 404 with code 61060101 and calls it with current user', () => {
+	it('未开通已在后端收敛：200 零值账户 → 页面正常渲染（无"开通钱包"CTA、无错误态）', () => {
+		// 2026-10-14：point 用户面改为 200 + 零值（CI 台账 10:35:16Z SUCCESS）⇒ 未开通不再走 404，
+		// 客户端「未开通 → 空态 + CTA」分支随台账清空一并退役。
 		const mutate = vi.fn();
 		vi.mocked(useCreateWallet).mockReturnValue({ ...createMockMutation(), mutate } as any);
 		vi.mocked(usePointAccount).mockReturnValue({
-			data: undefined,
+			data: { userId: 'user1', balance: 0, frozenBalance: 0 },
 			isLoading: false,
-			error: { response: { status: 404, data: { code: 61060101 } } },
+			error: null,
 			refetch: vi.fn(),
 		} as any);
 
 		render(<PointsPage />, { wrapper: TestWrapper });
 
-		expect(screen.getByText('暂无积分数据')).toBeInTheDocument();
-		const cta = screen.getByRole('button', { name: '开通钱包' });
-		fireEvent.click(cta);
-
-		expect(mutate).toHaveBeenCalledWith({ userId: 'user1' }, expect.objectContaining({ onSuccess: expect.any(Function) }));
-	});
-
-	it('事故回归：404 + 61070010（积分账户未开通）→ 空态 + CTA（此前落到「加载失败」）', () => {
-		// 2026-10-14 novel-demo：page 原先只认钱包码 61060101，61070010 被归入「其他 404」→ 错误态。
-		vi.mocked(usePointAccount).mockReturnValue({
-			data: undefined,
-			isLoading: false,
-			error: { response: { status: 404, data: { code: 61070010 } } },
-			refetch: vi.fn(),
-		} as any);
-
-		render(<PointsPage />, { wrapper: TestWrapper });
-
-		expect(screen.getByText('暂无积分数据')).toBeInTheDocument();
-		expect(screen.getByRole('button', { name: '开通钱包' })).toBeInTheDocument();
+		expect(screen.queryByRole('button', { name: '开通钱包' })).not.toBeInTheDocument();
 		expect(screen.queryByText('积分信息加载失败')).not.toBeInTheDocument();
+		expect(mutate).not.toHaveBeenCalled();
 	});
 
 	it('keeps error state for other 404 codes (no CTA)', () => {

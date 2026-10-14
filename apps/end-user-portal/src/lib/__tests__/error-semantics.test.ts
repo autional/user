@@ -24,15 +24,18 @@ describe('error-semantics —— 契约消费层', () => {
 	it('生成的契约目录可用且规模自洽', () => {
 		expect(ERROR_SEMANTICS_META.rowCount).toBeGreaterThan(0);
 		expect(Object.keys(ERROR_SEMANTICS)).toHaveLength(ERROR_SEMANTICS_META.rowCount);
-		expect(UNPROVISIONED_CODES.size).toBeGreaterThan(0);
+		// ✅ 2026-10-14：台账清空（point 10:35:16Z / wallet 09:44:50Z 均已部署）——「未开通」不再以 404 表达
+		expect(UNPROVISIONED_CODES.size).toBe(0);
 	});
 
-	it('事故回归（绿）：积分账户未开通 = 空态，不再当错误', () => {
-		// 2026-10-14 novel-demo：/points 只认钱包码 61060101 → 61070010 落到「加载失败」
-		expect(isUnprovisionedError(httpErr(404, 61070010))).toBe(true);
-		expect(isUnprovisionedError(httpErr(404, 61060101))).toBe(true);
-		// 后端 code 可能字符串序列化
-		expect(isUnprovisionedError(httpErr(404, '61060101'))).toBe(true);
+	it('事故已收敛：未开通不再以 404 表达（后端改 200 零值，台账清空）', () => {
+		// 最终修法在后端（用户面 handler 翻译 200 空/零，两个服务均已部署）。
+		// ⇒ 客户端不再需要「未开通 → 空态」分支；若真收到这两个码的 404（如 admin 路径的"查无实体"），
+		//   应按普通 not found 处理，而不是伪装成空态。
+		expect(UNPROVISIONED_CODES.size).toBe(0);
+		expect(isUnprovisionedError(httpErr(404, 61070010))).toBe(false);
+		expect(isUnprovisionedError(httpErr(404, 61060101))).toBe(false);
+		expect(isUnprovisionedError(httpErr(404, '61060101'))).toBe(false);
 	});
 
 	it('事故回归（红→绿对照）：旧写法确实漏判', () => {
@@ -41,8 +44,10 @@ describe('error-semantics —— 契约消费层', () => {
 			(e as { response?: { status?: number; data?: { code?: unknown } } })?.response?.status === 404 &&
 			(e as { response?: { data?: { code?: unknown } } })?.response?.data?.code === 61060101;
 
-		expect(legacyIsWalletNotCreated(httpErr(404, 61070010))).toBe(false); // 旧：漏判 → 错误态
-		expect(isUnprovisionedError(httpErr(404, 61070010))).toBe(true); // 新：空态
+		// 旧写法确实漏判（证明"按单一码硬编码"不可靠）—— 但新写法现在也**不应**把它当空态：
+		// 后端已不再返回该 404（改 200 零值）。
+		expect(legacyIsWalletNotCreated(httpErr(404, 61070010))).toBe(false);
+		expect(isUnprovisionedError(httpErr(404, 61070010))).toBe(false);
 	});
 
 	it('不得误吞：非未开通的 404 / 非 404 / 空输入一律 false', () => {
@@ -92,8 +97,9 @@ describe('error-semantics —— 契约消费层', () => {
 		expect(errorCodeOf({})).toBeUndefined();
 		expect(errorCodeOf('nope')).toBeUndefined();
 
-		expect(semanticsOfError(httpErr(404, 61070010))?.absence).toBe('unprovisioned');
-		expect(semanticsOfError(httpErr(404, 61070010))?.uiObservation).toBe('empty_state');
+		// 台账清空后：该码回到 entity/not_found_page（admin/internal 路径下它才是真正的「查无账户」）
+		expect(semanticsOfError(httpErr(404, 61070010))?.absence).toBe('entity');
+		expect(semanticsOfError(httpErr(404, 61070010))?.uiObservation).toBe('not_found_page');
 		expect(semanticsOfError(httpErr(404, 61010004))?.uiObservation).toBe('not_found_page');
 		// 未收录的码不得猜测
 		expect(semanticsOfError(httpErr(404, 99999999))).toBeUndefined();

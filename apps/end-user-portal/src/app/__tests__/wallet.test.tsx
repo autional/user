@@ -189,12 +189,13 @@ describe('WalletPage', () => {
 		expect(screen.getByText('钱包信息加载失败')).toBeInTheDocument();
 	});
 
-	it('renders create-wallet CTA only for 404 with code 61060101', () => {
+	it('未开通已在后端收敛：200 零值钱包 → 页面正常渲染（无"开通钱包"CTA、无错误态）', () => {
+		// 2026-10-14：wallet 用户面改为 200 空/零（CI 台账 09:44:50Z SUCCESS）⇒ 未开通不再走 404。
 		vi.mocked(useQueries).mockReturnValue([
 			{
-				data: undefined,
+				data: { walletId: '', balance: '0', frozenBalance: '0', availableBalance: '0', currency: 'CNY' },
 				isLoading: false,
-				error: { response: { status: 404, data: { code: 61060101 } } },
+				error: null,
 				refetch: vi.fn(),
 			},
 			emptyQueryResult(),
@@ -204,8 +205,7 @@ describe('WalletPage', () => {
 
 		render(<WalletPage />, { wrapper: TestWrapper });
 
-		expect(screen.getByText('暂无钱包数据')).toBeInTheDocument();
-		expect(screen.getByRole('button', { name: '开通钱包' })).toBeInTheDocument();
+		expect(screen.queryByRole('button', { name: '开通钱包' })).not.toBeInTheDocument();
 		expect(screen.queryByText('钱包信息加载失败')).not.toBeInTheDocument();
 	});
 
@@ -228,12 +228,13 @@ describe('WalletPage', () => {
 		expect(screen.queryByRole('button', { name: '开通钱包' })).not.toBeInTheDocument();
 	});
 
-	it('clicking CTA creates the wallet for the current user', () => {
+	it('未开通不再触发创建：200 零值下不会调用 createWallet', () => {
+		// CTA 退役后，"读到未开通就自动开通"的隐式写路径也随之消失（后端 200 零值 + 首次写操作物化）。
 		vi.mocked(useQueries).mockReturnValue([
 			{
-				data: undefined,
+				data: { walletId: '', balance: '0', frozenBalance: '0', availableBalance: '0', currency: 'CNY' },
 				isLoading: false,
-				error: { response: { status: 404, data: { code: 61060101 } } },
+				error: null,
 				refetch: vi.fn(),
 			},
 			emptyQueryResult(),
@@ -244,9 +245,8 @@ describe('WalletPage', () => {
 		vi.mocked(useCreateWallet).mockReturnValue({ ...createMockMutation(), mutate } as any);
 
 		render(<WalletPage />, { wrapper: TestWrapper });
-		fireEvent.click(screen.getByRole('button', { name: '开通钱包' }));
 
-		expect(mutate).toHaveBeenCalledWith({ userId: 'u1' });
+		expect(mutate).not.toHaveBeenCalled();
 	});
 
 	it('renders wallet balance card with available balance, frozen, currency, and coupon count', () => {
