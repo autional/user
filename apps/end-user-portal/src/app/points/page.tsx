@@ -2,7 +2,6 @@
 
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useAuth } from '@autional/shared';
 import {
 	usePointAccount,
 	usePointTransactions,
@@ -45,7 +44,6 @@ const STATUS_VARIANTS: Record<string, StatusVariant> = {
 
 export default function PointsPage() {
 	const { t } = useTranslation();
-	const { userId } = useAuth();
 	// 开通钱包（点账户依赖钱包）：成功后重拉积分账户。
 	const {
 		data: account,
