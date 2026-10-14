@@ -17,6 +17,14 @@
     "docs_path": "/errors/10000003"
   },
   {
+    "code": 10000004,
+    "http_status": 504,
+    "class": "unavailable",
+    "ui_observation": "transient",
+    "retryable": true,
+    "docs_path": "/errors/10000004"
+  },
+  {
     "code": 10000005,
     "http_status": 500,
     "class": "internal",
@@ -63,6 +71,14 @@
     "ui_observation": "unexpected",
     "retryable": false,
     "docs_path": "/errors/20000003"
+  },
+  {
+    "code": 20000004,
+    "http_status": 503,
+    "class": "unavailable",
+    "ui_observation": "transient",
+    "retryable": true,
+    "docs_path": "/errors/20000004"
   },
   {
     "code": 20000006,
@@ -972,6 +988,14 @@
     "docs_path": "/errors/20012207"
   },
   {
+    "code": 20600004,
+    "http_status": 500,
+    "class": "internal",
+    "ui_observation": "unexpected",
+    "retryable": false,
+    "docs_path": "/errors/20600004"
+  },
+  {
     "code": 20600006,
     "http_status": 400,
     "class": "invalid",
@@ -1003,6 +1027,22 @@
     "ui_observation": "not_found_page",
     "retryable": false,
     "docs_path": "/errors/20800004"
+  },
+  {
+    "code": 21000004,
+    "http_status": 503,
+    "class": "unavailable",
+    "ui_observation": "transient",
+    "retryable": true,
+    "docs_path": "/errors/21000004"
+  },
+  {
+    "code": 21100004,
+    "http_status": 500,
+    "class": "internal",
+    "ui_observation": "unexpected",
+    "retryable": false,
+    "docs_path": "/errors/21100004"
   },
   {
     "code": 21100006,
@@ -1054,6 +1094,14 @@
     "docs_path": "/errors/21200003"
   },
   {
+    "code": 21300004,
+    "http_status": 503,
+    "class": "unavailable",
+    "ui_observation": "transient",
+    "retryable": true,
+    "docs_path": "/errors/21300004"
+  },
+  {
     "code": 21500004,
     "http_status": 400,
     "class": "invalid",
@@ -1068,6 +1116,30 @@
     "ui_observation": "form_error",
     "retryable": false,
     "docs_path": "/errors/21600004"
+  },
+  {
+    "code": 21700004,
+    "http_status": 502,
+    "class": "unavailable",
+    "ui_observation": "transient",
+    "retryable": true,
+    "docs_path": "/errors/21700004"
+  },
+  {
+    "code": 21800004,
+    "http_status": 502,
+    "class": "unavailable",
+    "ui_observation": "transient",
+    "retryable": true,
+    "docs_path": "/errors/21800004"
+  },
+  {
+    "code": 21900004,
+    "http_status": 502,
+    "class": "unavailable",
+    "ui_observation": "transient",
+    "retryable": true,
+    "docs_path": "/errors/21900004"
   },
   {
     "code": 22000001,
@@ -1126,6 +1198,14 @@
     "ui_observation": "conflict",
     "retryable": false,
     "docs_path": "/errors/40000004"
+  },
+  {
+    "code": 40000101,
+    "http_status": 400,
+    "class": "invalid",
+    "ui_observation": "form_error",
+    "retryable": false,
+    "docs_path": "/errors/40000101"
   },
   {
     "code": 40000102,
@@ -1284,6 +1364,46 @@
     "docs_path": "/errors/40010002"
   },
   {
+    "code": 40010101,
+    "http_status": 400,
+    "class": "invalid",
+    "ui_observation": "form_error",
+    "retryable": false,
+    "docs_path": "/errors/40010101"
+  },
+  {
+    "code": 40010102,
+    "http_status": 400,
+    "class": "invalid",
+    "ui_observation": "form_error",
+    "retryable": false,
+    "docs_path": "/errors/40010102"
+  },
+  {
+    "code": 40010103,
+    "http_status": 400,
+    "class": "invalid",
+    "ui_observation": "form_error",
+    "retryable": false,
+    "docs_path": "/errors/40010103"
+  },
+  {
+    "code": 40010104,
+    "http_status": 400,
+    "class": "invalid",
+    "ui_observation": "form_error",
+    "retryable": false,
+    "docs_path": "/errors/40010104"
+  },
+  {
+    "code": 40010105,
+    "http_status": 400,
+    "class": "invalid",
+    "ui_observation": "form_error",
+    "retryable": false,
+    "docs_path": "/errors/40010105"
+  },
+  {
     "code": 40010201,
     "http_status": 404,
     "class": "not_found",
@@ -1373,6 +1493,54 @@
     "ui_observation": "conflict",
     "retryable": false,
     "docs_path": "/errors/40020002"
+  },
+  {
+    "code": 40020101,
+    "http_status": 400,
+    "class": "invalid",
+    "ui_observation": "form_error",
+    "retryable": false,
+    "docs_path": "/errors/40020101"
+  },
+  {
+    "code": 40020102,
+    "http_status": 400,
+    "class": "invalid",
+    "ui_observation": "form_error",
+    "retryable": false,
+    "docs_path": "/errors/40020102"
+  },
+  {
+    "code": 40020103,
+    "http_status": 400,
+    "class": "invalid",
+    "ui_observation": "form_error",
+    "retryable": false,
+    "docs_path": "/errors/40020103"
+  },
+  {
+    "code": 40020104,
+    "http_status": 400,
+    "class": "invalid",
+    "ui_observation": "form_error",
+    "retryable": false,
+    "docs_path": "/errors/40020104"
+  },
+  {
+    "code": 40020105,
+    "http_status": 400,
+    "class": "invalid",
+    "ui_observation": "form_error",
+    "retryable": false,
+    "docs_path": "/errors/40020105"
+  },
+  {
+    "code": 40020106,
+    "http_status": 400,
+    "class": "invalid",
+    "ui_observation": "form_error",
+    "retryable": false,
+    "docs_path": "/errors/40020106"
   },
   {
     "code": 40020201,
@@ -1474,6 +1642,22 @@
     "docs_path": "/errors/40300102"
   },
   {
+    "code": 40300103,
+    "http_status": 400,
+    "class": "invalid",
+    "ui_observation": "form_error",
+    "retryable": false,
+    "docs_path": "/errors/40300103"
+  },
+  {
+    "code": 40300104,
+    "http_status": 413,
+    "class": "invalid",
+    "ui_observation": "form_error",
+    "retryable": false,
+    "docs_path": "/errors/40300104"
+  },
+  {
     "code": 40300201,
     "http_status": 404,
     "class": "not_found",
@@ -1541,6 +1725,14 @@
     "docs_path": "/errors/40400002"
   },
   {
+    "code": 40400004,
+    "http_status": 400,
+    "class": "invalid",
+    "ui_observation": "form_error",
+    "retryable": false,
+    "docs_path": "/errors/40400004"
+  },
+  {
     "code": 40500001,
     "http_status": 404,
     "class": "not_found",
@@ -1550,12 +1742,36 @@
     "docs_path": "/errors/40500001"
   },
   {
+    "code": 40500004,
+    "http_status": 400,
+    "class": "invalid",
+    "ui_observation": "form_error",
+    "retryable": false,
+    "docs_path": "/errors/40500004"
+  },
+  {
+    "code": 40500101,
+    "http_status": 500,
+    "class": "internal",
+    "ui_observation": "unexpected",
+    "retryable": false,
+    "docs_path": "/errors/40500101"
+  },
+  {
     "code": 40500102,
     "http_status": 401,
     "class": "unauthorized",
     "ui_observation": "session_expired",
     "retryable": false,
     "docs_path": "/errors/40500102"
+  },
+  {
+    "code": 40500103,
+    "http_status": 409,
+    "class": "conflict",
+    "ui_observation": "conflict",
+    "retryable": false,
+    "docs_path": "/errors/40500103"
   },
   {
     "code": 40600001,
@@ -1575,6 +1791,22 @@
     "docs_path": "/errors/40600002"
   },
   {
+    "code": 40600004,
+    "http_status": 413,
+    "class": "invalid",
+    "ui_observation": "form_error",
+    "retryable": false,
+    "docs_path": "/errors/40600004"
+  },
+  {
+    "code": 40600101,
+    "http_status": 500,
+    "class": "internal",
+    "ui_observation": "unexpected",
+    "retryable": false,
+    "docs_path": "/errors/40600101"
+  },
+  {
     "code": 40600102,
     "http_status": 404,
     "class": "not_found",
@@ -1582,6 +1814,22 @@
     "ui_observation": "not_found_page",
     "retryable": false,
     "docs_path": "/errors/40600102"
+  },
+  {
+    "code": 40600103,
+    "http_status": 400,
+    "class": "invalid",
+    "ui_observation": "form_error",
+    "retryable": false,
+    "docs_path": "/errors/40600103"
+  },
+  {
+    "code": 40600104,
+    "http_status": 413,
+    "class": "invalid",
+    "ui_observation": "form_error",
+    "retryable": false,
+    "docs_path": "/errors/40600104"
   },
   {
     "code": 40600201,
@@ -1788,6 +2036,14 @@
     "ui_observation": "not_found_page",
     "retryable": false,
     "docs_path": "/errors/40900101"
+  },
+  {
+    "code": 40900102,
+    "http_status": 400,
+    "class": "invalid",
+    "ui_observation": "form_error",
+    "retryable": false,
+    "docs_path": "/errors/40900102"
   },
   {
     "code": 60000001,
@@ -6174,5 +6430,14 @@
     "ui_observation": "form_error",
     "retryable": false,
     "docs_path": "/errors/61200007"
+  },
+  {
+    "code": 61260004,
+    "http_status": 404,
+    "class": "not_found",
+    "absence": "entity",
+    "ui_observation": "not_found_page",
+    "retryable": false,
+    "docs_path": "/errors/61260004"
   }
 ]
