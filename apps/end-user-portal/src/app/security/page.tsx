@@ -50,6 +50,7 @@ import {
 import type { OAuthConnectionItem } from '@/hooks/queries';
 import { Alert, SectionCard, AppPageHeader, LoadingScreen, ErrorState, Modal } from '@autional/ui';
 import { FormInput } from '@autional/ui/rhf';
+import { semanticsOfError } from '@/lib/error-semantics';
 
 // message 一律用完整扁平 ns 键：i18n keySeparator:false，消费处 t(message) 才可解析（UP-14）。
 const passwordSchema = z
@@ -264,7 +265,8 @@ export default function SecurityPage() {
 			// 409 = 61040010「TOTP already enabled」：存在既有配置（已启用或未验证的 pending）阻塞再启用。
 			// 探针 UF1-05 结论：状态接口可见形状无 methods / verified 字段，pending 时 totp_enabled=false、
 			// 已启用时为 true —— 以 refetch 后状态分流：已启用 → 友好提示并关闭弹窗；否则 → 打开恢复条。
-			if (err?.response?.data?.code === 61040010) {
+			// 契约驱动：61040010（TOTP already enabled）= ui_observation='conflict'
+			if (semanticsOfError(err)?.uiObservation === 'conflict') {
 				const fresh = (await refetchMFA()).data;
 				if (fresh?.totpEnabled || fresh?.methods?.includes('totp')) {
 					setTotpPendingDetected(false);

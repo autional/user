@@ -12,6 +12,7 @@ import {
 	PublicAuthConfigByAuthConfig,
 } from '@autional/shared/generated/api';
 import { queryKeys } from './query-keys';
+import { semanticsOfError } from '@/lib/error-semantics';
 
 const STEP_UP_HEADER = 'X-StepUp-Token';
 
@@ -180,16 +181,16 @@ export function useCancelPhoneChange() {
 	});
 }
 
-/** 识别后端 403 reauth_required（61002201）错误（AC-010，GAP-3 修复）
- *  ① code===61002201（含包装串）→ true（精确匹配优先）
+/** 识别后端「需重新认证」（ErrCodeReauthRequired=61002201）错误（AC-010，GAP-3 修复）
+ *  ① 契约驱动：ui_observation='reauth_required'（纯数字码 / 纯数字字符串由 errorCodeOf 归一）→ true
  *  ② 响应体无 code 字段 → 回退 status===403 → true（R7 保留回退）
  *  ③ 其他业务码（如 61002203 验证码无效 + 403）→ false（不误判为重认证）
  */
 export function isReauthRequiredError(err: unknown): boolean {
 	const anyErr = err as { response?: { status?: number; data?: { code?: number | string } } };
 	const code = anyErr?.response?.data?.code;
-	// ① 业务码精确匹配（含包装串兼容）
-	if (code === 61002201 || String(code).includes('61002201')) return true;
+	// ① 契约驱动（不再手写 61002201）
+	if (semanticsOfError(err)?.uiObservation === 'reauth_required') return true;
 	// ② 无 code 字段 → 回退 HTTP 403
 	if (code === undefined || code === null || code === '') {
 		if (anyErr?.response?.status === 403) return true;
