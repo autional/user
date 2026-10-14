@@ -8,7 +8,8 @@ import { useSessions } from '@/hooks/queries/use-security';
 // UP-40 回归锁：翻页参数必须进 queryKey。旧实现 key 恒 ['sessions']，
 // 翻到第 2 页时 react-query 视为同一查询直接回放第 1 页缓存 —— 数据永远停在第一页。
 
-vi.mock('@autional/shared', () => ({
+vi.mock('@autional/shared', async (importOriginal) => ({
+	...(await importOriginal<typeof import('@autional/shared')>()),
 	useAuth: () => ({ userId: 'u-test' }),
 }));
 

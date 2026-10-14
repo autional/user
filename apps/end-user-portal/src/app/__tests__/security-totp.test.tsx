@@ -22,7 +22,8 @@ import { useToast } from '@/hooks/use-toast';
 // 修复后 qrCode（data:image/…）优先，缺失时回退 totpQrFail 占位 + secret 手动输入仍可见。
 // 双字段同时在场的 mock 是刻意的：单边 mock 无法证明断言锁的是 qrCode 而非「恰好只有它」。
 
-vi.mock('@autional/shared', () => ({
+vi.mock('@autional/shared', async (importOriginal) => ({
+	...(await importOriginal<typeof import('@autional/shared')>()),
 	useAuth: () => ({ user: { id: 'u1' }, userId: 'u1' }),
 	useAuthStore: { getState: () => ({ currentTenantId: '' }) },
 	extractApiError: (err: any, fallback: string) => ({

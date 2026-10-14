@@ -1,6 +1,7 @@
 import { describe, it, expect, vi } from 'vitest';
 
-vi.mock('@autional/shared', () => ({
+vi.mock('@autional/shared', async (importOriginal) => ({
+	...(await importOriginal<typeof import('@autional/shared')>()),
 	useAuthStore: vi.fn(),
 	getAccessToken: vi.fn(() => null),
 	apiClient: { get: vi.fn(), put: vi.fn(), post: vi.fn(), delete: vi.fn() },

@@ -12,7 +12,8 @@ const h = vi.hoisted(() => ({
 	subscribe: vi.fn(),
 }));
 
-vi.mock('@autional/shared', () => ({
+vi.mock('@autional/shared', async (importOriginal) => ({
+	...(await importOriginal<typeof import('@autional/shared')>()),
 	useAuth: () => ({ user: { id: 'u1' } }),
 }));
 

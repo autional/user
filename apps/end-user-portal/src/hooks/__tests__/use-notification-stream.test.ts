@@ -9,7 +9,8 @@ const { mockPost, authState } = vi.hoisted(() => ({
 	},
 }));
 
-vi.mock('@autional/shared', () => ({
+vi.mock('@autional/shared', async (importOriginal) => ({
+	...(await importOriginal<typeof import('@autional/shared')>()),
 	useAuth: () => ({ userId: authState.userId }),
 	getAccessToken: () => authState.token,
 	isTokenExpired: () => false,

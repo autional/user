@@ -8,7 +8,8 @@ import { useAnnouncements } from '@/hooks/queries';
 
 const authState = vi.hoisted(() => ({ userId: 'u-ann' }));
 
-vi.mock('@autional/shared', () => ({
+vi.mock('@autional/shared', async (importOriginal) => ({
+	...(await importOriginal<typeof import('@autional/shared')>()),
 	useAuth: () => ({ user: { id: authState.userId } }),
 }));
 

@@ -14,7 +14,8 @@ const h = vi.hoisted(() => ({
 	prefsPut: vi.fn(),
 }));
 
-vi.mock('@autional/shared', () => ({
+vi.mock('@autional/shared', async (importOriginal) => ({
+	...(await importOriginal<typeof import('@autional/shared')>()),
 	useAuth: () => ({ user: { id: 'u1' }, userId: 'u1' }),
 	useAuthStore: { getState: () => ({ currentTenantId: '' }) },
 	extractApiError: (err: any, fallback: string) => ({ message: err?.message || fallback }),

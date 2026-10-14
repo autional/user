@@ -44,13 +44,13 @@ importers:
         version: 5.8.3
       vitest:
         specifier: 3.2.0
-        version: 3.2.0(@types/node@26.6.3)(@vitest/ui@4.1.6(vitest@3.2.0))(jiti@1.21.7)(jsdom@29.1.1)(terser@5.51.2)
+        version: 3.2.0(@types/node@26.6.3)(@vitest/ui@4.1.6)(jiti@1.21.7)(jsdom@29.1.1)(terser@5.51.2)
 
   apps/end-user-portal:
     dependencies:
       '@autional/shared':
-        specifier: 0.1.0-rc.36
-        version: 0.1.0-rc.36(react-dom@19.2.5(react@19.2.5))(react@19.2.5)(use-sync-external-store@1.7.0(react@19.2.5))
+        specifier: 0.1.0-rc.38
+        version: 0.1.0-rc.38(react-dom@19.2.5(react@19.2.5))(react@19.2.5)(use-sync-external-store@1.7.0(react@19.2.5))
       '@autional/tailwind-preset':
         specifier: 0.1.0-rc.10
         version: 0.1.0-rc.10(tailwindcss@3.4.19)
@@ -183,7 +183,7 @@ importers:
         version: 1.3.0(vite@6.4.2(@types/node@26.6.3)(jiti@1.21.7)(terser@5.51.2))(workbox-build@7.4.1(@types/babel__core@7.20.5))(workbox-window@7.4.1)
       vitest:
         specifier: 3.2.0
-        version: 3.2.0(@types/node@26.6.3)(@vitest/ui@4.1.6(vitest@3.2.0))(jiti@1.21.7)(jsdom@29.1.1)(terser@5.51.2)
+        version: 3.2.0(@types/node@26.6.3)(@vitest/ui@4.1.6)(jiti@1.21.7)(jsdom@29.1.1)(terser@5.51.2)
 
 packages:
 
@@ -256,8 +256,8 @@ packages:
       eslint: '>=9.0.0'
       typescript-eslint: '>=8.0.0'
 
-  '@autional/shared@0.1.0-rc.36':
-    resolution: {integrity: sha512-DCCY+Ao4LyKEIO7o5RM17/ubutXoOIW5wOszWrxZ674r889zhA2H0xecT5P+SLfH+IMm6u0a7p5SNcTNdYYQLw==}
+  '@autional/shared@0.1.0-rc.38':
+    resolution: {integrity: sha512-I1a2BC7XkU+sDlN6T9IeG5z7A3G8DyNPbSeFFap6UiAaf82feBwZLeUPKoBmYUYLhn1vrRiYjZMuda2UYTMjWA==}
     peerDependencies:
       react: 19.2.5
       react-dom: 19.2.5
@@ -4728,7 +4728,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@autional/shared@0.1.0-rc.36(react-dom@19.2.5(react@19.2.5))(react@19.2.5)(use-sync-external-store@1.7.0(react@19.2.5))':
+  '@autional/shared@0.1.0-rc.38(react-dom@19.2.5(react@19.2.5))(react@19.2.5)(use-sync-external-store@1.7.0(react@19.2.5))':
     dependencies:
       '@opentelemetry/api': 1.9.1
       '@tanstack/react-query': 5.100.9(react@19.2.5)
@@ -6882,7 +6882,7 @@ snapshots:
       sirv: 3.0.2
       tinyglobby: 0.2.17
       tinyrainbow: 3.1.1
-      vitest: 3.2.0(@types/node@26.6.3)(@vitest/ui@4.1.6(vitest@3.2.0))(jiti@1.21.7)(jsdom@29.1.1)(terser@5.51.2)
+      vitest: 3.2.0(@types/node@26.6.3)(@vitest/ui@4.1.6)(jiti@1.21.7)(jsdom@29.1.1)(terser@5.51.2)
 
   '@vitest/utils@2.0.5':
     dependencies:
@@ -9154,7 +9154,7 @@ snapshots:
       jiti: 1.21.7
       terser: 5.51.2
 
-  vitest@3.2.0(@types/node@26.6.3)(@vitest/ui@4.1.6(vitest@3.2.0))(jiti@1.21.7)(jsdom@29.1.1)(terser@5.51.2):
+  vitest@3.2.0(@types/node@26.6.3)(@vitest/ui@4.1.6)(jiti@1.21.7)(jsdom@29.1.1)(terser@5.51.2):
     dependencies:
       '@types/chai': 5.2.3
       '@vitest/expect': 3.2.0
