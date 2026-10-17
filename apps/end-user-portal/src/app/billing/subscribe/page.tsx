@@ -195,7 +195,7 @@ export default function SubscribePage() {
 					className={`px-4 py-2 rounded-l-lg border font-medium transition-colors ${
 						billingCycle === 'monthly'
 							? 'bg-[var(--color-brand)] text-white border-[var(--color-brand)]'
-							: 'bg-white text-neutral-700 border-neutral-300 hover:bg-neutral-50'
+							: 'bg-white text-neutral-700 border-[var(--color-border-strong)] hover:bg-neutral-50'
 					}`}
 				>
 					{t('billing.subscribe.monthly')}
@@ -205,7 +205,7 @@ export default function SubscribePage() {
 					className={`px-4 py-2 rounded-r-lg border font-medium transition-colors ${
 						billingCycle === 'yearly'
 							? 'bg-[var(--color-brand)] text-white border-[var(--color-brand)]'
-							: 'bg-white text-neutral-700 border-neutral-300 hover:bg-neutral-50'
+							: 'bg-white text-neutral-700 border-[var(--color-border-strong)] hover:bg-neutral-50'
 					}`}
 				>
 					{t('billing.subscribe.yearly', { discount: '8' })}

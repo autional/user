@@ -226,7 +226,7 @@ export default function WithdrawalsPage() {
 								className={`flex items-center gap-2 px-5 py-3 rounded-lg border transition-colors ${
 									watch('method') === ch.code
 										? 'border-[var(--color-brand)] bg-primary-50 text-[var(--color-brand)]'
-										: 'border-neutral-300 hover:border-[var(--color-brand)]'
+										: 'border-[var(--color-border-strong)] hover:border-[var(--color-brand)]'
 								}`}
 							>
 								{ch.icon}

@@ -230,7 +230,7 @@ export default function RecoveryContactsPage() {
 									className={`flex items-center gap-2 rounded-md border px-3 py-2 text-sm font-medium transition-colors ${
 										addType === 'email'
 											? 'border-primary-500 bg-primary-50 text-primary-700'
-											: 'border-neutral-200 text-neutral-600 hover:bg-neutral-50'
+											: 'border-[var(--color-border-strong)] text-neutral-600 hover:bg-neutral-50'
 									}`}
 								>
 									<Mail size={16} />
@@ -242,7 +242,7 @@ export default function RecoveryContactsPage() {
 									className={`flex items-center gap-2 rounded-md border px-3 py-2 text-sm font-medium transition-colors ${
 										addType === 'phone'
 											? 'border-primary-500 bg-primary-50 text-primary-700'
-											: 'border-neutral-200 text-neutral-600 hover:bg-neutral-50'
+											: 'border-[var(--color-border-strong)] text-neutral-600 hover:bg-neutral-50'
 									}`}
 								>
 									<Phone size={16} />

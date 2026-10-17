@@ -141,7 +141,7 @@ export default function NotificationsPage() {
 							<button
 								onClick={handleMarkAllRead}
 								disabled={markAllMutation.isPending}
-								className="flex items-center gap-1.5 rounded-md border border-neutral-200 bg-white px-3 py-1.5 text-sm font-medium text-neutral-700 hover:bg-neutral-50 transition-colors disabled:opacity-50"
+								className="flex items-center gap-1.5 rounded-md border border-[var(--color-border-strong)] bg-white px-3 py-1.5 text-sm font-medium text-neutral-700 hover:bg-neutral-50 transition-colors disabled:opacity-50"
 							>
 								<CheckCheck size={14} />
 								{markAllMutation.isPending ? t('common.loading') : t('notifications.markAllRead')}
@@ -229,14 +229,14 @@ export default function NotificationsPage() {
 						<button
 							onClick={() => setPage((p) => Math.max(1, p - 1))}
 							disabled={!pagination.hasPrev}
-							className="flex items-center gap-1 rounded-md border border-neutral-200 px-3 py-1.5 text-sm font-medium text-neutral-700 hover:bg-neutral-50 disabled:opacity-40 disabled:cursor-not-allowed"
+							className="flex items-center gap-1 rounded-md border border-[var(--color-border-strong)] px-3 py-1.5 text-sm font-medium text-neutral-700 hover:bg-neutral-50 disabled:opacity-40 disabled:cursor-not-allowed"
 						>
 							<ChevronLeft size={14} /> {t('notifications.prev')}
 						</button>
 						<button
 							onClick={() => setPage((p) => Math.min(pagination.totalPages, p + 1))}
 							disabled={!pagination.hasNext}
-							className="flex items-center gap-1 rounded-md border border-neutral-200 px-3 py-1.5 text-sm font-medium text-neutral-700 hover:bg-neutral-50 disabled:opacity-40 disabled:cursor-not-allowed"
+							className="flex items-center gap-1 rounded-md border border-[var(--color-border-strong)] px-3 py-1.5 text-sm font-medium text-neutral-700 hover:bg-neutral-50 disabled:opacity-40 disabled:cursor-not-allowed"
 						>
 							{t('notifications.next')}
 							<ChevronRight size={14} />

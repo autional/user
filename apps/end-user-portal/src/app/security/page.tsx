@@ -840,7 +840,7 @@ export default function SecurityPage() {
 								key={p.id}
 								onClick={() => handleBindProvider(p.id)}
 								disabled={bindLoading}
-								className="flex w-full items-center gap-3 rounded-md border border-neutral-200 p-3 text-left hover:bg-neutral-50 transition-colors disabled:opacity-50"
+								className="flex w-full items-center gap-3 rounded-md border border-[var(--color-border-strong)] p-3 text-left hover:bg-neutral-50 transition-colors disabled:opacity-50"
 							>
 								<span
 									className={`flex h-10 w-10 items-center justify-center rounded-md ${meta.iconStyle}`}
@@ -900,7 +900,7 @@ export default function SecurityPage() {
 						<>
 							<button
 								onClick={closeTOTPModal}
-								className="rounded-md border border-neutral-200 px-4 py-2 text-sm font-medium text-neutral-700 hover:bg-neutral-50"
+								className="rounded-md border border-[var(--color-border-strong)] px-4 py-2 text-sm font-medium text-neutral-700 hover:bg-neutral-50"
 							>
 								{t('security.cancel')}
 							</button>
@@ -1017,7 +1017,7 @@ export default function SecurityPage() {
 					<>
 						<button
 							onClick={() => setDisableModalOpen(false)}
-							className="rounded-md border border-neutral-200 px-4 py-2 text-sm font-medium text-neutral-700 hover:bg-neutral-50"
+							className="rounded-md border border-[var(--color-border-strong)] px-4 py-2 text-sm font-medium text-neutral-700 hover:bg-neutral-50"
 						>
 							{t('security.disableCancel')}
 						</button>

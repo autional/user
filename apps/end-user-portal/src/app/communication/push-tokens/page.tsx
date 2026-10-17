@@ -88,7 +88,7 @@ export default function PushTokensPage() {
 		<div className="space-y-6">
 			<Link
 				to={buildNavHref(ROUTES.communication, tenantSlug)}
-				className="flex w-fit items-center gap-1 rounded-md border border-neutral-200 px-3 py-1.5 text-sm font-medium text-neutral-700 hover:bg-neutral-50 transition-colors"
+				className="flex w-fit items-center gap-1 rounded-md border border-[var(--color-border-strong)] px-3 py-1.5 text-sm font-medium text-neutral-700 hover:bg-neutral-50 transition-colors"
 			>
 				<ChevronLeft size={14} />
 				{t('communication.backToHistory', 'History')}

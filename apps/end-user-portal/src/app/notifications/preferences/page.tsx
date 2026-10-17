@@ -259,7 +259,7 @@ export default function NotificationPreferencesPage() {
 				</button>
 				<Link
 					to={buildNavHref(ROUTES.notifications, tenantSlug)}
-					className="rounded-md border border-neutral-200 px-4 py-2.5 text-sm font-medium text-neutral-700 hover:bg-neutral-50 transition-colors"
+					className="rounded-md border border-[var(--color-border-strong)] px-4 py-2.5 text-sm font-medium text-neutral-700 hover:bg-neutral-50 transition-colors"
 				>
 					{t('notifications.backToList', '返回通知列表')}
 				</Link>

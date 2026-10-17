@@ -190,7 +190,7 @@ export function IdentifierChangeDialog({ kind, open, onClose }: Props) {
 					<div className="flex justify-end gap-2">
 						<button
 							onClick={onClose}
-							className="rounded-md border border-neutral-200 px-3 py-1.5 text-sm text-neutral-700 hover:bg-neutral-50"
+							className="rounded-md border border-[var(--color-border-strong)] px-3 py-1.5 text-sm text-neutral-700 hover:bg-neutral-50"
 						>
 							{t('profile.cancel')}
 						</button>
@@ -230,7 +230,7 @@ export function IdentifierChangeDialog({ kind, open, onClose }: Props) {
 					<div className="flex justify-end gap-2">
 						<button
 							onClick={onClose}
-							className="rounded-md border border-neutral-200 px-3 py-1.5 text-sm text-neutral-700 hover:bg-neutral-50"
+							className="rounded-md border border-[var(--color-border-strong)] px-3 py-1.5 text-sm text-neutral-700 hover:bg-neutral-50"
 						>
 							{t('profile.cancel')}
 						</button>
@@ -275,7 +275,7 @@ export function IdentifierChangeDialog({ kind, open, onClose }: Props) {
 						<div className="flex gap-2">
 							<button
 								onClick={() => setStep('submit')}
-								className="rounded-md border border-neutral-200 px-3 py-1.5 text-sm text-neutral-700 hover:bg-neutral-50"
+								className="rounded-md border border-[var(--color-border-strong)] px-3 py-1.5 text-sm text-neutral-700 hover:bg-neutral-50"
 							>
 								{t('profile.identifierChange.back')}
 							</button>

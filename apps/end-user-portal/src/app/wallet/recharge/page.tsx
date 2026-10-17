@@ -154,7 +154,7 @@ export default function WalletRechargePage() {
 							className={`px-6 py-3 rounded-lg border text-lg font-semibold transition-colors ${
 								Number(watchedAmount) === a && !watchedCustomAmount
 									? 'border-[var(--color-brand)] bg-primary-50 text-[var(--color-brand)]'
-									: 'border-neutral-300 hover:border-[var(--color-brand)]'
+									: 'border-[var(--color-border-strong)] hover:border-[var(--color-brand)]'
 							}`}
 						>
 							¥{a}
@@ -192,7 +192,7 @@ export default function WalletRechargePage() {
 							className={`flex items-center gap-2 px-5 py-3 rounded-lg border transition-colors ${
 								channel === ch.code
 									? 'border-[var(--color-brand)] bg-primary-50 text-[var(--color-brand)]'
-									: 'border-neutral-300 hover:border-[var(--color-brand)]'
+									: 'border-[var(--color-border-strong)] hover:border-[var(--color-brand)]'
 							}`}
 						>
 							<span className="text-xl">{ch.icon}</span>

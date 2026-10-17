@@ -202,7 +202,7 @@ export default function ProfilePage() {
 						{activeTab === 'basic' && !editing ? (
 							<button
 								onClick={startEdit}
-								className="flex items-center gap-1.5 rounded-md border border-neutral-200 bg-white px-3 py-1.5 text-sm font-medium text-neutral-700 hover:bg-neutral-50 transition-colors"
+								className="flex items-center gap-1.5 rounded-md border border-[var(--color-border-strong)] bg-white px-3 py-1.5 text-sm font-medium text-neutral-700 hover:bg-neutral-50 transition-colors"
 							>
 								<Pencil size={14} />
 								{t('profile.edit')}
@@ -211,7 +211,7 @@ export default function ProfilePage() {
 							<div className="flex items-center gap-2">
 								<button
 									onClick={() => setEditing(false)}
-									className="flex items-center gap-1.5 rounded-md border border-neutral-200 bg-white px-3 py-1.5 text-sm font-medium text-neutral-700 hover:bg-neutral-50 transition-colors"
+									className="flex items-center gap-1.5 rounded-md border border-[var(--color-border-strong)] bg-white px-3 py-1.5 text-sm font-medium text-neutral-700 hover:bg-neutral-50 transition-colors"
 								>
 									<X size={14} />
 									{t('profile.cancel')}
@@ -367,7 +367,7 @@ export default function ProfilePage() {
 								action={
 									<button
 										onClick={() => setChangeDialog('email')}
-										className="rounded-md border border-neutral-200 px-2.5 py-1 text-xs font-medium text-neutral-600 hover:bg-neutral-50"
+										className="rounded-md border border-[var(--color-border-strong)] px-2.5 py-1 text-xs font-medium text-neutral-600 hover:bg-neutral-50"
 									>
 										{t('profile.identifierChange.change')}
 									</button>
@@ -380,7 +380,7 @@ export default function ProfilePage() {
 								action={
 									<button
 										onClick={() => setChangeDialog('phone')}
-										className="rounded-md border border-neutral-200 px-2.5 py-1 text-xs font-medium text-neutral-600 hover:bg-neutral-50"
+										className="rounded-md border border-[var(--color-border-strong)] px-2.5 py-1 text-xs font-medium text-neutral-600 hover:bg-neutral-50"
 									>
 										{t('profile.identifierChange.change')}
 									</button>

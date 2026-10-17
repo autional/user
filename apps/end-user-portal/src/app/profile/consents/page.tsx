@@ -265,7 +265,7 @@ export default function ConsentsPage() {
 								setShowModal(false);
 								setSelectedFields(new Set());
 							}}
-							className="rounded-md border border-neutral-200 bg-white px-4 py-2 text-sm font-medium text-neutral-700 hover:bg-neutral-50 transition-colors"
+							className="rounded-md border border-[var(--color-border-strong)] bg-white px-4 py-2 text-sm font-medium text-neutral-700 hover:bg-neutral-50 transition-colors"
 						>
 							{t('consents.cancel')}
 						</button>
@@ -324,7 +324,7 @@ export default function ConsentsPage() {
 					<>
 						<button
 							onClick={() => setRevokingField(null)}
-							className="rounded-md border border-neutral-200 bg-white px-4 py-2 text-sm font-medium text-neutral-700 hover:bg-neutral-50 transition-colors"
+							className="rounded-md border border-[var(--color-border-strong)] bg-white px-4 py-2 text-sm font-medium text-neutral-700 hover:bg-neutral-50 transition-colors"
 						>
 							{t('consents.cancel')}
 						</button>

@@ -89,7 +89,7 @@ export default function DevicesPage() {
 						<div className="flex items-center gap-2">
 							<Link
 								to={buildNavHref(ROUTES.devicesPair, tenantSlug)}
-								className="flex items-center gap-1.5 rounded-md border border-neutral-200 bg-white px-3 py-1.5 text-sm font-medium text-neutral-700 hover:bg-neutral-50 transition-colors"
+								className="flex items-center gap-1.5 rounded-md border border-[var(--color-border-strong)] bg-white px-3 py-1.5 text-sm font-medium text-neutral-700 hover:bg-neutral-50 transition-colors"
 							>
 								<Plus size={14} />
 								{t('devices.things.pair')}
@@ -169,7 +169,7 @@ export default function DevicesPage() {
 									<div className="flex shrink-0 items-center gap-2">
 										<Link
 											to={`${buildNavHref(ROUTES.devicesFamily, tenantSlug)}?deviceId=${thing.identityId || thing.id}`}
-											className="flex items-center gap-1 rounded-md border border-neutral-200 bg-white px-2.5 py-1.5 text-sm font-medium text-neutral-600 hover:bg-neutral-50 transition-colors"
+											className="flex items-center gap-1 rounded-md border border-[var(--color-border-strong)] bg-white px-2.5 py-1.5 text-sm font-medium text-neutral-600 hover:bg-neutral-50 transition-colors"
 										>
 											<Users size={14} />
 											<span className="hidden sm:inline">{t('devices.things.family')}</span>

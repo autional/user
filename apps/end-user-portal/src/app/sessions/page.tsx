@@ -155,7 +155,7 @@ export default function SessionsPage() {
 							className={`flex items-center gap-1.5 rounded-md border px-3 py-1.5 text-sm font-medium transition-colors ${
 								highRiskOnly
 									? 'border-danger-soft bg-danger-soft text-danger'
-									: 'border-neutral-200 bg-white text-neutral-600 hover:bg-neutral-50'
+									: 'border-[var(--color-border-strong)] bg-white text-neutral-600 hover:bg-neutral-50'
 							}`}
 						>
 							<Filter size={14} />
@@ -292,7 +292,7 @@ export default function SessionsPage() {
 					<button
 						onClick={() => setPage((p) => Math.max(1, p - 1))}
 						disabled={page === 1}
-						className="rounded-md border border-neutral-200 bg-white px-3 py-1.5 text-sm text-neutral-600 hover:bg-neutral-50 disabled:opacity-40 disabled:cursor-not-allowed"
+						className="rounded-md border border-[var(--color-border-strong)] bg-white px-3 py-1.5 text-sm text-neutral-600 hover:bg-neutral-50 disabled:opacity-40 disabled:cursor-not-allowed"
 					>
 						{t('common.previous', 'Previous')}
 					</button>
@@ -300,7 +300,7 @@ export default function SessionsPage() {
 					<button
 						onClick={() => setPage((p) => p + 1)}
 						disabled={!hasMore}
-						className="rounded-md border border-neutral-200 bg-white px-3 py-1.5 text-sm text-neutral-600 hover:bg-neutral-50 disabled:opacity-40 disabled:cursor-not-allowed"
+						className="rounded-md border border-[var(--color-border-strong)] bg-white px-3 py-1.5 text-sm text-neutral-600 hover:bg-neutral-50 disabled:opacity-40 disabled:cursor-not-allowed"
 					>
 						{t('common.next', 'Next')}
 					</button>
