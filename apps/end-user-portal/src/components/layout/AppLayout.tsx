@@ -246,7 +246,7 @@ export default function AppLayout() {
 							<select
 								value={currentTenant.id}
 								onChange={(e) => switchTenant(e.target.value)}
-								className="w-full appearance-none rounded-md border border-neutral-200 bg-neutral-50 py-2 pl-8 pr-8 text-xs font-medium text-neutral-700 focus:outline-none focus:ring-2 focus:ring-primary-500 dark:border-neutral-600 dark:bg-neutral-700 dark:text-neutral-200"
+								className="w-full appearance-none rounded-md border border-[var(--color-border-strong)] bg-neutral-50 py-2 pl-8 pr-8 text-xs font-medium text-neutral-700 focus:outline-none focus:ring-2 focus:ring-primary-500 dark:bg-neutral-700 dark:text-neutral-200"
 							>
 								{tenants.map((t) => (
 									<option key={t.id} value={t.id}>

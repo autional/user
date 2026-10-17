@@ -304,7 +304,7 @@ export default function WithdrawalsPage() {
 							setStatusFilter(e.target.value);
 							setPage(1);
 						}}
-						className="px-3 py-1.5 rounded-lg border border-neutral-300 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-brand)]"
+						className="px-3 py-1.5 rounded-lg border border-[var(--color-border-strong)] text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-brand)]"
 					>
 						{WITHDRAWAL_STATUSES.map((s) => (
 							<option key={s} value={s}>

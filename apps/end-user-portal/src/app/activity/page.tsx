@@ -254,7 +254,7 @@ export default function ActivityPage() {
 						setActionFilter(e.target.value);
 						setPage(1);
 					}}
-					className="h-10 rounded-md border border-neutral-300 bg-white px-3 text-sm"
+					className="h-10 rounded-md border border-[var(--color-border-strong)] bg-white px-3 text-sm"
 				>
 					{ACTION_OPTIONS.map((a) => (
 						<option key={a.value} value={a.value}>
@@ -281,7 +281,7 @@ export default function ActivityPage() {
 				{items.length > 0 && (
 					<button
 						onClick={exportCSV}
-						className="flex items-center gap-1.5 h-10 rounded-md border border-neutral-300 bg-white px-3 text-sm text-neutral-600 hover:bg-neutral-50"
+						className="flex items-center gap-1.5 h-10 rounded-md border border-[var(--color-border-strong)] bg-white px-3 text-sm text-neutral-600 hover:bg-neutral-50"
 					>
 						<Download size={14} />
 						{t('activity.export')}

@@ -504,7 +504,7 @@ export default function SecurityPage() {
 					</div>
 					<button
 						onClick={() => setShowPasswordForm(!showPasswordForm)}
-						className="rounded-md border border-[var(--color-border)] bg-[var(--color-bg-surface)] px-3 py-1.5 text-sm font-medium text-[var(--color-text-primary)] hover:bg-[var(--color-bg-secondary)] transition-colors"
+						className="rounded-md border border-[var(--color-border-strong)] bg-[var(--color-bg-surface)] px-3 py-1.5 text-sm font-medium text-[var(--color-text-primary)] hover:bg-[var(--color-bg-secondary)] transition-colors"
 					>
 						{showPasswordForm ? t('security.cancel') : t('security.changePassword')}
 					</button>
@@ -969,7 +969,7 @@ export default function SecurityPage() {
 								value={totpCode}
 								onChange={(e) => setTotpCode(e.target.value.replace(/\D/g, ''))}
 								placeholder="000000"
-								className="mt-1 w-full rounded-md border border-neutral-300 px-3 py-2 text-sm tracking-widest focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
+								className="mt-1 w-full rounded-md border border-[var(--color-border-strong)] px-3 py-2 text-sm tracking-widest focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
 							/>
 						</div>
 					</div>
@@ -1052,7 +1052,7 @@ export default function SecurityPage() {
 							? t('security.disablePlaceholder', { method: 'TOTP' })
 							: t('security.disablePlaceholder', { method: t('security.smsTitle') })
 					}
-					className="w-full rounded-md border border-neutral-300 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
+					className="w-full rounded-md border border-[var(--color-border-strong)] px-3 py-2 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
 				/>
 			</Modal>
 		</div>

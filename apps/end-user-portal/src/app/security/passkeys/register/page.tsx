@@ -234,7 +234,7 @@ export default function PasskeyRegisterPage() {
 									setPasswordError('');
 								}}
 								placeholder={t('security.passkeys.register.passwordPlaceholder')}
-								className="w-full rounded-lg border border-neutral-300 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
+								className="w-full rounded-lg border border-[var(--color-border-strong)] px-3 py-2 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
 							/>
 							{passwordError && <p className="mt-1 text-sm text-danger-text">{passwordError}</p>}
 						</div>

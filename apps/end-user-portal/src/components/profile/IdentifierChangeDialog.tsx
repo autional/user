@@ -155,7 +155,7 @@ export function IdentifierChangeDialog({ kind, open, onClose }: Props) {
 	};
 
 	const inputCls =
-		'mt-1 w-full rounded-md border border-neutral-300 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500';
+		'mt-1 w-full rounded-md border border-[var(--color-border-strong)] px-3 py-2 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500';
 	const btnCls =
 		'rounded-md bg-primary-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-primary-700 disabled:opacity-60';
 
@@ -299,7 +299,7 @@ export function IdentifierChangeDialog({ kind, open, onClose }: Props) {
 							type="checkbox"
 							checked={revokeOthers}
 							onChange={(e) => setRevokeOthers(e.target.checked)}
-							className="h-4 w-4 rounded-xs border-neutral-300 text-primary-600"
+							className="h-4 w-4 rounded-xs border-[var(--color-border-strong)] text-primary-600"
 						/>
 						{t('profile.identifierChange.revokeOthers')}
 					</label>

@@ -137,7 +137,7 @@ export default function PushTokensPage() {
 									'communication.pushTokens.tokenPlaceholder',
 									'Paste your device push token...',
 								)}
-								className="mt-1 w-full rounded-md border border-neutral-300 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
+								className="mt-1 w-full rounded-md border border-[var(--color-border-strong)] px-3 py-2 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
 							/>
 						</div>
 						<div>
@@ -151,7 +151,7 @@ export default function PushTokensPage() {
 								id="push-token-platform"
 								value={newPlatform}
 								onChange={(e) => setNewPlatform(e.target.value)}
-								className="mt-1 w-full rounded-md border border-neutral-300 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
+								className="mt-1 w-full rounded-md border border-[var(--color-border-strong)] px-3 py-2 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
 							>
 								<option value="web">Web</option>
 								<option value="ios">iOS</option>
@@ -175,7 +175,7 @@ export default function PushTokensPage() {
 									'communication.pushTokens.deviceIdPlaceholder',
 									'Optional device identifier...',
 								)}
-								className="mt-1 w-full rounded-md border border-neutral-300 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
+								className="mt-1 w-full rounded-md border border-[var(--color-border-strong)] px-3 py-2 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
 							/>
 						</div>
 						<button

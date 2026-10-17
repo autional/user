@@ -293,7 +293,7 @@ export default function LoginHistoryPage() {
 						onChange={(e) => setKeywordInput(e.target.value)}
 						placeholder={t('loginHistory.searchPlaceholder')}
 						aria-label={t('loginHistory.searchPlaceholder')}
-						className="h-8 w-56 rounded-md border border-neutral-300 bg-white pl-8 pr-2 text-xs text-neutral-900 placeholder:text-neutral-400 focus:border-primary-500 focus:outline-none"
+						className="h-8 w-56 rounded-md border border-[var(--color-border-strong)] bg-white pl-8 pr-2 text-xs text-neutral-900 placeholder:text-neutral-400 focus:border-primary-500 focus:outline-none"
 					/>
 				</div>
 			</SectionCard>

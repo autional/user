@@ -315,7 +315,7 @@ export default function RoleActivationsPage() {
 									id="role-activation-role"
 									value={form.role_id}
 									onChange={(e) => setForm({ ...form, role_id: e.target.value })}
-									className="mt-1 w-full rounded-md border border-neutral-300 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
+									className="mt-1 w-full rounded-md border border-[var(--color-border-strong)] px-3 py-2 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
 								>
 									<option value="">{t('roleActivations.selectRolePlaceholder')}</option>
 									{roles.map((role) => (
@@ -340,7 +340,7 @@ export default function RoleActivationsPage() {
 								id="role-activation-duration"
 								value={form.duration}
 								onChange={(e) => setForm({ ...form, duration: e.target.value })}
-								className="mt-1 w-full rounded-md border border-neutral-300 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
+								className="mt-1 w-full rounded-md border border-[var(--color-border-strong)] px-3 py-2 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
 							>
 								{durationOptions.map((opt) => (
 									<option key={opt.value} value={opt.value}>
@@ -363,7 +363,7 @@ export default function RoleActivationsPage() {
 								onChange={(e) => setForm({ ...form, justification: e.target.value })}
 								rows={3}
 								placeholder={t('roleActivations.justificationPlaceholder')}
-								className="mt-1 w-full rounded-md border border-neutral-300 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500 resize-none"
+								className="mt-1 w-full rounded-md border border-[var(--color-border-strong)] px-3 py-2 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500 resize-none"
 							/>
 						</div>
 

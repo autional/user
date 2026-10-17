@@ -197,7 +197,7 @@ export default function FamilyAccessPage() {
 								value={role}
 								onChange={(e) => setRole(e.target.value)}
 								disabled={addMutation.isPending}
-								className="h-10 w-full rounded-md border border-neutral-300 bg-white px-3 py-2 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
+								className="h-10 w-full rounded-md border border-[var(--color-border-strong)] bg-white px-3 py-2 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
 							>
 								{roleOptions.map((opt) => (
 									<option key={opt.value} value={opt.value}>

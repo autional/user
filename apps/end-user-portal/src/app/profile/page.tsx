@@ -411,7 +411,7 @@ export default function ProfilePage() {
 									type="text"
 									value={form.username}
 									onChange={(e) => setForm({ ...form, username: e.target.value })}
-									className="mt-1 w-full rounded-md border border-neutral-300 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
+									className="mt-1 w-full rounded-md border border-[var(--color-border-strong)] px-3 py-2 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
 								/>
 							</div>
 						</div>
@@ -465,7 +465,7 @@ export default function ProfilePage() {
 								id="profile-language"
 								value={currentLang}
 								onChange={(e) => setLanguage(e.target.value as typeof currentLang)}
-								className="rounded-md border border-neutral-300 bg-white px-3 py-1.5 text-sm text-neutral-700 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
+								className="rounded-md border border-[var(--color-border-strong)] bg-white px-3 py-1.5 text-sm text-neutral-700 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
 							>
 								{languages.map((lang) => (
 									<option key={lang.code} value={lang.code}>
