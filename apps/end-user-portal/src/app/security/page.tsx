@@ -268,7 +268,7 @@ export default function SecurityPage() {
 			// 契约驱动：61040010（TOTP already enabled）= ui_observation='conflict'
 			if (semanticsOfError(err)?.uiObservation === 'conflict') {
 				const fresh = (await refetchMFA()).data;
-				if (fresh?.totpEnabled || fresh?.methods?.includes('totp')) {
+				if (fresh?.totpEnabled) {
 					setTotpPendingDetected(false);
 					closeTOTPModal();
 					toast.info(t('security.totpAlreadyEnabled'));
@@ -393,10 +393,10 @@ export default function SecurityPage() {
 		);
 	};
 
-	const hasTotp = mfaStatus?.methods?.includes('totp') ?? false;
-	const hasSms = mfaStatus?.methods?.includes('sms') ?? false;
-	const hasEmail = mfaStatus?.methods?.includes('email') ?? false;
-	const hasPasskey = mfaStatus?.methods?.includes('passkey') ?? false;
+	const hasTotp = mfaStatus?.totpEnabled ?? false;
+	const hasSms = mfaStatus?.smsEnabled ?? false;
+	const hasEmail = mfaStatus?.emailEnabled ?? false;
+	const hasPasskey = (passkeys?.length ?? 0) > 0;
 
 	const SecurityCard = ({
 		icon: Icon,

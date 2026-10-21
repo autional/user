@@ -53,7 +53,6 @@ export interface MFAStatus {
 	smsPhone?: string;
 	emailEnabled: boolean;
 	emailAddress?: string;
-	methods?: string[];
 }
 
 export interface TOTPSetup {

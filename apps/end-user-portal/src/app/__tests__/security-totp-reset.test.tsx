@@ -176,8 +176,8 @@ describe('SecurityPage TOTP 409 分流 + pending 重置闭环（UP-17-A / AC-302
 	it('③ 已启用分支（refetch totpEnabled=true）→ 友好提示 + 关弹窗，不展示恢复条', async () => {
 		const enableMutate = vi.fn().mockRejectedValue(ERR_409);
 		vi.mocked(useEnableTOTP).mockReturnValue({ mutateAsync: enableMutate, isPending: false } as never);
-		const refetch = vi.fn().mockResolvedValue({ data: { totpEnabled: true, methods: ['totp'] } });
-		statusResponse(true, refetch);
+		const refetch = vi.fn().mockResolvedValue({ data: { totpEnabled: true } });
+		statusResponse(false, refetch);
 		const toastInfo = vi.fn();
 		vi.mocked(useToast).mockReturnValue({
 			success: vi.fn(),

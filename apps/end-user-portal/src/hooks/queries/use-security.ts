@@ -89,8 +89,8 @@ async function getMFAStatus(userId: string): Promise<MFAStatus> {
 	return mfaStatusByStatus(userId) as Promise<MFAStatus>;
 }
 
-async function enableTOTP(): Promise<TOTPSetup> {
-	return mfaTotpEnablePost({}) as Promise<TOTPSetup>;
+async function enableTOTP(account: string): Promise<TOTPSetup> {
+	return mfaTotpEnablePost({ account }) as Promise<TOTPSetup>;
 }
 
 async function verifyTOTP(data: { code: string; userId: string }): Promise<unknown> {
@@ -117,8 +117,9 @@ export function useMFAStatus(): UseQueryResult<MFAStatus, Error> {
 }
 
 export function useEnableTOTP(): UseMutationResult<TOTPSetup, Error, void> {
+	const { user } = useAuth();
 	return useMutation<TOTPSetup, Error, void>({
-		mutationFn: enableTOTP,
+		mutationFn: () => enableTOTP(user?.username || user?.email || user?.phone || ''),
 	});
 }
 

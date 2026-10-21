@@ -46,10 +46,7 @@ export default function DashboardPage() {
 	// 任一 MFA 方式启用 → 已启用；全未启用 → amber 短板提示；查询失败 → 暂不可用。
 	const mfaEnabled =
 		!!mfaQ.data &&
-		(mfaQ.data.totpEnabled ||
-			mfaQ.data.smsEnabled ||
-			mfaQ.data.emailEnabled ||
-			(mfaQ.data.methods?.length ?? 0) > 0);
+		(mfaQ.data.totpEnabled || mfaQ.data.smsEnabled || mfaQ.data.emailEnabled);
 
 	const quickLinks = [
 		{

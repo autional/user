@@ -72,11 +72,11 @@ export default function OnboardingPage() {
 
 	const [prevCompleted, setPrevCompleted] = useState(loadStepsCompleted);
 
-	const mfaEnabled =
+	const mfaEnabled = !!(
 		mfaStatus?.totpEnabled ||
 		mfaStatus?.smsEnabled ||
-		mfaStatus?.emailEnabled ||
-		(mfaStatus?.methods?.length ?? 0) > 0;
+		mfaStatus?.emailEnabled
+	);
 	const profileComplete = !!(profile?.username || profile?.email);
 	const devicesConfigured = (devices?.items?.length ?? 0) > 0;
 
