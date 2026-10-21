@@ -20,6 +20,7 @@ import {
 	useVerifyMFAEmail,
 	useDisableMFAEmail,
 	useOAuthConnections,
+	useOAuthProviders,
 	useUnbindOAuth,
 } from '@/hooks/queries';
 import { useToast } from '@/hooks/use-toast';
@@ -60,6 +61,7 @@ vi.mock('@/hooks/queries', () => ({
 	useVerifyMFAEmail: vi.fn(),
 	useDisableMFAEmail: vi.fn(),
 	useOAuthConnections: vi.fn(),
+	useOAuthProviders: vi.fn(),
 	useUnbindOAuth: vi.fn(),
 }));
 
@@ -121,6 +123,11 @@ describe('SecurityPage entry URLs (UP-13 / AC-102)', () => {
 			vi.mocked(hook).mockReturnValue({ mutateAsync: vi.fn(), isPending: false } as never);
 		}
 		vi.mocked(useOAuthConnections).mockReturnValue({ data: [], isLoading: false, error: null } as never);
+		vi.mocked(useOAuthProviders).mockReturnValue({
+			data: [],
+			isLoading: false,
+			isError: false,
+		} as never);
 		vi.mocked(useUnbindOAuth).mockReturnValue({ mutateAsync: vi.fn(), isPending: false } as never);
 		vi.mocked(useToast).mockReturnValue({
 			success: vi.fn(),
@@ -157,5 +164,75 @@ describe('SecurityPage entry URLs (UP-13 / AC-102)', () => {
 		expect(path).toBe('/acme-corp/security/passkeys/register');
 		expect(path.startsWith('/acme-corp/')).toBe(true);
 		expect(path).not.toContain('function');
+	});
+});
+
+// 回归锁：providers 空 ⇒ 第三方登录未开通 ⇒ 不请求 accounts（后端 identity 的 oauth
+// 客户端未装配时该端点恒 500/10000005，页面此前把它渲染成加载失败）。
+describe('SecurityPage OAuth 开通门（未开通不请求 accounts）', () => {
+	beforeEach(() => {
+		vi.mocked(useMFAStatus).mockReturnValue({
+			data: { totpEnabled: false, smsEnabled: false, emailEnabled: false, methods: undefined },
+			isLoading: false,
+			error: null,
+			refetch: vi.fn(),
+		} as never);
+		vi.mocked(usePasskeys).mockReturnValue({ data: [], isLoading: false, error: null } as never);
+		vi.mocked(useChangePassword).mockReturnValue({ mutateAsync: vi.fn(), isPending: false } as never);
+		vi.mocked(useDeletePasskey).mockReturnValue({ mutateAsync: vi.fn(), isPending: false } as never);
+		vi.mocked(useEnableTOTP).mockReturnValue({ mutateAsync: vi.fn(), isPending: false } as never);
+		vi.mocked(useVerifyTOTP).mockReturnValue({ mutateAsync: vi.fn(), isPending: false } as never);
+		vi.mocked(useDisableTOTP).mockReturnValue({ mutateAsync: vi.fn(), isPending: false } as never);
+		vi.mocked(useGenerateBackupCodes).mockReturnValue({ mutateAsync: vi.fn(), isPending: false } as never);
+		vi.mocked(useResetTOTPMutation).mockReturnValue({ mutateAsync: vi.fn(), isPending: false } as never);
+		for (const hook of [
+			useSendMFASMS,
+			useVerifyMFASMS,
+			useDisableMFASMS,
+			useSendMFAEmail,
+			useVerifyMFAEmail,
+			useDisableMFAEmail,
+		]) {
+			vi.mocked(hook).mockReturnValue({ mutateAsync: vi.fn(), isPending: false } as never);
+		}
+		vi.mocked(useUnbindOAuth).mockReturnValue({ mutateAsync: vi.fn(), isPending: false } as never);
+		vi.mocked(useToast).mockReturnValue({
+			success: vi.fn(),
+			error: vi.fn(),
+			info: vi.fn(),
+		} as never);
+	});
+
+	it('providers 为空：展示「暂未开通」且 useOAuthConnections 收到 false', () => {
+		vi.mocked(useOAuthProviders).mockReturnValue({
+			data: [],
+			isLoading: false,
+			isError: false,
+		} as never);
+		vi.mocked(useOAuthConnections).mockReturnValue({
+			data: undefined,
+			isLoading: false,
+			error: null,
+		} as never);
+
+		render(<SecurityPage />, { wrapper: TestWrapper });
+
+		expect(screen.getByText('第三方账户绑定暂未开通')).toBeInTheDocument();
+		expect(screen.queryByRole('button', { name: /绑定新账户/ })).not.toBeInTheDocument();
+		expect(vi.mocked(useOAuthConnections)).toHaveBeenLastCalledWith(false);
+	});
+
+	it('providers 非空：展示绑定入口且 useOAuthConnections 收到 true', () => {
+		vi.mocked(useOAuthProviders).mockReturnValue({
+			data: [{ id: 'github', name: 'GitHub' }],
+			isLoading: false,
+			isError: false,
+		} as never);
+		vi.mocked(useOAuthConnections).mockReturnValue({ data: [], isLoading: false, error: null } as never);
+
+		render(<SecurityPage />, { wrapper: TestWrapper });
+
+		expect(screen.getByRole('button', { name: /绑定新账户/ })).toBeInTheDocument();
+		expect(vi.mocked(useOAuthConnections)).toHaveBeenLastCalledWith(true);
 	});
 });

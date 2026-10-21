@@ -4,6 +4,7 @@ export const queryKeys = {
 	sessions: ['sessions'] as const,
 	mfa: (userId: string) => ['mfa', userId] as const,
 	passkeys: ['passkeys'] as const,
+	oauthProviders: ['oauth-providers'] as const,
 	oauthConnections: (userId: string) => ['oauth-connections', userId] as const,
 	auditLogs: (params?: Record<string, unknown>) => ['audit-logs', params] as const,
 	notifications: (params?: Record<string, unknown>) => ['notifications', params] as const,

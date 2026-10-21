@@ -106,6 +106,13 @@ export interface PointAccount {
 	updatedAt?: string;
 }
 
+export interface OAuthProviderItem {
+	/** 绑定/登录 URL 使用的 provider 键（如 github） */
+	id: string;
+	/** 展示名（如 GitHub） */
+	name: string;
+}
+
 export interface OAuthConnectionItem {
 	id?: string;
 	// provider = 解析后的 provider 名（如 "github"，后端解绑按其匹配）；

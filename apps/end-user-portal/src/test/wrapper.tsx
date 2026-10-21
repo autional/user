@@ -1,5 +1,6 @@
 import { I18nextProvider } from 'react-i18next';
 import { MemoryRouter } from 'react-router';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ThemeProvider, ToastProvider } from '@autional/ui';
 import { AntdThemeProvider } from '@autional/ui/antd';
 import i18n from '@/i18n';
@@ -20,6 +21,12 @@ i18n.changeLanguage('zh-CN');
 // ——导航选中态、面包屑、活动路由都由 URL 决定，停在 '/' 量到的不是产品。
 // 刻意**不**在 story 里再套一层 MemoryRouter：react-router 7 会直接抛
 // 「You cannot render a <Router> inside another <Router>」（实测踩到，整页只剩这条错误）。
+const testQueryClient = new QueryClient({
+	// 与 main.tsx 的 Provider 栈对齐：页面用 useQueryClient（绑定腿回调后刷新连接列表），
+	// 缺这层会直接抛「No QueryClient set」。重试关掉，测试里失败要立刻可见。
+	defaultOptions: { queries: { retry: false } },
+});
+
 export function TestWrapper({
 	children,
 	initialEntries,
@@ -28,14 +35,16 @@ export function TestWrapper({
 	initialEntries?: string[];
 }) {
 	return (
-		<MemoryRouter initialEntries={initialEntries}>
-			<I18nextProvider i18n={i18n}>
-				<ThemeProvider storageKey="end-user-portal-test-theme">
-					<AntdThemeProvider>
-						<ToastProvider>{children}</ToastProvider>
-					</AntdThemeProvider>
-				</ThemeProvider>
-			</I18nextProvider>
-		</MemoryRouter>
+		<QueryClientProvider client={testQueryClient}>
+			<MemoryRouter initialEntries={initialEntries}>
+				<I18nextProvider i18n={i18n}>
+					<ThemeProvider storageKey="end-user-portal-test-theme">
+						<AntdThemeProvider>
+							<ToastProvider>{children}</ToastProvider>
+						</AntdThemeProvider>
+					</ThemeProvider>
+				</I18nextProvider>
+			</MemoryRouter>
+		</QueryClientProvider>
 	);
 }

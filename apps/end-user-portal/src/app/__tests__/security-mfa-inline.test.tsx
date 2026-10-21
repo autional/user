@@ -19,6 +19,7 @@ import {
 	useVerifyMFAEmail,
 	useDisableMFAEmail,
 	useOAuthConnections,
+	useOAuthProviders,
 	useUnbindOAuth,
 } from '@/hooks/queries';
 import { useToast } from '@/hooks/use-toast';
@@ -74,6 +75,7 @@ vi.mock('@/hooks/queries', () => ({
 	useVerifyMFAEmail: vi.fn(),
 	useDisableMFAEmail: vi.fn(),
 	useOAuthConnections: vi.fn(),
+	useOAuthProviders: vi.fn(),
 	useUnbindOAuth: vi.fn(),
 }));
 
@@ -111,6 +113,7 @@ beforeEach(() => {
 	vi.mocked(useVerifyMFAEmail).mockReturnValue({ mutateAsync: verifyEmail, isPending: false } as never);
 	vi.mocked(useDisableMFAEmail).mockReturnValue({ mutateAsync: disableEmail, isPending: false } as never);
 	vi.mocked(useOAuthConnections).mockReturnValue({ data: [], isLoading: false, error: null } as never);
+	vi.mocked(useOAuthProviders).mockReturnValue({ data: [], isLoading: false, isError: false } as never);
 	vi.mocked(useUnbindOAuth).mockReturnValue({ mutateAsync: vi.fn(), isPending: false } as never);
 	vi.mocked(useToast).mockReturnValue({
 		success: toastSuccess,

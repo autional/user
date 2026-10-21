@@ -25,6 +25,7 @@ import {
 	authMeWebauthnCredentials,
 	authMeWebauthnCredentialsByWebauthnCredentialsDelete,
 	authOauthAccounts,
+	authOauthProviders,
 	authOauthUnbindPost,
 } from '@autional/shared/generated/api';
 import type {
@@ -33,6 +34,7 @@ import type {
 	TOTPSetup,
 	PasskeyCredential,
 	OAuthConnectionItem,
+	OAuthProviderItem,
 } from './types';
 import { queryKeys } from './query-keys';
 
@@ -257,6 +259,48 @@ export function useDeletePasskey(): UseMutationResult<unknown, Error, string> {
 	});
 }
 
+const OAUTH_PROVIDER_NAMES: Record<string, string> = {
+	google: 'Google',
+	github: 'GitHub',
+	wechat: 'WeChat',
+	weibo: 'Weibo',
+	apple: 'Apple',
+	facebook: 'Facebook',
+	microsoft: 'Microsoft',
+	linkedin: 'LinkedIn',
+};
+
+function providerDisplayName(id: string): string {
+	return OAUTH_PROVIDER_NAMES[id] || id.charAt(0).toUpperCase() + id.slice(1);
+}
+
+async function getOAuthProviders(): Promise<OAuthProviderItem[]> {
+	// 该端点是「实际可用」的唯一权威：identity 的本地 provider manager 与 oauth-service
+	// 都过滤掉 client_id/secret 为空的提供方（AUTH-01）。空数组 = 第三方登录未开通。
+	// 响应形状两态：委托腿 {id:ULID,name,type}；本地腿 {name,type}。绑定 URL 用 type/name，
+	// 不能用 ULID —— 故一律归一到 provider 键。
+	const data = (await authOauthProviders()) as {
+		providers?: Array<{ id?: string; name?: string; type?: string; displayName?: string }>;
+	};
+	const seen = new Set<string>();
+	const items: OAuthProviderItem[] = [];
+	for (const p of data?.providers || []) {
+		const id = p.type || p.name || p.id || '';
+		if (!id || seen.has(id)) continue;
+		seen.add(id);
+		items.push({ id, name: p.displayName || providerDisplayName(id) });
+	}
+	return items;
+}
+
+export function useOAuthProviders(): UseQueryResult<OAuthProviderItem[], Error> {
+	return useQuery<OAuthProviderItem[], Error>({
+		queryKey: queryKeys.oauthProviders,
+		queryFn: getOAuthProviders,
+		staleTime: 5 * 60 * 1000,
+	});
+}
+
 async function getOAuthConnections(): Promise<OAuthConnectionItem[]> {
 	// UP-15：admin 级端点（/admin/users/{id}/oauth-connections）对 user 入口平面恒 403
 	// （网关 entry_plane_forbidden，含租户 admin 零豁免）；换自助端点 /auth/oauth/accounts
@@ -270,12 +314,13 @@ async function unbindOAuthConnection(provider: string) {
 	await authOauthUnbindPost({ provider });
 }
 
-export function useOAuthConnections(): UseQueryResult<OAuthConnectionItem[], Error> {
+export function useOAuthConnections(enabled = true): UseQueryResult<OAuthConnectionItem[], Error> {
 	const { userId } = useAuth();
 	return useQuery<OAuthConnectionItem[], Error>({
 		queryKey: queryKeys.oauthConnections(userId || ''),
 		queryFn: getOAuthConnections,
-		enabled: !!userId,
+		// 未开通时不发请求：避免后端 10000005 500 进入浏览器网络面板与控制台。
+		enabled: !!userId && enabled,
 	});
 }
 

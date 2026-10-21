@@ -23,13 +23,13 @@ import {
 	Unlink,
 	AlertTriangle,
 } from 'lucide-react';
-import { Link, useNavigate } from 'react-router';
+import { Link, useNavigate, useSearchParams } from 'react-router';
+import { useQueryClient } from '@tanstack/react-query';
 import { useToast } from '@/hooks/use-toast';
 import {
 	useAuth,
 	useAuthStore,
 	extractApiError,
-	API_BASE_URL,
 	processPasswordForTransmission,
 	useTenantSlug,
 } from '@autional/shared';
@@ -50,8 +50,10 @@ import {
 	useSendMFAEmail,
 	useVerifyMFAEmail,
 	useDisableMFAEmail,
+	useOAuthProviders,
 	useOAuthConnections,
 	useUnbindOAuth,
+	queryKeys,
 } from '@/hooks/queries';
 import type { OAuthConnectionItem } from '@/hooks/queries';
 import { Alert, SectionCard, AppPageHeader, LoadingScreen, ErrorState, Modal } from '@autional/ui';
@@ -106,41 +108,40 @@ export default function SecurityPage() {
 	const verifyEmailMutation = useVerifyMFAEmail();
 	const disableEmailMutation = useDisableMFAEmail();
 	const {
+		data: oauthProviders,
+		isLoading: oauthProvidersLoading,
+		isError: oauthProvidersError,
+	} = useOAuthProviders();
+	// 空列表 = 没有任何提供方具备 client_id/secret（identity 本地与 oauth-service 同口径，
+	// AUTH-01）⇒ 第三方登录未开通。此时不请求 accounts，避免无意义的 10000005。
+	const oauthProvisioned = (oauthProviders?.length ?? 0) > 0;
+	const {
 		data: oauthConnections,
 		isLoading: oauthLoading,
 		error: oauthError,
-	} = useOAuthConnections();
+	} = useOAuthConnections(oauthProvisioned);
 	const unbindMutation = useUnbindOAuth();
 
-	const [availableOAuthProviders, setAvailableOAuthProviders] = useState<
-		Array<{ id: string; name: string }>
-	>([]);
-
+	// 绑定腿回调：oauth-service 落库后带 oauth_bind=success|error 跳回本页。
+	// 提示结果、刷新连接列表，再清掉查询参数避免刷新重复提示。
+	const [searchParams, setSearchParams] = useSearchParams();
+	const queryClient = useQueryClient();
 	useEffect(() => {
-		const tenantId = useAuthStore.getState().currentTenantId;
-		if (!tenantId) return;
-		import('@autional/shared/generated/api').then(({ PublicAuthConfigByAuthConfig }) => {
-			PublicAuthConfigByAuthConfig(tenantId)
-				.then((res: any) => {
-					// 拦截器已解包信封：顶层即 auth-config 对象（勿再读 res?.data）。
-					const providers = res?.oauth_providers;
-					if (providers && providers.length > 0) {
-						setAvailableOAuthProviders(providers);
-					} else {
-						setAvailableOAuthProviders([
-							{ id: 'google', name: 'Google' },
-							{ id: 'github', name: 'GitHub' },
-						]);
-					}
-				})
-				.catch(() => {
-					setAvailableOAuthProviders([
-						{ id: 'google', name: 'Google' },
-						{ id: 'github', name: 'GitHub' },
-					]);
-				});
-		});
-	}, []);
+		const bindResult = searchParams.get('oauth_bind');
+		if (!bindResult) return;
+		if (bindResult === 'success') {
+			toast.success(t('security.oauth.bindSuccess'));
+		} else {
+			const reason = searchParams.get('reason') || '';
+			toast.error(t(`security.oauth.bindReason.${reason}`, t('security.oauth.bindFailed')));
+		}
+		queryClient.invalidateQueries({ queryKey: queryKeys.oauthConnections(user?.id || '') });
+		const next = new URLSearchParams(searchParams);
+		next.delete('oauth_bind');
+		next.delete('provider');
+		next.delete('reason');
+		setSearchParams(next, { replace: true });
+	}, [searchParams, setSearchParams, queryClient, t, toast, user?.id]);
 
 	function getBindProviderMeta(providerId: string) {
 		const map: Record<string, { icon: string; iconStyle: string }> = {
@@ -157,8 +158,23 @@ export default function SecurityPage() {
 	}
 
 	const handleBindProvider = async (provider: string) => {
-		// No bind/redirect endpoint exists — use direct OAuth login with bind flag
-		window.open(`${API_BASE_URL}/bff/oauth/api/v1/oauth/login/${provider}?bind=true`, '_self');
+		// S3：服务端授权码绑定。oauth-service 生成 PKCE/签名 state 并记住发起站点；
+		// 回调落在同源 /bff 绑定腿（浏览器 cookie 校验），完成后带 oauth_bind 跳回本页。
+		// 端点尚未进生成客户端 → apiClient 直连（请求拦截器转 snake_case）。
+		const { apiClient } = await import('@autional/shared');
+		const returnTo = `${window.location.origin}${window.location.pathname}${window.location.search}`;
+		try {
+			const res = await apiClient.post('/oauth/api/v1/oauth/bind/initiate', { // @generated-api-exempt
+				provider,
+				returnTo,
+			});
+			const data = ((res as { data?: { authUrl?: string } })?.data ||
+				res) as { authUrl?: string };
+			if (!data?.authUrl) throw new Error('missing auth_url');
+			window.location.assign(data.authUrl);
+		} catch (err) {
+			toast.error(extractApiError(err, t('security.oauth.bindFailed')).message);
+		}
 	};
 
 	// Password form
@@ -893,16 +909,32 @@ export default function SecurityPage() {
 						<h3 className="text-lg font-semibold text-neutral-900">{t('security.oauth.title')}</h3>
 						<p className="text-sm text-neutral-600">{t('security.oauth.desc')}</p>
 					</div>
-					<button
-						onClick={() => setBindModalOpen(true)}
-						className="flex items-center gap-1.5 rounded-md border border-primary-200 bg-primary-50 px-3 py-1.5 text-sm font-medium text-primary-700 hover:bg-primary-100 transition-colors"
-					>
-						<ExternalLink size={14} />
-						{t('security.oauth.bindNew')}
-					</button>
+					{oauthProvisioned && (
+						<button
+							onClick={() => setBindModalOpen(true)}
+							className="flex items-center gap-1.5 rounded-md border border-primary-200 bg-primary-50 px-3 py-1.5 text-sm font-medium text-primary-700 hover:bg-primary-100 transition-colors"
+						>
+							<ExternalLink size={14} />
+							{t('security.oauth.bindNew')}
+						</button>
+					)}
 				</div>
 
-				{oauthLoading ? (
+				{oauthProvidersLoading ? (
+					<div className="flex items-center justify-center py-8 text-sm text-neutral-600">
+						<Loader2 size={20} className="animate-spin mr-2" />
+						{t('security.oauth.loading')}
+					</div>
+				) : oauthProvidersError ? (
+					<div className="rounded-md bg-neutral-50 py-8 text-center text-sm text-neutral-600">
+						{t('security.oauth.loadError')}
+					</div>
+				) : !oauthProvisioned ? (
+					<div className="rounded-md bg-neutral-50 py-8 text-center text-sm text-neutral-600">
+						<p className="font-medium text-neutral-900">{t('security.oauth.unavailable')}</p>
+						<p className="mt-1 text-xs text-neutral-500">{t('security.oauth.unavailableHint')}</p>
+					</div>
+				) : oauthLoading ? (
 					<div className="flex items-center justify-center py-8 text-sm text-neutral-600">
 						<Loader2 size={20} className="animate-spin mr-2" />
 						{t('security.oauth.loading')}
@@ -977,7 +1009,7 @@ export default function SecurityPage() {
 					{t('security.oauth.bindPrompt', '选择要绑定的第三方账号')}
 				</p>
 				<div className="space-y-2">
-					{availableOAuthProviders.map((p) => {
+					{(oauthProviders ?? []).map((p) => {
 						const meta = getBindProviderMeta(p.id);
 						return (
 							<button

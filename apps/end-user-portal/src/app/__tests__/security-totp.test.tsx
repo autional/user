@@ -19,6 +19,7 @@ import {
 	useVerifyMFAEmail,
 	useDisableMFAEmail,
 	useOAuthConnections,
+	useOAuthProviders,
 	useUnbindOAuth,
 } from '@/hooks/queries';
 import { useToast } from '@/hooks/use-toast';
@@ -64,6 +65,7 @@ vi.mock('@/hooks/queries', () => ({
 	useVerifyMFAEmail: vi.fn(),
 	useDisableMFAEmail: vi.fn(),
 	useOAuthConnections: vi.fn(),
+	useOAuthProviders: vi.fn(),
 	useUnbindOAuth: vi.fn(),
 }));
 
@@ -112,6 +114,11 @@ describe('SecurityPage TOTP 二维码字段（UP-16 / AC-201, AC-202）', () => 
 			data: [],
 			isLoading: false,
 			error: null,
+		} as never);
+		vi.mocked(useOAuthProviders).mockReturnValue({
+			data: [],
+			isLoading: false,
+			isError: false,
 		} as never);
 		vi.mocked(useUnbindOAuth).mockReturnValue({ mutateAsync: vi.fn(), isPending: false } as never);
 		vi.mocked(useToast).mockReturnValue({
