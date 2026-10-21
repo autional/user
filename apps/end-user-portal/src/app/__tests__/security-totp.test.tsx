@@ -12,6 +12,12 @@ import {
 	useDisableTOTP,
 	useGenerateBackupCodes,
 	useResetTOTPMutation,
+	useSendMFASMS,
+	useVerifyMFASMS,
+	useDisableMFASMS,
+	useSendMFAEmail,
+	useVerifyMFAEmail,
+	useDisableMFAEmail,
 	useOAuthConnections,
 	useUnbindOAuth,
 } from '@/hooks/queries';
@@ -51,6 +57,12 @@ vi.mock('@/hooks/queries', () => ({
 	useDisableTOTP: vi.fn(),
 	useGenerateBackupCodes: vi.fn(),
 	useResetTOTPMutation: vi.fn(),
+	useSendMFASMS: vi.fn(),
+	useVerifyMFASMS: vi.fn(),
+	useDisableMFASMS: vi.fn(),
+	useSendMFAEmail: vi.fn(),
+	useVerifyMFAEmail: vi.fn(),
+	useDisableMFAEmail: vi.fn(),
 	useOAuthConnections: vi.fn(),
 	useUnbindOAuth: vi.fn(),
 }));
@@ -86,6 +98,16 @@ describe('SecurityPage TOTP 二维码字段（UP-16 / AC-201, AC-202）', () => 
 			mutateAsync: vi.fn(),
 			isPending: false,
 		} as never);
+		for (const hook of [
+			useSendMFASMS,
+			useVerifyMFASMS,
+			useDisableMFASMS,
+			useSendMFAEmail,
+			useVerifyMFAEmail,
+			useDisableMFAEmail,
+		]) {
+			vi.mocked(hook).mockReturnValue({ mutateAsync: vi.fn(), isPending: false } as never);
+		}
 		vi.mocked(useOAuthConnections).mockReturnValue({
 			data: [],
 			isLoading: false,

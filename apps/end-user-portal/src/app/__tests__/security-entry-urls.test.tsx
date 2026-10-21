@@ -13,6 +13,12 @@ import {
 	useDisableTOTP,
 	useGenerateBackupCodes,
 	useResetTOTPMutation,
+	useSendMFASMS,
+	useVerifyMFASMS,
+	useDisableMFASMS,
+	useSendMFAEmail,
+	useVerifyMFAEmail,
+	useDisableMFAEmail,
 	useOAuthConnections,
 	useUnbindOAuth,
 } from '@/hooks/queries';
@@ -47,6 +53,12 @@ vi.mock('@/hooks/queries', () => ({
 	useDisableTOTP: vi.fn(),
 	useGenerateBackupCodes: vi.fn(),
 	useResetTOTPMutation: vi.fn(),
+	useSendMFASMS: vi.fn(),
+	useVerifyMFASMS: vi.fn(),
+	useDisableMFASMS: vi.fn(),
+	useSendMFAEmail: vi.fn(),
+	useVerifyMFAEmail: vi.fn(),
+	useDisableMFAEmail: vi.fn(),
 	useOAuthConnections: vi.fn(),
 	useUnbindOAuth: vi.fn(),
 }));
@@ -98,6 +110,16 @@ describe('SecurityPage entry URLs (UP-13 / AC-102)', () => {
 		vi.mocked(useDisableTOTP).mockReturnValue({ mutateAsync: vi.fn(), isPending: false } as never);
 		vi.mocked(useGenerateBackupCodes).mockReturnValue({ mutateAsync: vi.fn(), isPending: false } as never);
 		vi.mocked(useResetTOTPMutation).mockReturnValue({ mutateAsync: vi.fn(), isPending: false } as never);
+		for (const hook of [
+			useSendMFASMS,
+			useVerifyMFASMS,
+			useDisableMFASMS,
+			useSendMFAEmail,
+			useVerifyMFAEmail,
+			useDisableMFAEmail,
+		]) {
+			vi.mocked(hook).mockReturnValue({ mutateAsync: vi.fn(), isPending: false } as never);
+		}
 		vi.mocked(useOAuthConnections).mockReturnValue({ data: [], isLoading: false, error: null } as never);
 		vi.mocked(useUnbindOAuth).mockReturnValue({ mutateAsync: vi.fn(), isPending: false } as never);
 		vi.mocked(useToast).mockReturnValue({
@@ -107,14 +129,15 @@ describe('SecurityPage entry URLs (UP-13 / AC-102)', () => {
 		} as never);
 	});
 
-	it('MFA 设置入口跳转 /auth/mfa-setup 且不含函数源码文本', () => {
+	it('短信验证未开启 → 打开门户内开通弹窗，不再外跳 auth 站 /mfa-setup', () => {
 		render(<SecurityPage />, { wrapper: TestWrapper });
 
 		fireEvent.click(cardAction('短信验证'));
 
-		expect(locationStub.href).toBe('/auth/mfa-setup');
-		expect(locationStub.href.startsWith('/auth/')).toBe(true);
-		expect(locationStub.href).not.toContain('function');
+		expect(screen.getByText('开通短信验证')).toBeInTheDocument();
+		expect(screen.getByRole('button', { name: '发送验证码' })).toBeInTheDocument();
+		expect(locationStub.href).toBe('');
+		expect(locationStub.href).not.toContain('/mfa-setup');
 	});
 
 	it('Passkey 入口内部导航到门户注册页（带 slug）且不含函数源码文本（UP-90 收敛）', () => {

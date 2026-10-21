@@ -13,6 +13,12 @@ import {
 	useDisableTOTP,
 	useGenerateBackupCodes,
 	useResetTOTPMutation,
+	useSendMFASMS,
+	useVerifyMFASMS,
+	useDisableMFASMS,
+	useSendMFAEmail,
+	useVerifyMFAEmail,
+	useDisableMFAEmail,
 	useOAuthConnections,
 	useUnbindOAuth,
 } from '@/hooks/queries';
@@ -59,6 +65,12 @@ vi.mock('@/hooks/queries', () => ({
 	useDisableTOTP: vi.fn(),
 	useGenerateBackupCodes: vi.fn(),
 	useResetTOTPMutation: vi.fn(),
+	useSendMFASMS: vi.fn(),
+	useVerifyMFASMS: vi.fn(),
+	useDisableMFASMS: vi.fn(),
+	useSendMFAEmail: vi.fn(),
+	useVerifyMFAEmail: vi.fn(),
+	useDisableMFAEmail: vi.fn(),
 	useOAuthConnections: vi.fn(),
 	useUnbindOAuth: vi.fn(),
 }));
@@ -102,6 +114,16 @@ describe('SecurityPage TOTP 409 分流 + pending 重置闭环（UP-17-A / AC-302
 			mutateAsync: vi.fn(),
 			isPending: false,
 		} as never);
+		for (const hook of [
+			useSendMFASMS,
+			useVerifyMFASMS,
+			useDisableMFASMS,
+			useSendMFAEmail,
+			useVerifyMFAEmail,
+			useDisableMFAEmail,
+		]) {
+			vi.mocked(hook).mockReturnValue({ mutateAsync: vi.fn(), isPending: false } as never);
+		}
 		vi.mocked(useOAuthConnections).mockReturnValue({
 			data: [],
 			isLoading: false,

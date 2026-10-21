@@ -26,9 +26,9 @@ import {
 import { Link, useNavigate } from 'react-router';
 import { useToast } from '@/hooks/use-toast';
 import {
+	useAuth,
 	useAuthStore,
 	extractApiError,
-	getAUTH_PAGES_URL,
 	API_BASE_URL,
 	processPasswordForTransmission,
 	useTenantSlug,
@@ -44,6 +44,12 @@ import {
 	useDisableTOTP,
 	useGenerateBackupCodes,
 	useResetTOTPMutation,
+	useSendMFASMS,
+	useVerifyMFASMS,
+	useDisableMFASMS,
+	useSendMFAEmail,
+	useVerifyMFAEmail,
+	useDisableMFAEmail,
 	useOAuthConnections,
 	useUnbindOAuth,
 } from '@/hooks/queries';
@@ -77,6 +83,7 @@ export default function SecurityPage() {
 
 	const { t } = useTranslation();
 	const toast = useToast();
+	const { user } = useAuth();
 
 	const {
 		data: mfaStatus,
@@ -92,6 +99,12 @@ export default function SecurityPage() {
 	const disableTotpMutation = useDisableTOTP();
 	const backupCodesMutation = useGenerateBackupCodes();
 	const resetTotpMutation = useResetTOTPMutation();
+	const sendSmsMutation = useSendMFASMS();
+	const verifySmsMutation = useVerifyMFASMS();
+	const disableSmsMutation = useDisableMFASMS();
+	const sendEmailMutation = useSendMFAEmail();
+	const verifyEmailMutation = useVerifyMFAEmail();
+	const disableEmailMutation = useDisableMFAEmail();
 	const {
 		data: oauthConnections,
 		isLoading: oauthLoading,
@@ -205,10 +218,28 @@ export default function SecurityPage() {
 	const [disableModalOpen, setDisableModalOpen] = useState(false);
 	const [disableCode, setDisableCode] = useState('');
 	const [disableMethod, setDisableMethod] = useState<'totp' | 'sms' | 'email' | null>(null);
+	// SMS/Email 关闭前须先向已绑定地址发码（purpose=disable），与 auth 站 /mfa-setup 同口径
+	const [disableCodeSent, setDisableCodeSent] = useState(false);
+	const [disableCountdown, setDisableCountdown] = useState(0);
 
-	const handleMfaSetup = () => {
-		window.location.href = `${getAUTH_PAGES_URL()}/mfa-setup`;
-	};
+	// SMS / Email 开通弹窗（门户内联，不再跳 auth 站 /mfa-setup）
+	const [contactModal, setContactModal] = useState<'sms' | 'email' | null>(null);
+	const [contactValue, setContactValue] = useState('');
+	const [contactCode, setContactCode] = useState('');
+	const [contactCodeSent, setContactCodeSent] = useState(false);
+	const [contactCountdown, setContactCountdown] = useState(0);
+
+	useEffect(() => {
+		if (contactCountdown <= 0) return;
+		const timer = setTimeout(() => setContactCountdown((n) => n - 1), 1000);
+		return () => clearTimeout(timer);
+	}, [contactCountdown]);
+
+	useEffect(() => {
+		if (disableCountdown <= 0) return;
+		const timer = setTimeout(() => setDisableCountdown((n) => n - 1), 1000);
+		return () => clearTimeout(timer);
+	}, [disableCountdown]);
 
 	// OAuth bind modal
 	const [bindModalOpen, setBindModalOpen] = useState(false);
@@ -326,7 +357,41 @@ export default function SecurityPage() {
 	const startDisable = (method: 'totp' | 'sms' | 'email') => {
 		setDisableMethod(method);
 		setDisableCode('');
+		setDisableCodeSent(false);
+		setDisableCountdown(0);
 		setDisableModalOpen(true);
+	};
+
+	const closeDisableModal = () => {
+		setDisableModalOpen(false);
+		setDisableCode('');
+		setDisableCodeSent(false);
+		setDisableCountdown(0);
+	};
+
+	// SMS/Email 关闭必须先向已绑定地址发码（purpose=disable）；TOTP 走动态码/备份码，无需发码。
+	const sendDisableCode = async () => {
+		if (disableCountdown > 0) return;
+		try {
+			if (disableMethod === 'sms') {
+				if (!mfaStatus?.smsPhone) {
+					toast.error(t('security.smsContactRequired'));
+					return;
+				}
+				await sendSmsMutation.mutateAsync({ phone: mfaStatus.smsPhone, purpose: 'disable' });
+			} else {
+				if (!mfaStatus?.emailAddress) {
+					toast.error(t('security.emailContactRequired'));
+					return;
+				}
+				await sendEmailMutation.mutateAsync({ email: mfaStatus.emailAddress, purpose: 'disable' });
+			}
+			setDisableCodeSent(true);
+			setDisableCountdown(60);
+			toast.success(t('security.codeSent'));
+		} catch (err: any) {
+			toast.error(extractApiError(err, t('security.codeSendError')).message);
+		}
 	};
 
 	const confirmDisable = async () => {
@@ -334,16 +399,95 @@ export default function SecurityPage() {
 			toast.error(t('security.totpEnterCode'));
 			return;
 		}
-		if (disableMethod === 'totp') {
-			try {
+		try {
+			if (disableMethod === 'totp') {
 				await disableTotpMutation.mutateAsync(disableCode);
-				toast.success(t('security.disableSuccess'));
-				setDisableModalOpen(false);
-			} catch (err: any) {
-				toast.error(extractApiError(err, t('security.disableError')).message);
+			} else if (disableMethod === 'sms') {
+				if (!disableCodeSent) {
+					toast.error(t('security.sendCodeFirst'));
+					return;
+				}
+				await disableSmsMutation.mutateAsync(disableCode);
+			} else {
+				if (!disableCodeSent) {
+					toast.error(t('security.sendCodeFirst'));
+					return;
+				}
+				await disableEmailMutation.mutateAsync(disableCode);
 			}
-		} else {
-			toast.info(t('security.comingSoon'));
+			const methodLabel =
+				disableMethod === 'totp'
+					? 'TOTP'
+					: disableMethod === 'sms'
+						? t('security.smsTitle')
+						: t('security.emailTitle');
+			toast.success(t('security.disableSuccess', { method: methodLabel }));
+			closeDisableModal();
+		} catch (err: any) {
+			toast.error(extractApiError(err, t('security.disableError')).message);
+		}
+	};
+
+	const openContactModal = (method: 'sms' | 'email') => {
+		setContactModal(method);
+		setContactValue(method === 'sms' ? user?.phone || '' : user?.email || '');
+		setContactCode('');
+		setContactCodeSent(false);
+		setContactCountdown(0);
+	};
+
+	const closeContactModal = () => {
+		setContactModal(null);
+		setContactValue('');
+		setContactCode('');
+		setContactCodeSent(false);
+		setContactCountdown(0);
+	};
+
+	const sendContactCode = async () => {
+		if (!contactModal || contactCountdown > 0) return;
+		const value = contactValue.trim();
+		if (!value) {
+			toast.error(t(contactModal === 'sms' ? 'security.smsContactRequired' : 'security.emailContactRequired'));
+			return;
+		}
+		// 与 service-core ValidatePhone 同口径（E.164：+ 后 7-15 位、首位非 0）
+		if (contactModal === 'sms' && !/^\+[1-9]\d{6,14}$/.test(value)) {
+			toast.error(t('security.smsContactInvalid'));
+			return;
+		}
+		try {
+			if (contactModal === 'sms') await sendSmsMutation.mutateAsync({ phone: value });
+			else await sendEmailMutation.mutateAsync({ email: value });
+			setContactCodeSent(true);
+			setContactCountdown(60);
+			toast.success(t('security.codeSent'));
+		} catch (err: any) {
+			toast.error(extractApiError(err, t('security.codeSendError')).message);
+		}
+	};
+
+	const verifyContactCode = async () => {
+		if (!contactModal) return;
+		if (!contactCode || contactCode.length < 6) {
+			toast.error(t('security.totpEnterCode'));
+			return;
+		}
+		const value = contactValue.trim();
+		try {
+			// verify 对无效/过期/重放码返回 200 {valid:false}（不抛错），必须判 valid 才可宣告成功。
+			const res =
+				contactModal === 'sms'
+					? await verifySmsMutation.mutateAsync({ phone: value, code: contactCode })
+					: await verifyEmailMutation.mutateAsync({ email: value, code: contactCode });
+			if ((res as { valid?: boolean } | undefined)?.valid === false) {
+				toast.error(t('security.totpVerifyError'));
+				return;
+			}
+			toast.success(t('security.verifySuccess'));
+			closeContactModal();
+		} catch (err: any) {
+			toast.error(extractApiError(err, t('security.totpVerifyError')).message);
 		}
 	};
 
@@ -632,8 +776,8 @@ export default function SecurityPage() {
 						desc={t('security.smsDesc')}
 						status={hasSms ? 'enabled' : 'disabled'}
 						statusText={hasSms ? t('security.enabled') : t('security.disabled')}
-						action={hasSms ? t('security.disable') : t('security.mfaInAuthCenter')}
-						onClick={() => (hasSms ? startDisable('sms') : handleMfaSetup())}
+						action={hasSms ? t('security.disable') : t('security.enable')}
+						onClick={() => (hasSms ? startDisable('sms') : openContactModal('sms'))}
 					/>
 					<SecurityCard
 						icon={ShieldCheck}
@@ -641,8 +785,8 @@ export default function SecurityPage() {
 						desc={t('security.emailDesc')}
 						status={hasEmail ? 'enabled' : 'disabled'}
 						statusText={hasEmail ? t('security.enabled') : t('security.disabled')}
-						action={hasEmail ? t('security.disable') : t('security.mfaInAuthCenter')}
-						onClick={() => (hasEmail ? startDisable('email') : handleMfaSetup())}
+						action={hasEmail ? t('security.disable') : t('security.enable')}
+						onClick={() => (hasEmail ? startDisable('email') : openContactModal('email'))}
 					/>
 					<SecurityCard
 						icon={Fingerprint}
@@ -1000,10 +1144,110 @@ export default function SecurityPage() {
 				)}
 			</Modal>
 
+			{/* SMS / Email 开通 Modal（门户内联；与 auth 站 /mfa-setup 同后端语义：send 发码，verify 建档并启用） */}
+			<Modal
+				open={contactModal !== null}
+				onClose={closeContactModal}
+				title={
+					contactModal === 'sms' ? t('security.smsEnableTitle') : t('security.emailEnableTitle')
+				}
+				maxWidth="sm"
+				footer={
+					<>
+						<button
+							onClick={closeContactModal}
+							className="rounded-md border border-[var(--color-border-strong)] px-4 py-2 text-sm font-medium text-neutral-700 hover:bg-neutral-50"
+						>
+							{t('security.disableCancel')}
+						</button>
+						<button
+							onClick={verifyContactCode}
+							disabled={
+								verifySmsMutation.isPending ||
+								verifyEmailMutation.isPending ||
+								!contactCodeSent ||
+								contactCode.length < 6
+							}
+							className="rounded-md bg-primary-600 px-4 py-2 text-sm font-medium text-white hover:bg-primary-700 disabled:opacity-60"
+						>
+							{verifySmsMutation.isPending || verifyEmailMutation.isPending
+								? t('security.processing')
+								: t('security.verifyAndEnable')}
+						</button>
+					</>
+				}
+			>
+				<div className="space-y-4">
+					<p className="text-sm text-neutral-600">
+						{contactModal === 'sms'
+							? t('security.smsEnablePrompt')
+							: t('security.emailEnablePrompt')}
+					</p>
+					<div>
+						<label
+							htmlFor="mfa-contact"
+							className="block text-sm font-medium text-neutral-700"
+						>
+							{contactModal === 'sms' ? t('security.smsContactLabel') : t('security.emailContactLabel')}
+						</label>
+						<div className="mt-1 flex gap-2">
+							<input
+								id="mfa-contact"
+								type={contactModal === 'sms' ? 'tel' : 'email'}
+								value={contactValue}
+								onChange={(e) => setContactValue(e.target.value)}
+								disabled={contactCodeSent}
+								placeholder={
+									contactModal === 'sms'
+										? t('security.smsContactPlaceholder')
+										: t('security.emailContactPlaceholder')
+								}
+								className="flex-1 rounded-md border border-[var(--color-border-strong)] px-3 py-2 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500 disabled:bg-neutral-100"
+							/>
+							<button
+								type="button"
+								onClick={sendContactCode}
+								disabled={
+									contactCountdown > 0 || sendSmsMutation.isPending || sendEmailMutation.isPending
+								}
+								className="shrink-0 rounded-md border border-[var(--color-border-strong)] px-3 py-2 text-sm font-medium text-neutral-700 hover:bg-neutral-50 disabled:opacity-60"
+							>
+								{contactCountdown > 0
+									? t('security.resendIn', { seconds: contactCountdown })
+									: t('security.sendCode')}
+							</button>
+						</div>
+					</div>
+					<div>
+						<label
+							htmlFor="mfa-contact-code"
+							className="block text-sm font-medium text-neutral-700"
+						>
+							{t('security.codeLabel')}
+						</label>
+						<input
+							id="mfa-contact-code"
+							type="text"
+							inputMode="numeric"
+							maxLength={6}
+							value={contactCode}
+							onChange={(e) => setContactCode(e.target.value.replace(/\D/g, ''))}
+							placeholder="000000"
+							className="mt-1 w-full rounded-md border border-[var(--color-border-strong)] px-3 py-2 text-sm tracking-widest focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
+						/>
+						{contactCodeSent && (
+							<p className="mt-1 text-xs text-neutral-600">
+								{t('security.codeSentTo', { target: contactValue })}
+							</p>
+						)}
+					</div>
+				</div>
+			</Modal>
+
 			{/* Disable MFA Modal */}
 			<Modal
 				open={disableModalOpen}
-				onClose={() => setDisableModalOpen(false)}
+				onClose={closeDisableModal}
 				title={t('security.disableTitle', {
 					method:
 						disableMethod === 'totp'
@@ -1016,44 +1260,83 @@ export default function SecurityPage() {
 				footer={
 					<>
 						<button
-							onClick={() => setDisableModalOpen(false)}
+							onClick={closeDisableModal}
 							className="rounded-md border border-[var(--color-border-strong)] px-4 py-2 text-sm font-medium text-neutral-700 hover:bg-neutral-50"
 						>
 							{t('security.disableCancel')}
 						</button>
 						<button
 							onClick={confirmDisable}
-							disabled={disableTotpMutation.isPending}
+							disabled={
+								disableTotpMutation.isPending ||
+								disableSmsMutation.isPending ||
+								disableEmailMutation.isPending
+							}
 							className="rounded-md bg-danger px-4 py-2 text-sm font-medium text-white hover:bg-danger/90 disabled:opacity-60"
 						>
-							{disableTotpMutation.isPending
+							{disableTotpMutation.isPending ||
+							disableSmsMutation.isPending ||
+							disableEmailMutation.isPending
 								? t('security.processing')
 								: t('security.disableConfirm')}
 						</button>
 					</>
 				}
 			>
-				<p className="text-sm text-neutral-600 mb-4">
-					{t('security.disablePrompt', {
-						hint:
-							disableMethod === 'totp'
-								? t('security.disableTotpHint')
-								: t('security.disableSmsHint'),
-					})}
-				</p>
-				<input
-					type="text"
-					inputMode="numeric"
-					maxLength={8}
-					value={disableCode}
-					onChange={(e) => setDisableCode(e.target.value.replace(/\s/g, ''))}
-					placeholder={
-						disableMethod === 'totp'
-							? t('security.disablePlaceholder', { method: 'TOTP' })
-							: t('security.disablePlaceholder', { method: t('security.smsTitle') })
-					}
-					className="w-full rounded-md border border-[var(--color-border-strong)] px-3 py-2 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
-				/>
+				<div className="space-y-4">
+					<p className="text-sm text-neutral-600">
+						{t('security.disablePrompt', {
+							hint:
+								disableMethod === 'totp'
+									? t('security.disableTotpHint')
+									: disableMethod === 'sms'
+										? t('security.disableSmsHint')
+										: t('security.disableEmailHint'),
+						})}
+					</p>
+					{disableMethod !== 'totp' && (
+						<div className="flex items-center gap-2">
+							<button
+								type="button"
+								onClick={sendDisableCode}
+								disabled={
+									disableCountdown > 0 || sendSmsMutation.isPending || sendEmailMutation.isPending
+								}
+								className="shrink-0 rounded-md border border-[var(--color-border-strong)] px-3 py-1.5 text-sm font-medium text-neutral-700 hover:bg-neutral-50 disabled:opacity-60"
+							>
+								{disableCountdown > 0
+									? t('security.resendIn', { seconds: disableCountdown })
+									: t('security.sendCode')}
+							</button>
+							{disableCodeSent && (
+								<span className="text-xs text-neutral-600">
+									{t('security.codeSentTo', {
+										target:
+											disableMethod === 'sms'
+												? mfaStatus?.smsPhone || ''
+												: mfaStatus?.emailAddress || '',
+									})}
+								</span>
+							)}
+						</div>
+					)}
+					<input
+						type="text"
+						inputMode="numeric"
+						maxLength={disableMethod === 'totp' ? 8 : 6}
+						value={disableCode}
+						onChange={(e) => setDisableCode(e.target.value.replace(/\s/g, ''))}
+						placeholder={t('security.disablePlaceholder', {
+							method:
+								disableMethod === 'totp'
+									? 'TOTP'
+									: disableMethod === 'sms'
+										? t('security.smsTitle')
+										: t('security.emailTitle'),
+						})}
+						className="w-full rounded-md border border-[var(--color-border-strong)] px-3 py-2 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
+					/>
+				</div>
 			</Modal>
 		</div>
 	);

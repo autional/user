@@ -16,6 +16,12 @@ import {
 	mfaTotpDisablePost,
 	mfaBackupCodesGeneratePost,
 	mfaMethodsByMethodsDelete,
+	mfaSmsSendPost,
+	mfaSmsVerifyPost,
+	mfaSmsDisablePost,
+	mfaEmailSendPost,
+	mfaEmailVerifyPost,
+	mfaEmailDisablePost,
 	authMeWebauthnCredentials,
 	authMeWebauthnCredentialsByWebauthnCredentialsDelete,
 	authOauthAccounts,
@@ -163,6 +169,64 @@ export function useResetTOTPMutation(): UseMutationResult<unknown, Error, void> 
 	const { userId } = useAuth();
 	return useMutation<unknown, Error, void>({
 		mutationFn: () => resetTOTP(userId || ''),
+		onSuccess: () => qc.invalidateQueries({ queryKey: queryKeys.mfa(userId || '') }),
+	});
+}
+
+// SMS / Email 自助开通与关闭（门户内联，不再跳 auth 站 /mfa-setup）。
+// verify 成功后 mfa 侧建档并启用，故两个 verify 钩子都要失效 MFA 状态缓存。
+export function useSendMFASMS(): UseMutationResult<unknown, Error, { phone: string; purpose?: string }> {
+	return useMutation<unknown, Error, { phone: string; purpose?: string }>({
+		mutationFn: (data) => mfaSmsSendPost(data),
+	});
+}
+
+export function useVerifyMFASMS(): UseMutationResult<unknown, Error, { phone: string; code: string }> {
+	const qc = useQueryClient();
+	const { userId } = useAuth();
+	return useMutation<unknown, Error, { phone: string; code: string }>({
+		mutationFn: (data) => mfaSmsVerifyPost(data),
+		onSuccess: () => qc.invalidateQueries({ queryKey: queryKeys.mfa(userId || '') }),
+	});
+}
+
+export function useDisableMFASMS(): UseMutationResult<unknown, Error, string> {
+	const qc = useQueryClient();
+	const { userId } = useAuth();
+	return useMutation<unknown, Error, string>({
+		mutationFn: (code: string) => mfaSmsDisablePost({ code }),
+		onSuccess: () => qc.invalidateQueries({ queryKey: queryKeys.mfa(userId || '') }),
+	});
+}
+
+export function useSendMFAEmail(): UseMutationResult<
+	unknown,
+	Error,
+	{ email: string; purpose?: string }
+> {
+	return useMutation<unknown, Error, { email: string; purpose?: string }>({
+		mutationFn: (data) => mfaEmailSendPost(data),
+	});
+}
+
+export function useVerifyMFAEmail(): UseMutationResult<
+	unknown,
+	Error,
+	{ email: string; code: string }
+> {
+	const qc = useQueryClient();
+	const { userId } = useAuth();
+	return useMutation<unknown, Error, { email: string; code: string }>({
+		mutationFn: (data) => mfaEmailVerifyPost(data),
+		onSuccess: () => qc.invalidateQueries({ queryKey: queryKeys.mfa(userId || '') }),
+	});
+}
+
+export function useDisableMFAEmail(): UseMutationResult<unknown, Error, string> {
+	const qc = useQueryClient();
+	const { userId } = useAuth();
+	return useMutation<unknown, Error, string>({
+		mutationFn: (code: string) => mfaEmailDisablePost({ code }),
 		onSuccess: () => qc.invalidateQueries({ queryKey: queryKeys.mfa(userId || '') }),
 	});
 }
