@@ -269,10 +269,20 @@ export default function LoginHistoryPage() {
 					))}
 				</div>
 				<div className="h-5 w-px bg-neutral-200" />
-				{/* 两个原生 date 输入 → 设计系统的区间件。原来「开始日期 / 结束日期」是两个独立标签，
-					现在这两个文案变成区间件的两个占位符（同一批 i18n 键，语义不变）。 */}
+				{/* UP2-09：区间件此前只有占位符（选完即消失、无 aria 名）。补持久可见的分组标题 +
+				    两端输入的隐藏 label（id 经 RangePicker 的 id.start/id.end 落到真实 input）。 */}
+				<span id="login-history-date-range-label" className="text-xs font-medium text-neutral-600">
+					{t('loginHistory.dateRange')}
+				</span>
+				<label htmlFor="login-history-start-date" className="sr-only">
+					{t('loginHistory.startDate')}
+				</label>
+				<label htmlFor="login-history-end-date" className="sr-only">
+					{t('loginHistory.endDate')}
+				</label>
 				<DateRangeFilter
 					size="small"
+					id={{ start: 'login-history-start-date', end: 'login-history-end-date' }}
 					placeholder={[t('loginHistory.startDate'), t('loginHistory.endDate')]}
 					value={startDate && endDate ? [startDate, endDate] : null}
 					onChange={(v) => {

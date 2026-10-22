@@ -1,10 +1,10 @@
-import { useMemo } from 'react';
 import { useLocation } from 'react-router';
 import { useTranslation } from 'react-i18next';
 import { useTenantSlug } from '@autional/shared';
 import { Breadcrumb as SharedBreadcrumb } from '@autional/ui/antd';
 import { buildNavHref } from '@/lib/nav';
 import { ROUTES } from '@/lib/routes';
+import { useRouteLabels } from '@/hooks/use-route-labels';
 
 /**
  * 面包屑。
@@ -21,51 +21,8 @@ export function Breadcrumb() {
 
 	// UP-82：原仅 13 条，communication/pushTokens/announcements/privacyImpact 等一批路由
 	// 走父段直落或裸段显示。现按侧栏分组全量补齐，另含 /security/passkeys 中间段防裸段。
-	const labels = useMemo<Record<string, string>>(
-		() => ({
-			// 账户
-			[ROUTES.dashboard]: t('nav.overview'),
-			[ROUTES.profile]: t('nav.profile'),
-			[ROUTES.privacyImpact]: t('nav.privacyImpact'),
-			[ROUTES.exportData]: t('nav.exportData'),
-			[ROUTES.compliance]: t('nav.compliance'),
-			[ROUTES.security]: t('nav.security'),
-			[ROUTES.roleActivations]: t('nav.roleActivations'),
-			[ROUTES.linkedAccounts]: t('nav.linkedAccounts'),
-			[ROUTES.consents]: t('nav.consents'),
-			[ROUTES.onboarding]: t('onboarding.title'),
-			// 安全活动
-			[ROUTES.loginHistory]: t('nav.loginHistory'),
-			[ROUTES.activity]: t('nav.activityLog'),
-			[ROUTES.recoveryContacts]: t('nav.recoveryContacts'),
-			[ROUTES.sessions]: t('nav.sessions'),
-			// security 子路径（中间段 + 终点，防裸段显示）
-			'/security/passkeys': t('security.passkeyTitle'),
-			[ROUTES.passkeyRegister]: t('security.passkeys.register.title'),
-			[ROUTES.deleteAccount]: t('security.deleteAccountTitle'),
-			// 我的设备
-			[ROUTES.devices]: t('nav.devices'),
-			[ROUTES.devicesPair]: t('nav.pairDevice'),
-			[ROUTES.devicesFamily]: t('nav.familyAccess'),
-			// 财务
-			[ROUTES.wallet]: t('nav.wallet'),
-			[ROUTES.walletRecharge]: t('nav.recharge'),
-			[ROUTES.walletWithdrawals]: t('nav.withdrawals'),
-			[ROUTES.points]: t('nav.points'),
-			[ROUTES.billing]: t('nav.billing'),
-			[ROUTES.billingSubscribe]: t('billing.subscribe.title'),
-			[ROUTES.billingInvoices]: t('billing.invoices.title'),
-			[ROUTES.payments]: t('payments.title'),
-			[ROUTES.storage]: t('nav.storage'),
-			// 消息 / 通信 / 公告
-			[ROUTES.notifications]: t('nav.notifications'),
-			[ROUTES.notificationPrefs]: t('nav.notificationPrefs'),
-			[ROUTES.communication]: t('nav.communication'),
-			[ROUTES.pushTokens]: t('nav.pushTokens'),
-			[ROUTES.announcements]: t('nav.announcements'),
-		}),
-		[t],
-	);
+	// 映射表与 document.title 共用（useRouteLabels），避免两份文案漂移。
+	const labels = useRouteLabels();
 
 	return (
 		<SharedBreadcrumb

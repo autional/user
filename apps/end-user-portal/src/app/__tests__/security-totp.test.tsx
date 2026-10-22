@@ -142,7 +142,7 @@ describe('SecurityPage TOTP 二维码字段（UP-16 / AC-201, AC-202）', () => 
 		render(<SecurityPage />, { wrapper: TestWrapper });
 		fireEvent.click(totpCardAction());
 
-		const img = await screen.findByAltText('TOTP QR Code');
+		const img = await screen.findByAltText('身份验证器二维码');
 		const src = img.getAttribute('src') || '';
 		expect(src.startsWith('data:image/')).toBe(true);
 		expect(src).toContain('base64,');
@@ -165,7 +165,7 @@ describe('SecurityPage TOTP 二维码字段（UP-16 / AC-201, AC-202）', () => 
 		render(<SecurityPage />, { wrapper: TestWrapper });
 		fireEvent.click(totpCardAction());
 
-		const img = await screen.findByAltText('TOTP QR Code');
+		const img = await screen.findByAltText('身份验证器二维码');
 		const src = img.getAttribute('src') || '';
 		expect(src.startsWith('data:image/png;base64,')).toBe(true);
 		expect(src).toContain('iVBORw0KGgo');
@@ -184,7 +184,7 @@ describe('SecurityPage TOTP 二维码字段（UP-16 / AC-201, AC-202）', () => 
 		fireEvent.click(totpCardAction());
 
 		await screen.findByText('无法生成二维码');
-		expect(screen.queryByAltText('TOTP QR Code')).not.toBeInTheDocument();
+		expect(screen.queryByAltText('身份验证器二维码')).not.toBeInTheDocument();
 		expect(screen.getByText('ONLY-SECRET-654321')).toBeInTheDocument();
 		expect(screen.getByText('开启 TOTP 验证')).toBeInTheDocument();
 	});

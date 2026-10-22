@@ -54,12 +54,33 @@ export default function CompliancePage() {
 			</div>
 		);
 
+	// UP2-14：404 也要有页头（H1）与恢复入口，否则和「加载失败」无法区分、只能整页刷新。
 	if (notFound)
 		return (
-			<EmptyState
-				title={t('compliance.empty', '暂无合规数据')}
-				description={t('compliance.emptyDesc', '当前租户尚未配置合规标准')}
-			/>
+			<div className="max-w-3xl mx-auto">
+				<AppPageHeader
+					title={
+						<span className="flex items-center gap-2">
+							<ShieldCheck className="h-5 w-5 text-[var(--color-brand)]" />
+							{t('compliance.title', '组织合规状态')}
+						</span>
+					}
+					description={t('compliance.subtitle', '了解您所在组织的合规标准遵守情况和评分')}
+				/>
+				<EmptyState
+					title={t('compliance.empty', '暂无合规数据')}
+					description={t('compliance.emptyDesc', '当前租户尚未配置合规标准')}
+				/>
+				<div className="mt-4 flex justify-center">
+					<button
+						type="button"
+						onClick={() => fetchData()}
+						className="rounded-md border border-[var(--color-border-strong)] bg-white px-3 py-1.5 text-sm text-neutral-700 hover:bg-neutral-50"
+					>
+						{t('common.retry')}
+					</button>
+				</div>
+			</div>
 		);
 
 	if (error) return <ErrorState message={error} onRetry={() => fetchData()} />;

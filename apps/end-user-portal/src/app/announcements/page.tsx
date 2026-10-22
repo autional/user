@@ -97,8 +97,11 @@ export default function AnnouncementsPage() {
 										<h3 className="text-base font-semibold text-neutral-900">{ann.title}</h3>
 										{ann.views != null && (
 											<span className="flex items-center gap-1 text-xs text-neutral-600">
-												<Eye size={12} />
-												{ann.views}
+												<Eye size={12} aria-hidden="true" />
+												<span aria-hidden="true">{ann.views}</span>
+												<span className="sr-only">
+													{t('announcements.viewCount', { count: ann.views })}
+												</span>
 											</span>
 										)}
 									</div>
@@ -118,9 +121,9 @@ export default function AnnouncementsPage() {
 											<button
 												type="button"
 												onClick={() => handleDismiss(ann.id)}
-												className="relative z-10 flex items-center gap-1 text-xs text-neutral-600 hover:text-neutral-600 transition-colors"
+												className="relative z-10 -m-1 flex min-h-6 min-w-6 items-center gap-1 rounded p-1 text-xs text-neutral-600 hover:bg-neutral-100 hover:text-neutral-600 transition-colors"
 											>
-												<X size={12} />
+												<X size={12} aria-hidden="true" />
 												{t('announcements.dismiss', 'Dismiss')}
 											</button>
 											<span className="text-xs text-neutral-600">

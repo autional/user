@@ -18,6 +18,7 @@ import {
 import { useQuery } from '@tanstack/react-query';
 import { useUnreadNotifications } from '@/hooks/queries';
 import { useNotificationStream } from '@/hooks/use-notification-stream';
+import { useRouteLabels } from '@/hooks/use-route-labels';
 import { useEffect, useRef } from 'react';
 import {
 	AppShell,
@@ -202,6 +203,16 @@ export default function AppLayout() {
 		internalPath,
 	);
 
+	// UP2-08：document.title 跟随路由（此前恒为 index.html 里的应用名）。
+	// 未收录的动态路由回落应用名，不留裸段。
+	const routeLabels = useRouteLabels();
+	useEffect(() => {
+		const pageLabel = routeLabels[internalPath];
+		document.title = pageLabel
+			? t('common.documentTitle', { page: pageLabel })
+			: t('dashboard.title');
+	}, [internalPath, routeLabels, t]);
+
 	const handleLogout = useLogout();
 
 	const { portals } = usePortalCatalog({ tenantId: currentTenant?.id, slug: tenantSlug });
@@ -310,12 +321,19 @@ export default function AppLayout() {
 					 * （AppPageHeader 渲染 h1），外壳只负责**位置感**，而位置感正是面包屑的职责。
 					 * 这也是舰队里另外两个在册门户（admin / platform）早就收敛到的形态：headerLeft=<Breadcrumb />。
 					 */}
-					<Breadcrumb />
+					{/* UP2-01：窄屏面包屑会被压成逐字竖排并挤爆顶栏；页面自身有 H1，移动端隐藏。 */}
+					<div className="hidden md:block">
+						<Breadcrumb />
+					</div>
 				</>
 			}
 			headerRight={
 				<>
-					<PortalSwitcher portals={portals} currentPortal="user" />
+					{/* UP2-01：极窄屏（<360px）先让出门户切换，保证用户菜单可完整触达。
+					    hidden 放在外层 div 上：放在按钮上会留下一个空容器，仍占 flex gap。 */}
+					<div className="max-[359px]:hidden">
+						<PortalSwitcher portals={portals} currentPortal="user" />
+					</div>
 
 					<button
 						onClick={() => navigate(navHref(ROUTES.notifications))}
@@ -331,9 +349,10 @@ export default function AppLayout() {
 						)}
 					</button>
 
+					{/* UP2-01：公告入口在移动端侧栏已有一份，顶栏窄屏隐藏，避免挤爆。 */}
 					<button
 						onClick={() => navigate(navHref(ROUTES.announcements))}
-						className="rounded-md p-2 text-neutral-500 hover:bg-neutral-100 hover:text-neutral-700 dark:text-neutral-400 dark:hover:text-neutral-200 transition-colors"
+						className="hidden rounded-md p-2 text-neutral-500 hover:bg-neutral-100 hover:text-neutral-700 dark:text-neutral-400 dark:hover:text-neutral-200 transition-colors sm:inline-block"
 						title={t('nav.announcements')}
 						aria-label={t('nav.announcements')}
 					>
@@ -352,8 +371,10 @@ export default function AppLayout() {
 						iconSize={18}
 					/>
 
+					{/* UP2-01：窄屏只留头像（按钮仍有用户菜单 aria-label），姓名从 sm 起显示。 */}
 					<UserMenu
 						user={user}
+						nameClassName="hidden sm:inline"
 						items={[
 							{
 								key: 'profile',

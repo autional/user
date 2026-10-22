@@ -79,6 +79,14 @@ function toQrImageSrc(qrCode: string): string {
 	return qrCode.startsWith('data:') ? qrCode : `data:image/png;base64,${qrCode}`;
 }
 
+// UP2-13：5xx 的 detail 是内部实现信息（含内部调用名），对外回落本地化文案；
+// 4xx 业务错误保留后端 title/detail（那是给用户看的）。
+function apiErrorMessage(err: unknown, fallback: string): string {
+	const status = (err as { response?: { status?: number } })?.response?.status;
+	if (typeof status === 'number' && status >= 500) return fallback;
+	return extractApiError(err, fallback).message;
+}
+
 export default function SecurityPage() {
 	const tenantSlug = useTenantSlug();
 	const navigate = useNavigate();
@@ -93,7 +101,12 @@ export default function SecurityPage() {
 		error: mfaError,
 		refetch: refetchMFA,
 	} = useMFAStatus();
-	const { data: passkeys, isLoading: pkLoading, error: pkError } = usePasskeys();
+	const {
+		data: passkeys,
+		isLoading: pkLoading,
+		error: pkError,
+		refetch: refetchPasskeys,
+	} = usePasskeys();
 	const changePwdMutation = useChangePassword();
 	const deletePkMutation = useDeletePasskey();
 	const enableTotpMutation = useEnableTOTP();
@@ -111,6 +124,7 @@ export default function SecurityPage() {
 		data: oauthProviders,
 		isLoading: oauthProvidersLoading,
 		isError: oauthProvidersError,
+		refetch: refetchOAuthProviders,
 	} = useOAuthProviders();
 	// 空列表 = 没有任何提供方具备 client_id/secret（identity 本地与 oauth-service 同口径，
 	// AUTH-01）⇒ 第三方登录未开通。此时不请求 accounts，避免无意义的 10000005。
@@ -119,6 +133,7 @@ export default function SecurityPage() {
 		data: oauthConnections,
 		isLoading: oauthLoading,
 		error: oauthError,
+		refetch: refetchOAuthConnections,
 	} = useOAuthConnections(oauthProvisioned);
 	const unbindMutation = useUnbindOAuth();
 
@@ -173,7 +188,7 @@ export default function SecurityPage() {
 			if (!data?.authUrl) throw new Error('missing auth_url');
 			window.location.assign(data.authUrl);
 		} catch (err) {
-			toast.error(extractApiError(err, t('security.oauth.bindFailed')).message);
+			toast.error(apiErrorMessage(err, t('security.oauth.bindFailed')));
 		}
 	};
 
@@ -287,7 +302,7 @@ export default function SecurityPage() {
 			setShowPasswordForm(false);
 			passwordForm.reset();
 		} catch (err: any) {
-			toast.error(extractApiError(err, t('security.changeError')).message);
+			toast.error(apiErrorMessage(err, t('security.changeError')));
 		}
 	};
 
@@ -297,7 +312,7 @@ export default function SecurityPage() {
 			await deletePkMutation.mutateAsync(id);
 			toast.success(t('security.passkeyDeleteSuccess'));
 		} catch (err: any) {
-			toast.error(extractApiError(err, t('security.passkeyDeleteError')).message);
+			toast.error(apiErrorMessage(err, t('security.passkeyDeleteError')));
 		}
 	};
 
@@ -324,7 +339,7 @@ export default function SecurityPage() {
 				}
 				return;
 			}
-			toast.error(extractApiError(err, t('security.totpEnableError')).message);
+			toast.error(apiErrorMessage(err, t('security.totpEnableError')));
 		}
 	};
 
@@ -344,7 +359,7 @@ export default function SecurityPage() {
 			}
 			setTotpStep(3);
 		} catch (err: any) {
-			toast.error(extractApiError(err, t('security.totpVerifyError')).message);
+			toast.error(apiErrorMessage(err, t('security.totpVerifyError')));
 		}
 	};
 
@@ -366,7 +381,7 @@ export default function SecurityPage() {
 			setTotpPendingDetected(false);
 			toast.success(t('security.totpResetSuccess'));
 		} catch (err: any) {
-			toast.error(extractApiError(err, t('security.totpResetError')).message);
+			toast.error(apiErrorMessage(err, t('security.totpResetError')));
 		}
 	};
 
@@ -406,7 +421,7 @@ export default function SecurityPage() {
 			setDisableCountdown(60);
 			toast.success(t('security.codeSent'));
 		} catch (err: any) {
-			toast.error(extractApiError(err, t('security.codeSendError')).message);
+			toast.error(apiErrorMessage(err, t('security.codeSendError')));
 		}
 	};
 
@@ -440,7 +455,7 @@ export default function SecurityPage() {
 			toast.success(t('security.disableSuccess', { method: methodLabel }));
 			closeDisableModal();
 		} catch (err: any) {
-			toast.error(extractApiError(err, t('security.disableError')).message);
+			toast.error(apiErrorMessage(err, t('security.disableError')));
 		}
 	};
 
@@ -479,7 +494,7 @@ export default function SecurityPage() {
 			setContactCountdown(60);
 			toast.success(t('security.codeSent'));
 		} catch (err: any) {
-			toast.error(extractApiError(err, t('security.codeSendError')).message);
+			toast.error(apiErrorMessage(err, t('security.codeSendError')));
 		}
 	};
 
@@ -503,7 +518,7 @@ export default function SecurityPage() {
 			toast.success(t('security.verifySuccess'));
 			closeContactModal();
 		} catch (err: any) {
-			toast.error(extractApiError(err, t('security.totpVerifyError')).message);
+			toast.error(apiErrorMessage(err, t('security.totpVerifyError')));
 		}
 	};
 
@@ -528,7 +543,7 @@ export default function SecurityPage() {
 			await unbindMutation.mutateAsync(connection.provider!);
 			toast.success(t('security.oauth.unbindSuccess'));
 		} catch (err: any) {
-			toast.error(extractApiError(err, t('security.oauth.unbindError')).message);
+			toast.error(apiErrorMessage(err, t('security.oauth.unbindError')));
 		}
 	};
 
@@ -773,7 +788,10 @@ export default function SecurityPage() {
 			{mfaLoading ? (
 				<LoadingScreen message={t('security.loadingStatus')} />
 			) : mfaError ? (
-				<ErrorState message={t('security.statusError')} />
+				<ErrorState
+					message={t('security.statusError')}
+					action={{ label: t('common.retry'), onClick: () => refetchMFA() }}
+				/>
 			) : (
 				<>
 				<div className="grid gap-4 sm:grid-cols-2">
@@ -843,13 +861,13 @@ export default function SecurityPage() {
 
 			{/* Passkeys list */}
 			<SectionCard title={t('security.passkeyListTitle')}>
-				<h3 className="text-lg font-semibold text-[var(--color-text-primary)]">
-					{t('security.passkeyListTitle')}
-				</h3>
 				{pkLoading ? (
 					<LoadingScreen message={t('security.passkeyLoading')} />
 				) : pkError ? (
-					<ErrorState message={t('security.passkeyError')} />
+					<ErrorState
+						message={t('security.passkeyErrorDesc')}
+						action={{ label: t('common.retry'), onClick: () => refetchPasskeys() }}
+					/>
 				) : passkeys && passkeys.length > 0 ? (
 					<div className="mt-4 space-y-3">
 						{passkeys.map((pk) => (
@@ -927,7 +945,14 @@ export default function SecurityPage() {
 					</div>
 				) : oauthProvidersError ? (
 					<div className="rounded-md bg-neutral-50 py-8 text-center text-sm text-neutral-600">
-						{t('security.oauth.loadError')}
+						<p>{t('security.oauth.loadError')}</p>
+						<button
+							type="button"
+							onClick={() => refetchOAuthProviders()}
+							className="mt-2 text-sm font-medium text-primary-700 hover:underline"
+						>
+							{t('common.retry')}
+						</button>
 					</div>
 				) : !oauthProvisioned ? (
 					<div className="rounded-md bg-neutral-50 py-8 text-center text-sm text-neutral-600">
@@ -941,7 +966,14 @@ export default function SecurityPage() {
 					</div>
 				) : oauthError ? (
 					<div className="rounded-md bg-neutral-50 py-8 text-center text-sm text-neutral-600">
-						{t('security.oauth.loadError')}
+						<p>{t('security.oauth.loadError')}</p>
+						<button
+							type="button"
+							onClick={() => refetchOAuthConnections()}
+							className="mt-2 text-sm font-medium text-primary-700 hover:underline"
+						>
+							{t('common.retry')}
+						</button>
 					</div>
 				) : oauthConnections && oauthConnections.length > 0 ? (
 					<div className="mt-4 space-y-3">
@@ -1111,7 +1143,7 @@ export default function SecurityPage() {
 							{totpSetup.qrCode ? (
 								<img
 									src={toQrImageSrc(totpSetup.qrCode)}
-									alt="TOTP QR Code"
+									alt={t('security.totpQrAlt')}
 									className="h-40 w-40 rounded-md border border-neutral-200"
 								/>
 							) : (
@@ -1123,6 +1155,7 @@ export default function SecurityPage() {
 								<code className="text-xs text-neutral-700">{totpSetup.secret}</code>
 								<button
 									onClick={copySecret}
+									aria-label={copied ? t('security.secretCopied') : t('security.copySecret')}
 									className="text-neutral-600 hover:text-primary-700"
 								>
 									{copied ? <Check size={14} /> : <Copy size={14} />}

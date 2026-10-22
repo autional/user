@@ -154,10 +154,7 @@ export default function NotificationPreferencesPage() {
 
 			{/* Notification Types */}
 			<SectionCard title={t('notifications.prefs.typesTitle', '通知类型')}>
-				<h3 className="text-base font-semibold text-neutral-900">
-					{t('notifications.prefs.typesTitle', '通知类型')}
-				</h3>
-				<p className="mt-1 text-sm text-neutral-600">
+				<p className="text-sm text-neutral-600">
 					{t('notifications.prefs.typesDesc', '选择您希望接收的通知类型')}
 				</p>
 				<div className="mt-4 divide-y divide-neutral-100">
@@ -196,10 +193,7 @@ export default function NotificationPreferencesPage() {
 
 			{/* Delivery Channels */}
 			<SectionCard title={t('notifications.prefs.channelsTitle', '通知渠道')}>
-				<h3 className="text-base font-semibold text-neutral-900">
-					{t('notifications.prefs.channelsTitle', '通知渠道')}
-				</h3>
-				<p className="mt-1 text-sm text-neutral-600">
+				<p className="text-sm text-neutral-600">
 					{t('notifications.prefs.channelsDesc', '选择通知的发送渠道')}
 				</p>
 				<div className="mt-4 divide-y divide-neutral-100">

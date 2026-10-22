@@ -300,7 +300,7 @@ export default function ProfilePage() {
 							{displayAvatar ? (
 								<img
 									src={displayAvatar}
-									alt="avatar"
+									alt={t('profile.avatar.alt')}
 									className="h-16 w-16 rounded-full object-cover border border-neutral-200"
 								/>
 							) : (
