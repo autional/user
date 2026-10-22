@@ -420,7 +420,7 @@ export default function SecurityPage() {
 			setDisableCodeSent(true);
 			setDisableCountdown(60);
 			toast.success(t('security.codeSent'));
-		} catch (err: any) {
+		} catch (err: unknown) {
 			toast.error(apiErrorMessage(err, t('security.codeSendError')));
 		}
 	};
@@ -454,7 +454,7 @@ export default function SecurityPage() {
 						: t('security.emailTitle');
 			toast.success(t('security.disableSuccess', { method: methodLabel }));
 			closeDisableModal();
-		} catch (err: any) {
+		} catch (err: unknown) {
 			toast.error(apiErrorMessage(err, t('security.disableError')));
 		}
 	};
@@ -493,7 +493,7 @@ export default function SecurityPage() {
 			setContactCodeSent(true);
 			setContactCountdown(60);
 			toast.success(t('security.codeSent'));
-		} catch (err: any) {
+		} catch (err: unknown) {
 			toast.error(apiErrorMessage(err, t('security.codeSendError')));
 		}
 	};
@@ -517,7 +517,7 @@ export default function SecurityPage() {
 			}
 			toast.success(t('security.verifySuccess'));
 			closeContactModal();
-		} catch (err: any) {
+		} catch (err: unknown) {
 			toast.error(apiErrorMessage(err, t('security.totpVerifyError')));
 		}
 	};

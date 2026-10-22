@@ -121,7 +121,7 @@ export default function AnnouncementsPage() {
 											<button
 												type="button"
 												onClick={() => handleDismiss(ann.id)}
-												className="relative z-10 -m-1 flex min-h-6 min-w-6 items-center gap-1 rounded p-1 text-xs text-neutral-600 hover:bg-neutral-100 hover:text-neutral-600 transition-colors"
+												className="relative z-10 -m-1 flex min-h-6 min-w-6 items-center gap-1 rounded-xs p-1 text-xs text-neutral-600 hover:bg-neutral-100 hover:text-neutral-600 transition-colors"
 											>
 												<X size={12} aria-hidden="true" />
 												{t('announcements.dismiss', 'Dismiss')}
