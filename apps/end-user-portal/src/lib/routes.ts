@@ -19,6 +19,9 @@ export const ROUTES = {
 	loginHistory: '/security/login-history',
 	roleActivations: '/security/role-activations',
 	linkedAccounts: '/security/linked-accounts',
+	// 2026-10-23：已授权应用（OAuth consent 自助查看/撤销）。与 linkedAccounts（第三方登录绑定）
+	// 是两件事：这里是「我授权过哪些应用访问我的账号」，那里是「我把哪个第三方账号绑到本账号」。
+	authorizedApps: '/security/authorized-apps',
 	activity: '/activity',
 	sessions: '/sessions',
 	notifications: '/notifications',

@@ -26,6 +26,7 @@ const SecurityPage = lazy(() => import('./app/security/page'));
 const LoginHistoryPage = lazy(() => import('./app/security/login-history/page'));
 const RoleActivationsPage = lazy(() => import('./app/security/role-activations/page'));
 const LinkedAccountsPage = lazy(() => import('./app/security/linked-accounts/page'));
+const AuthorizedAppsPage = lazy(() => import('./app/security/authorized-apps/page'));
 const ActivityPage = lazy(() => import('./app/activity/page'));
 const SessionsPage = lazy(() => import('./app/sessions/page'));
 const NotificationsPage = lazy(() => import('./app/notifications/page'));
@@ -126,6 +127,7 @@ function appRoutes() {
 			<Route path="security/login-history" element={<LoginHistoryPage />} />
 			<Route path="security/role-activations" element={<RoleActivationsPage />} />
 			<Route path="security/linked-accounts" element={<LinkedAccountsPage />} />
+			<Route path="security/authorized-apps" element={<AuthorizedAppsPage />} />
 			<Route path="activity" element={<ActivityPage />} />
 			<Route path="sessions" element={<SessionsPage />} />
 			<Route path="notifications" element={<NotificationsPage />} />

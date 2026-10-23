@@ -6,6 +6,8 @@ export const queryKeys = {
 	passkeys: ['passkeys'] as const,
 	oauthProviders: ['oauth-providers'] as const,
 	oauthConnections: (userId: string) => ['oauth-connections', userId] as const,
+	// 已授权应用（OAuth consent）。按用户缓存；撤销后整体失效重取。
+	authorizedApps: (userId: string) => ['authorized-apps', userId] as const,
 	auditLogs: (params?: Record<string, unknown>) => ['audit-logs', params] as const,
 	notifications: (params?: Record<string, unknown>) => ['notifications', params] as const,
 	unreadNotifications: ['notifications', 'unread'] as const,

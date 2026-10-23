@@ -22,6 +22,7 @@ import {
 	ExternalLink,
 	Unlink,
 	AlertTriangle,
+	Blocks,
 } from 'lucide-react';
 import { Link, useNavigate, useSearchParams } from 'react-router';
 import { useQueryClient } from '@tanstack/react-query';
@@ -658,6 +659,21 @@ export default function SecurityPage() {
 					<div className="flex-1">
 						<h3 className="font-medium text-neutral-900">{t('security.linkedAccountsLink')}</h3>
 						<p className="text-sm text-neutral-600">{t('security.linkedAccountsLinkDesc')}</p>
+					</div>
+					<ChevronRight size={16} className="text-neutral-500" />
+				</Link>
+				{/* 2026-10-23：已授权应用入口。与「关联账户」（第三方登录绑定）区分：
+				    这里管的是「哪些应用被授权访问我的账号」，可查看/撤销。 */}
+				<Link
+					to={buildNavHref(ROUTES.authorizedApps, tenantSlug)}
+					className="flex items-center gap-4 rounded-lg border border-neutral-200 bg-white p-4 shadow-card hover:border-neutral-300 transition-all"
+				>
+					<div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-primary-50 text-primary-700">
+						<Blocks size={20} />
+					</div>
+					<div className="flex-1">
+						<h3 className="font-medium text-neutral-900">{t('security.authorizedAppsLink')}</h3>
+						<p className="text-sm text-neutral-600">{t('security.authorizedAppsLinkDesc')}</p>
 					</div>
 					<ChevronRight size={16} className="text-neutral-500" />
 				</Link>

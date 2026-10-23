@@ -27,6 +27,8 @@ import {
 	authOauthAccounts,
 	authOauthProviders,
 	authOauthUnbindPost,
+	oauthConsents,
+	oauthConsentsByConsentsDelete,
 } from '@autional/shared/generated/api';
 import type {
 	SessionInfo,
@@ -35,6 +37,7 @@ import type {
 	PasskeyCredential,
 	OAuthConnectionItem,
 	OAuthProviderItem,
+	AuthorizedAppItem,
 } from './types';
 import { queryKeys } from './query-keys';
 
@@ -330,5 +333,44 @@ export function useUnbindOAuth(): UseMutationResult<unknown, Error, string> {
 	return useMutation<unknown, Error, string>({
 		mutationFn: unbindOAuthConnection,
 		onSuccess: () => qc.invalidateQueries({ queryKey: queryKeys.oauthConnections(userId || '') }),
+	});
+}
+
+// ========== 已授权应用（OAuth consent：我授权过哪些应用访问我的账号） ==========
+
+async function getAuthorizedApps(): Promise<AuthorizedAppItem[]> {
+	// 后端 NewDataResponse([]ConsentResponse) → 拦截器解包后顶层即数组（勿再读 data.data）。
+	const data = (await oauthConsents()) as unknown;
+	if (Array.isArray(data)) return data as AuthorizedAppItem[];
+	// 形状异常必须显形：回落 [] 会把「响应坏了」渲染成「你没有授权任何应用」的假空态
+	// （同文件 oauthConnections 的吞错教训）。仅兼容历史 {items:[...]} 形态。
+	const items = (data as { items?: AuthorizedAppItem[] } | undefined)?.items;
+	if (Array.isArray(items)) return items;
+	throw new Error('unexpected /oauth/consents response shape');
+}
+
+async function revokeAuthorizedApp(id: string): Promise<void> {
+	await oauthConsentsByConsentsDelete(id);
+}
+
+export function useAuthorizedApps(): UseQueryResult<AuthorizedAppItem[], Error> {
+	const { userId } = useAuth();
+	return useQuery<AuthorizedAppItem[], Error>({
+		queryKey: queryKeys.authorizedApps(userId || ''),
+		queryFn: getAuthorizedApps,
+		enabled: !!userId,
+		// 授权列表变化频率低；30s 内复用，撤销后由 mutation 主动失效。
+		staleTime: 30 * 1000,
+	});
+}
+
+export function useRevokeAuthorizedApp(): UseMutationResult<unknown, Error, string> {
+	const qc = useQueryClient();
+	const { userId } = useAuth();
+	return useMutation<unknown, Error, string>({
+		mutationFn: revokeAuthorizedApp,
+		onSuccess: () => {
+			qc.invalidateQueries({ queryKey: queryKeys.authorizedApps(userId || '') });
+		},
 	});
 }

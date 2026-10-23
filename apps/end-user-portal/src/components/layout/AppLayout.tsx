@@ -60,6 +60,7 @@ import {
 	Download,
 	Compass,
 	Mail,
+	Blocks,
 } from 'lucide-react';
 
 export default function AppLayout() {
@@ -134,6 +135,7 @@ export default function AppLayout() {
 				{ to: ROUTES.security, label: t('nav.security'), icon: ShieldCheck },
 				{ to: ROUTES.roleActivations, label: t('nav.roleActivations'), icon: KeyRound },
 				{ to: ROUTES.linkedAccounts, label: t('nav.linkedAccounts'), icon: Link2 },
+				{ to: ROUTES.authorizedApps, label: t('nav.authorizedApps'), icon: Blocks },
 				{ to: ROUTES.consents, label: t('nav.consents'), icon: FileCheck },
 				// UP-90：引导向导入口（新用户激活链；页内自带跳过/重开）。
 				{ to: ROUTES.onboarding, label: t('nav.onboarding'), icon: Compass },

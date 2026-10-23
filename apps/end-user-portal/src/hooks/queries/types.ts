@@ -128,6 +128,25 @@ export interface OAuthConnectionItem {
 	tokenExpiry?: string;
 }
 
+/**
+ * 已授权应用（OAuth consent 项）。
+ *
+ * 服务端 `GET /oauth/consents` 在 2026-10-23 起补出客户端展示元信息；
+ * 老版本/客户端已删时这些字段为空，页面须回退展示 `clientId`。
+ */
+export interface AuthorizedAppItem {
+	/** consent 记录 ID（撤销接口的路径参数） */
+	id: string;
+	clientId: string;
+	clientName?: string;
+	/** 显示简称（metadata.alias）：优先于 clientName 展示 */
+	alias?: string;
+	logoUri?: string;
+	website?: string;
+	scopes?: string;
+	grantedAt?: string;
+}
+
 export interface AuditLogItem {
 	id?: string;
 	action?: string;
