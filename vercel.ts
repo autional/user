@@ -1,4 +1,4 @@
-import { routes, type VercelConfig } from '@vercel/config/v1';
+import { routes, type Rewrite, type VercelConfig } from '@vercel/config/v1';
 
 /**
  * 用户中心（user.autional.com / user.autional.cn）的**唯一源站**（B3 单源双区）。
@@ -20,6 +20,14 @@ if (!rawOrigin) {
 
 const ORIGIN = rawOrigin.replace(/\/+$/, '');
 
+// SPA 兜底只在浏览器导航（Accept: text/html）时生效：缺的 /assets/*.js、/sitemap.xml 等
+// 返回真 404，不再被兜成 200 的 index.html（软 404 + 错缓存）。与 status 站同一写法。
+const spaFallback: Rewrite = {
+  source: '/(.*)',
+  destination: '/index.html',
+  has: [{ type: 'header', key: 'accept', value: { re: 'text/html' } }],
+};
+
 export const config: VercelConfig = {
   framework: 'vite',
   installCommand: 'pnpm install --frozen-lockfile',
@@ -31,6 +39,6 @@ export const config: VercelConfig = {
     routes.rewrite('/oauth/callback', '/index.html'),
     routes.rewrite('/oauth/:path*', `${ORIGIN}/oauth/:path*`),
     routes.rewrite('/tenant/:path*', `${ORIGIN}/tenant/:path*`),
-    routes.rewrite('/(.*)', '/index.html'),
+    spaFallback,
   ],
 };
