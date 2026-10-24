@@ -8,7 +8,8 @@ import { routes, type Rewrite, type VercelConfig } from '@vercel/config/v1';
  * 未设置时 **故意抛错**（fail-closed），避免静默产出坏路由。
  *
  * rewrites 承接原 vercel.json 全集（/bff、/api/v1、/oauth/callback 直通、/oauth、/tenant）；
- * `/(.*)` 兜底保持 SPA 语义（rewrites 在文件系统检查后生效，静态资源不受影响）。
+ * `/(.*)` 兜底仅在浏览器导航（Accept 含 text/html）时生效：缺的静态文件返真 404，
+ * 不再被兜成 200 的 index.html（软 404）。
  */
 const rawOrigin = process.env.API_ORIGIN;
 
@@ -42,3 +43,14 @@ export const config: VercelConfig = {
     spaFallback,
   ],
 };
+
+// 守卫自证（2026-10-24）：末条 rewrites 必须是带 Accept 条件的 SPA 兜底。
+// 去掉条件 = 缺失的 /assets/*.js、/robots.txt 被兜成 200 的 index.html（软 404 + 错缓存），
+// 浏览器看不出来、爬虫看得出来。改这两行之前先读 spaFallback 上方注释。
+const lastRewrite = config.rewrites?.at(-1);
+const fallbackGuarded = lastRewrite?.has?.some(
+  (h) => h.key === 'accept' && JSON.stringify(h.value).includes('text/html'),
+);
+if (!fallbackGuarded) {
+  throw new Error('[user] SPA 兜底缺少 Accept: text/html 守卫（见 vercel.ts spaFallback）');
+}
