@@ -1,7 +1,7 @@
 'use client';
 import { ROUTES } from '@/lib/routes';
 import { buildNavHref } from '@/lib/nav';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -140,15 +140,27 @@ export default function SecurityPage() {
 
 	// 绑定腿回调：oauth-service 落库后带 oauth_bind=success|error 跳回本页。
 	// 提示结果、刷新连接列表，再清掉查询参数避免刷新重复提示。
+	//
+	// F1（2026-10-24 prod 实测约 1,900 次 accounts 请求 / 161 个堆叠 toast）：
+	// 本 effect 的依赖含 toast —— toast 状态一变就是新对象；而 setSearchParams 的导航
+	// 是异步提交的。于是每次 toast 触发的重渲染都会拿着**尚未清理**的旧 searchParams
+	// 再跑一遍，再提示、再刷新，形成死循环。用 ref 按「绑定结果签名」消费一次：
+	// 同一结果无论 effect 被触发多少次都只处理一次。绑定流程整页离开再回来会重挂载
+	// 组件，ref 归零，不会吞掉下一次绑定。
 	const [searchParams, setSearchParams] = useSearchParams();
 	const queryClient = useQueryClient();
+	const handledBindResultRef = useRef<string | null>(null);
 	useEffect(() => {
 		const bindResult = searchParams.get('oauth_bind');
 		if (!bindResult) return;
+		const reason = searchParams.get('reason') || '';
+		const provider = searchParams.get('provider') || '';
+		const bindSignature = `${bindResult}|${provider}|${reason}`;
+		if (handledBindResultRef.current === bindSignature) return;
+		handledBindResultRef.current = bindSignature;
 		if (bindResult === 'success') {
 			toast.success(t('security.oauth.bindSuccess'));
 		} else {
-			const reason = searchParams.get('reason') || '';
 			toast.error(t(`security.oauth.bindReason.${reason}`, t('security.oauth.bindFailed')));
 		}
 		queryClient.invalidateQueries({ queryKey: queryKeys.oauthConnections(user?.id || '') });
@@ -1002,6 +1014,14 @@ export default function SecurityPage() {
 								'email' in conn.profileData
 									? String(conn.profileData.email)
 									: '';
+							// F2：登录解析按 provider 已验证邮箱匹配账号。第三方邮箱与当前账号邮箱
+							// 不一致时，绑定后用它登录永远回不到本账号（LinkRequired 或另建新号）。
+							// 这里给出持久提示，引导解绑后换绑同邮箱账号；比对忽略大小写与首尾空白。
+							const accountEmail = (user?.email || '').trim().toLowerCase();
+							const providerEmail = email.trim().toLowerCase();
+							const emailMismatch =
+								!!providerEmail && !!accountEmail && providerEmail !== accountEmail;
+							const emailUnverified = conn.profileData?.['email_verified'] === false;
 							return (
 								<div
 									key={conn.id}
@@ -1023,6 +1043,19 @@ export default function SecurityPage() {
 													</span>
 												)}
 											</div>
+											{(emailMismatch || emailUnverified) && (
+												<p className="mt-1 flex items-start gap-1 text-xs text-amber-700">
+													<AlertTriangle size={12} className="mt-0.5 shrink-0" />
+													<span>
+														{emailMismatch
+															? t('security.oauth.emailMismatch', {
+																	email,
+																	accountEmail: user?.email || '',
+																})
+															: t('security.oauth.emailUnverified')}
+													</span>
+												</p>
+											)}
 										</div>
 									</div>
 									<button
@@ -1056,6 +1089,13 @@ export default function SecurityPage() {
 				<p className="text-sm text-neutral-600 mb-4">
 					{t('security.oauth.bindPrompt', '选择要绑定的第三方账号')}
 				</p>
+				{/* F2 前置提示：无法在发起时预知第三方邮箱，至少先把「必须同邮箱」说清楚，
+				    避免选错账号后绑出一条永远登不回来的连接。 */}
+				{user?.email && (
+					<p className="text-xs text-neutral-500 mb-4">
+						{t('security.oauth.bindEmailHint', { email: user.email })}
+					</p>
+				)}
 				<div className="space-y-2">
 					{(oauthProviders ?? []).map((p) => {
 						const meta = getBindProviderMeta(p.id);

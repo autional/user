@@ -24,7 +24,7 @@ import {
 	useUnbindOAuth,
 } from '@/hooks/queries';
 import { useToast } from '@/hooks/use-toast';
-import { apiClient } from '@autional/shared';
+import { apiClient, useAuth } from '@autional/shared';
 
 // S3 绑定腿回归锁：
 // ① 发起绑定走 oauth-service（POST /oauth/api/v1/oauth/bind/initiate，JWT + return_to），
@@ -33,7 +33,7 @@ import { apiClient } from '@autional/shared';
 
 vi.mock('@autional/shared', async (importOriginal) => ({
 	...(await importOriginal<typeof import('@autional/shared')>()),
-	useAuth: () => ({ user: { id: 'u1' }, userId: 'u1' }),
+	useAuth: vi.fn(() => ({ user: { id: 'u1' }, userId: 'u1' })),
 	useAuthStore: { getState: () => ({ currentTenantId: '' }) },
 	extractApiError: (err: any, fallback: string) => ({
 		code: err?.response?.data?.code,
@@ -153,6 +153,10 @@ beforeEach(() => {
 	} as never);
 	vi.mocked(useUnbindOAuth).mockReturnValue({ mutateAsync: vi.fn(), isPending: false } as never);
 	vi.mocked(useToast).mockReturnValue(toastMock as never);
+	vi.mocked(useAuth).mockReturnValue({
+		user: { id: 'u1', email: 'me@example.com' },
+		userId: 'u1',
+	} as never);
 });
 
 describe('SecurityPage 第三方账号绑定（S3）', () => {
@@ -233,5 +237,85 @@ describe('SecurityPage 第三方账号绑定（S3）', () => {
 		await waitFor(() =>
 			expect(toastMock.error).toHaveBeenCalledWith('第三方账户绑定失败'),
 		);
+	});
+});
+
+// F2：登录解析按 provider 已验证邮箱匹配账号。第三方邮箱与当前账号邮箱不一致时，
+// 绑定后用它登录回不到本账号 —— 列表行必须给出持久提示（而不是等用户登录失败才发现）。
+describe('SecurityPage 第三方账号邮箱一致性提示（F2）', () => {
+	function connection(profileData: Record<string, unknown>) {
+		return {
+			id: 'c1',
+			provider: 'github',
+			profileData,
+			createdAt: '2026-10-24T00:00:00Z',
+		};
+	}
+
+	it('邮箱不一致：行内提示，并带出双方邮箱', async () => {
+		vi.mocked(useOAuthConnections).mockReturnValue({
+			data: [connection({ email: 'other@example.com', email_verified: true })],
+			isLoading: false,
+			error: null,
+			refetch: vi.fn(),
+		} as never);
+
+		render(<SecurityPage />, { wrapper: TestWrapper });
+
+		// 邮箱在行内出现两次（连接信息 + 提示文案），用 findAll 防「多个匹配」误判。
+		expect((await screen.findAllByText(/other@example\.com/)).length).toBeGreaterThan(0);
+		expect(screen.getByText(/与当前账号邮箱（me@example\.com）不一致/)).toBeTruthy();
+	});
+
+	it('邮箱一致（忽略大小写与空白）：不提示', async () => {
+		vi.mocked(useOAuthConnections).mockReturnValue({
+			data: [connection({ email: '  Me@Example.COM ', email_verified: true })],
+			isLoading: false,
+			error: null,
+			refetch: vi.fn(),
+		} as never);
+
+		render(<SecurityPage />, { wrapper: TestWrapper });
+
+		await screen.findByText('GitHub');
+		expect(screen.queryByText(/与当前账号邮箱/)).toBeNull();
+	});
+
+	it('provider 未验证邮箱（email_verified=false）：行内提示', async () => {
+		vi.mocked(useOAuthConnections).mockReturnValue({
+			data: [connection({ email: 'me@example.com', email_verified: false })],
+			isLoading: false,
+			error: null,
+			refetch: vi.fn(),
+		} as never);
+
+		render(<SecurityPage />, { wrapper: TestWrapper });
+
+		expect(await screen.findByText(/邮箱未经提供方验证/)).toBeTruthy();
+	});
+
+	it('发起绑定弹窗：提示必须使用同邮箱的第三方账号', async () => {
+		render(<SecurityPage />, { wrapper: TestWrapper });
+
+		fireEvent.click(screen.getByRole('button', { name: /绑定新账户/ }));
+
+		expect(
+			await screen.findByText(/请使用邮箱为 me@example\.com 的第三方账号/),
+		).toBeTruthy();
+	});
+
+	it('缺 email_verified 键（历史数据）：不误报', async () => {
+		vi.mocked(useOAuthConnections).mockReturnValue({
+			data: [connection({ email: 'me@example.com' })],
+			isLoading: false,
+			error: null,
+			refetch: vi.fn(),
+		} as never);
+
+		render(<SecurityPage />, { wrapper: TestWrapper });
+
+		await screen.findByText('GitHub');
+		expect(screen.queryByText(/与当前账号邮箱/)).toBeNull();
+		expect(screen.queryByText(/邮箱未经提供方验证/)).toBeNull();
 	});
 });
