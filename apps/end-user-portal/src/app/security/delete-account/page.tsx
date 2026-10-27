@@ -15,6 +15,7 @@ import {
 	processPasswordForTransmission,
 	getCurrentTenantId,
 	useTenantSlug,
+	useAuth,
 } from '@autional/shared';
 import {
 	authMeDeleteAccountPost,
@@ -29,6 +30,7 @@ export default function DeleteAccountPage() {
 
 	const { t } = useTranslation();
 	const toast = useToast();
+	const { user } = useAuth();
 	const navigate = useNavigate();
 	const [apiError, setApiError] = useState<string | null>(null);
 
@@ -133,6 +135,15 @@ export default function DeleteAccountPage() {
 				)}
 
 				<form onSubmit={handleSubmit(onSubmit)}>
+					{/* 密码表单语义：隐藏 username 供密码管理器/AT 识别输入目的。 */}
+					<input
+						type="text"
+						name="username"
+						autoComplete="username"
+						value={user?.username || user?.email || ''}
+						readOnly
+						hidden
+					/>
 					<div className="mt-6 border-t border-neutral-100 pt-4">
 						<FormInput<DeleteFormData>
 							name="password"

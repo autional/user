@@ -1,7 +1,7 @@
 'use client';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { extractApiError } from '@autional/shared';
+import { extractApiError, useAuth } from '@autional/shared';
 import {
 	useChangePhone,
 	useVerifyPhoneChange,
@@ -33,6 +33,7 @@ interface Props {
 export function IdentifierChangeDialog({ kind, open, onClose }: Props) {
 	const { t } = useTranslation();
 	const toast = useToast();
+	const { user } = useAuth();
 
 	const [step, setStep] = useState<Step>('submit');
 	const [newValue, setNewValue] = useState('');
@@ -70,6 +71,8 @@ export function IdentifierChangeDialog({ kind, open, onClose }: Props) {
 	};
 
 	const handleSubmit = async () => {
+		// 表单化后 Enter 也能触发提交；沿用按钮的禁用条件，避免空值直发被后端拒。
+		if (!newValue.trim() || !password) return;
 		try {
 			await doChange(stepUpToken);
 		} catch (err) {
@@ -163,7 +166,22 @@ export function IdentifierChangeDialog({ kind, open, onClose }: Props) {
 	return (
 		<Modal open={open} onClose={onClose} title={t(`${tKey}.title`)} maxWidth="md">
 			{step === 'submit' && (
-				<div className="mt-4 space-y-4">
+				<form
+					className="mt-4 space-y-4"
+					onSubmit={(e) => {
+						e.preventDefault();
+						void handleSubmit();
+					}}
+				>
+					{/* 密码表单语义：隐藏 username 供密码管理器/AT 识别输入目的。 */}
+					<input
+						type="text"
+						name="username"
+						autoComplete="username"
+						value={user?.username || user?.email || ''}
+						readOnly
+						hidden
+					/>
 					<div>
 						<label className="block text-sm font-medium text-neutral-700">
 							{t(`${tKey}.newValue`)}
@@ -182,6 +200,7 @@ export function IdentifierChangeDialog({ kind, open, onClose }: Props) {
 						</label>
 						<input
 							type="password"
+							autoComplete="current-password"
 							value={password}
 							onChange={(e) => setPassword(e.target.value)}
 							className={inputCls}
@@ -189,13 +208,14 @@ export function IdentifierChangeDialog({ kind, open, onClose }: Props) {
 					</div>
 					<div className="flex justify-end gap-2">
 						<button
+							type="button"
 							onClick={onClose}
 							className="rounded-md border border-[var(--color-border-strong)] px-3 py-1.5 text-sm text-neutral-700 hover:bg-neutral-50"
 						>
 							{t('profile.cancel')}
 						</button>
 						<button
-							onClick={handleSubmit}
+							type="submit"
 							// UP-07：空值直发会被后端拒。前置禁用（新值 trim 后非空 + 密码非空才可提交）。
 							disabled={
 								changePhoneMut.isPending ||
@@ -208,11 +228,26 @@ export function IdentifierChangeDialog({ kind, open, onClose }: Props) {
 							{t('profile.identifierChange.sendCode')}
 						</button>
 					</div>
-				</div>
+				</form>
 			)}
 
 			{step === 'reauth' && (
-				<div className="mt-4 space-y-4">
+				<form
+					className="mt-4 space-y-4"
+					onSubmit={(e) => {
+						e.preventDefault();
+						void handleReauth();
+					}}
+				>
+					{/* 密码表单语义：隐藏 username 供密码管理器/AT 识别输入目的。 */}
+					<input
+						type="text"
+						name="username"
+						autoComplete="username"
+						value={user?.username || user?.email || ''}
+						readOnly
+						hidden
+					/>
 					<p className="text-sm text-neutral-600">
 						{t('profile.identifierChange.reauthRequiredDesc')}
 					</p>
@@ -222,6 +257,7 @@ export function IdentifierChangeDialog({ kind, open, onClose }: Props) {
 						</label>
 						<input
 							type="password"
+							autoComplete="current-password"
 							value={reauthPassword}
 							onChange={(e) => setReauthPassword(e.target.value)}
 							className={inputCls}
@@ -229,16 +265,17 @@ export function IdentifierChangeDialog({ kind, open, onClose }: Props) {
 					</div>
 					<div className="flex justify-end gap-2">
 						<button
+							type="button"
 							onClick={onClose}
 							className="rounded-md border border-[var(--color-border-strong)] px-3 py-1.5 text-sm text-neutral-700 hover:bg-neutral-50"
 						>
 							{t('profile.cancel')}
 						</button>
-						<button onClick={handleReauth} disabled={reauthMut.isPending} className={btnCls}>
+						<button type="submit" disabled={reauthMut.isPending} className={btnCls}>
 							{t('profile.identifierChange.reauthSubmit')}
 						</button>
 					</div>
-				</div>
+				</form>
 			)}
 
 			{step === 'verify' && (

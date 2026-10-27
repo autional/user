@@ -271,4 +271,20 @@ describe('DeleteAccountPage', () => {
 			expect(screen.queryByText('删除账户失败，请稍后重试')).not.toBeInTheDocument();
 		});
 	});
+
+	// DevTools 密码语义回归锁（2026-10-27）：密码输入在 <form> 内 + autocomplete=current-password
+	// + form 内含 username 语义隐藏字段（Chromium 三条 VERBOSE [DOM] 警告清零的结构前提）。
+	it('password form carries form semantics (hidden username + autocomplete)', () => {
+		const { container } = render(<DeleteAccountPage />, { wrapper: TestWrapper });
+
+		const password = container.querySelector<HTMLInputElement>('input[type="password"]');
+		expect(password).not.toBeNull();
+		const form = password!.closest('form');
+		expect(form).not.toBeNull();
+		expect(password!.getAttribute('autocomplete')).toBe('current-password');
+
+		const username = form!.querySelector<HTMLInputElement>('input[name="username"]');
+		expect(username).not.toBeNull();
+		expect(username!.getAttribute('autocomplete')).toBe('username');
+	});
 });

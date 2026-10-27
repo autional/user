@@ -192,8 +192,8 @@ export default function SecurityPage() {
 		//
 		// 必须同源发起：oauth-service 在 initiate 响应里 Set-Cookie `oauth_bind_state`
 		//（HttpOnly、host-only、10 分钟）。.cn 门户的全局 apiClient 是 direct 模式
-		//（https://api.autional.cn/bff），跨源 fetch 不保存 Set-Cookie；回调又落在
-		// user.autional.cn/bff/...，cookie 既没写也没带 → state_mismatch。
+		//（https://api.<区域域名>/bff），跨源 fetch 不保存 Set-Cookie；回调又落在
+		// user.<区域域名>/bff/...，cookie 既没写也没带 → state_mismatch。
 		// per-request baseURL '/bff' 走门户 Vercel rewrite（与 .com proxy 模式一致）。
 		// 不要用 withCredentials + ACAC 修：网关已固定 allow_credentials=false。
 		const { apiClient } = await import('@autional/shared');
@@ -722,7 +722,19 @@ export default function SecurityPage() {
 				</div>
 
 				{showPasswordForm && (
-					<div className="mt-4 space-y-4 border-t border-neutral-100 pt-4">
+					<form
+						onSubmit={passwordForm.handleSubmit(handleChangePassword)}
+						className="mt-4 space-y-4 border-t border-neutral-100 pt-4"
+					>
+						{/* 密码表单语义：隐藏 username 供密码管理器/AT 识别输入目的。 */}
+						<input
+							type="text"
+							name="username"
+							autoComplete="username"
+							value={user?.username || user?.email || ''}
+							readOnly
+							hidden
+						/>
 						{/* 「显示/隐藏」按钮走 FormInput 的 trailing 槽：按钮必须贴在**输入框**上，
 						    槽由设计系统定位（`pr-10` 也随之自动让出），页面不再自己拼定位块。 */}
 						<FormInput<PasswordForm>
@@ -730,6 +742,7 @@ export default function SecurityPage() {
 							control={passwordForm.control}
 							label={t('security.oldPassword')}
 							type={showOld ? 'text' : 'password'}
+							autoComplete="current-password"
 							// zod 的 message 是 i18n 键，不显式覆盖就会把那串键显示给用户。
 							error={
 								pwdErrors.oldPassword
@@ -752,6 +765,7 @@ export default function SecurityPage() {
 							control={passwordForm.control}
 							label={t('security.newPassword')}
 							type={showNew ? 'text' : 'password'}
+							autoComplete="new-password"
 							error={
 								pwdErrors.newPassword
 									? t(pwdErrors.newPassword.message || 'security.newPasswordRequired')
@@ -800,6 +814,7 @@ export default function SecurityPage() {
 							control={passwordForm.control}
 							label={t('security.confirmPassword')}
 							type="password"
+							autoComplete="new-password"
 							error={
 								pwdErrors.confirmPassword
 									? t(pwdErrors.confirmPassword.message || 'security.passwordMismatch')
@@ -808,15 +823,14 @@ export default function SecurityPage() {
 						/>
 						<div className="flex justify-end">
 							<button
-								type="button"
-								onClick={passwordForm.handleSubmit(handleChangePassword)}
+								type="submit"
 								disabled={pwdSubmitting}
 								className="rounded-md bg-primary-600 px-4 py-2 text-sm font-medium text-white hover:bg-primary-700 transition-colors disabled:opacity-60"
 							>
 								{pwdSubmitting ? t('security.processing') : t('security.confirmChange')}
 							</button>
 						</div>
-					</div>
+					</form>
 				)}
 			</SectionCard>
 
