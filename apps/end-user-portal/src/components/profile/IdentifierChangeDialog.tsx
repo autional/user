@@ -87,6 +87,8 @@ export function IdentifierChangeDialog({ kind, open, onClose }: Props) {
 	};
 
 	const handleReauth = async () => {
+		// 表单化后 Enter 也能触发提交；空密码不发请求（与 submit 步同口径）。
+		if (!reauthPassword.trim()) return;
 		try {
 			const res = await reauthMut.mutateAsync(reauthPassword);
 			if (!res.stepUpToken) {
@@ -271,7 +273,11 @@ export function IdentifierChangeDialog({ kind, open, onClose }: Props) {
 						>
 							{t('profile.cancel')}
 						</button>
-						<button type="submit" disabled={reauthMut.isPending} className={btnCls}>
+						<button
+							type="submit"
+							disabled={reauthMut.isPending || !reauthPassword.trim()}
+							className={btnCls}
+						>
 							{t('profile.identifierChange.reauthSubmit')}
 						</button>
 					</div>

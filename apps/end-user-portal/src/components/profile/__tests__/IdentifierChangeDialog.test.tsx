@@ -125,4 +125,38 @@ describe('IdentifierChangeDialog 密码表单语义', () => {
 			);
 		});
 	});
+
+	it('reauth 步：空密码提交不发请求', async () => {
+		mocks.changeEmail.mockRejectedValue({ reauth: true });
+		const { baseElement } = renderDialog('email');
+
+		fireEvent.change(baseElement.querySelector('input[type="email"]')!, {
+			target: { value: 'new@example.com' },
+		});
+		fireEvent.change(baseElement.querySelector('input[type="password"]')!, {
+			target: { value: 'secret' },
+		});
+		fireEvent.submit(baseElement.querySelector('form')!);
+
+		// 进入 reauth 步：新值输入消失，只剩密码框。
+		await waitFor(() => {
+			expect(baseElement.querySelector('input[type="email"]')).toBeNull();
+		});
+
+		const reauthForm = baseElement.querySelector('form')!;
+		fireEvent.submit(reauthForm);
+		await Promise.resolve();
+		expect(mocks.reauth).not.toHaveBeenCalled();
+
+		mocks.reauth.mockResolvedValue({ stepUpToken: 'tok' });
+		mocks.changeEmail.mockResolvedValue(undefined);
+		fireEvent.change(reauthForm.querySelector('input[type="password"]')!, {
+			target: { value: 'secret2' },
+		});
+		fireEvent.submit(reauthForm);
+
+		await waitFor(() => {
+			expect(mocks.reauth).toHaveBeenCalledWith('secret2');
+		});
+	});
 });
