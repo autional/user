@@ -20,6 +20,7 @@ function regionPlugin(): Plugin {
     LANG: copy.locale,
     TITLE: copy.title,
     DESCRIPTION: copy.description,
+    CDN_ORIGIN: buildEnv.cdnHost,
     CDN_ASSET_BASE,
   };
   return {
@@ -66,6 +67,9 @@ export default defineConfig({
       injectManifest: {
         globDirectory: 'dist',
         globPatterns: ['**/*.{js,css,html,png,svg}'],
+        // 本站 manifest:false（不可安装），安装图标更没必要进离线壳：它们只在「添加到主屏」
+        // 时被浏览器取用。android-chrome-512 单张 145KB，占安装包近四分之一。
+        globIgnores: ['**/android-chrome-*.png', '**/apple-touch-icon.png', '**/icon-192.png', '**/icon-512.png'],
       },
       devOptions: {
         enabled: false,
