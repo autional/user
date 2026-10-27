@@ -189,13 +189,21 @@ export default function SecurityPage() {
 		// S3：服务端授权码绑定。oauth-service 生成 PKCE/签名 state 并记住发起站点；
 		// 回调落在同源 /bff 绑定腿（浏览器 cookie 校验），完成后带 oauth_bind 跳回本页。
 		// 端点尚未进生成客户端 → apiClient 直连（请求拦截器转 snake_case）。
+		//
+		// 必须同源发起：oauth-service 在 initiate 响应里 Set-Cookie `oauth_bind_state`
+		//（HttpOnly、host-only、10 分钟）。.cn 门户的全局 apiClient 是 direct 模式
+		//（https://api.autional.cn/bff），跨源 fetch 不保存 Set-Cookie；回调又落在
+		// user.autional.cn/bff/...，cookie 既没写也没带 → state_mismatch。
+		// per-request baseURL '/bff' 走门户 Vercel rewrite（与 .com proxy 模式一致）。
+		// 不要用 withCredentials + ACAC 修：网关已固定 allow_credentials=false。
 		const { apiClient } = await import('@autional/shared');
 		const returnTo = `${window.location.origin}${window.location.pathname}${window.location.search}`;
 		try {
-			const res = await apiClient.post('/oauth/api/v1/oauth/bind/initiate', { // @generated-api-exempt
-				provider,
-				returnTo,
-			});
+			const res = await apiClient.post( // @generated-api-exempt
+				'/oauth/api/v1/oauth/bind/initiate',
+				{ provider, returnTo },
+				{ baseURL: '/bff' },
+			);
 			const data = ((res as { data?: { authUrl?: string } })?.data ||
 				res) as { authUrl?: string };
 			if (!data?.authUrl) throw new Error('missing auth_url');

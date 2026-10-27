@@ -160,7 +160,9 @@ beforeEach(() => {
 });
 
 describe('SecurityPage 第三方账号绑定（S3）', () => {
-	it('发起绑定：带 provider + return_to 调 bind/initiate，再整页跳转 auth_url', async () => {
+	// 绑定发起必须同源（baseURL '/bff'）：oauth_bind_state 是 host-only cookie，
+	// direct 模式跨源发起会丢 cookie，回调 state_mismatch。不要删掉第三个参数。
+	it('发起绑定：同源 /bff + provider + return_to 调 bind/initiate，再整页跳转 auth_url', async () => {
 		postMock.mockResolvedValue({
 			data: { authUrl: 'https://github.com/login/oauth/authorize?client_id=abc' },
 		});
@@ -171,10 +173,14 @@ describe('SecurityPage 第三方账号绑定（S3）', () => {
 		fireEvent.click(screen.getByRole('button', { name: /GitHub/ }));
 
 		await waitFor(() =>
-			expect(postMock).toHaveBeenCalledWith('/oauth/api/v1/oauth/bind/initiate', {
-				provider: 'github',
-				returnTo: 'https://user.example.com/acme-corp/security?tab=links',
-			}),
+			expect(postMock).toHaveBeenCalledWith(
+				'/oauth/api/v1/oauth/bind/initiate',
+				{
+					provider: 'github',
+					returnTo: 'https://user.example.com/acme-corp/security?tab=links',
+				},
+				{ baseURL: '/bff' },
+			),
 		);
 		await waitFor(() =>
 			expect(locationStub.assign).toHaveBeenCalledWith(
