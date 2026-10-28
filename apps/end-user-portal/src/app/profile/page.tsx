@@ -28,7 +28,7 @@ import {
 } from '@/hooks/queries';
 import { useLanguage } from '@/hooks/use-language';
 import { useTheme } from '@/hooks/use-theme';
-import { SectionCard, AppPageHeader, ErrorState } from '@autional/ui';
+import { Avatar, SectionCard, AppPageHeader, ErrorState } from '@autional/ui';
 import { SkeletonRow } from '@/components/ui/Skeleton';
 import { IdentifierChangeDialog } from '@/components/profile/IdentifierChangeDialog';
 
@@ -297,17 +297,14 @@ export default function ProfilePage() {
 				<SectionCard>
 					<div className="flex items-center gap-4 pb-6 border-b border-neutral-100">
 						<div className="relative group">
-							{displayAvatar ? (
-								<img
-									src={displayAvatar}
-									alt={t('profile.avatar.alt')}
-									className="h-16 w-16 rounded-full object-cover border border-neutral-200"
-								/>
-							) : (
-								<div className="flex h-16 w-16 items-center justify-center rounded-full bg-primary-100 text-2xl font-bold text-primary-700">
-									{userInitial}
-								</div>
-							)}
+							{/* U447：预览图/已有头像共用 Avatar，加载失败自动回落首字母，不再留碎图 */}
+							<Avatar
+								src={displayAvatar}
+								alt={t('profile.avatar.alt')}
+								fallbackText={userInitial}
+								size={64}
+								className="border border-neutral-200 bg-primary-100 text-2xl font-bold text-primary-700"
+							/>
 							<button
 								onClick={() => fileInputRef.current?.click()}
 								className="absolute inset-0 flex items-center justify-center rounded-full bg-black/40 text-white opacity-0 group-hover:opacity-100 transition-opacity"

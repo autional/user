@@ -10,7 +10,7 @@ import {
 	useUnreadNotifications,
 	useMFAStatus,
 } from '@/hooks/queries';
-import { SectionCard, AppPageHeader, ErrorState } from '@autional/ui';
+import { Avatar, SectionCard, AppPageHeader, ErrorState } from '@autional/ui';
 import { SkeletonCard } from '@/components/ui/Skeleton';
 import { ROUTES } from '@/lib/routes';
 import { buildNavHref } from '@/lib/nav';
@@ -88,12 +88,13 @@ export default function DashboardPage() {
 			<AppPageHeader
 				title={
 					<span className="flex items-center gap-3">
-						<span
-							aria-hidden="true"
-							className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary-100 text-base font-bold text-primary-700"
-						>
-							{userInitial}
-						</span>
+						{/* U447：有头像显示头像；URL 失效/缺失回落首字母（Avatar 内置 onError） */}
+						<Avatar
+							src={profile?.avatarUrl || user?.avatarUrl}
+							fallbackText={userInitial}
+							size={40}
+							className="bg-primary-100 text-base font-bold text-primary-700"
+						/>
 						{t('dashboard.greeting', {
 							name:
 								user?.displayName?.trim() ||

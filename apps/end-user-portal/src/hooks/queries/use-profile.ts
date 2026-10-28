@@ -5,11 +5,12 @@ import {
 	type UseQueryResult,
 	type UseMutationResult,
 } from '@tanstack/react-query';
-import { useAuth } from '@autional/shared';
+import { useAuth, useAuthActions } from '@autional/shared';
 import {
 	authMe,
 	authMePut,
 	authMePasswordPut,
+	profileAvatar,
 	profilesAvatarUploadByProfilesPost,
 	profilesPrivacyByProfiles,
 	profilesPrivacyByProfilesPut,
@@ -20,7 +21,17 @@ import type { UserProfile } from './types';
 import { queryKeys } from './query-keys';
 
 async function getUserProfile(): Promise<UserProfile> {
-	return authMe() as Promise<UserProfile>;
+	const me = (await authMe()) as UserProfile;
+	// U447：/auth/me 不含 avatarUrl（头像存在 profile 服务）；单独读取一次并入，
+	// 否则刷新页面后已上传的头像会退回首字母（仅上传当次会话由 updateUser 兜底）。
+	// 头像读取失败不阻塞资料主体：展示层回落首字母。
+	try {
+		const avatar = (await profileAvatar()) as { avatarUrl?: string } | undefined;
+		if (avatar?.avatarUrl) return { ...me, avatarUrl: avatar.avatarUrl };
+	} catch {
+		/* 忽略：缺头像不影响资料页 */
+	}
+	return me;
 }
 
 async function updateUserProfile(data: Partial<UserProfile>): Promise<UserProfile> {
@@ -76,9 +87,15 @@ export function useUploadAvatar(): UseMutationResult<
 	{ userId: string; file: File }
 > {
 	const qc = useQueryClient();
+	const { updateUser } = useAuthActions();
 	return useMutation<{ avatarUrl?: string }, Error, { userId: string; file: File }>({
 		mutationFn: ({ userId, file }) => uploadAvatar(userId, file),
-		onSuccess: () => qc.invalidateQueries({ queryKey: queryKeys.profile }),
+		onSuccess: (data) => {
+			qc.invalidateQueries({ queryKey: queryKeys.profile });
+			// 上传成功后把新头像写回认证快照：顶栏 UserMenu 订阅的是 AuthService，
+			// 只刷 profile 查询的话头像会停在旧值直到刷新页面。
+			if (data?.avatarUrl) updateUser({ avatarUrl: data.avatarUrl });
+		},
 	});
 }
 
