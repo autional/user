@@ -55,6 +55,8 @@ export function readBuildEnv(env = process.env) {
   const cdnHost = (env.CDN_HOST || 'https://cdn.autional.cn').replace(/\/+$/, '');
   const siteHost = new URL(siteUrl).host;
   const rootDomain = siteHost.split('.').slice(-2).join('.');
+  // 门户 OAuth 客户端（公开标识，非密钥）；缺省用平台门户 seed 的 user 客户端。
+  const oauthClientId = env.VITE_OAUTH_CLIENT_ID || '01AR0000000000000000000004';
   /**
    * 前端 API 基址策略（2026-10-27）：
    *   direct = 跨域直连 `${API_ORIGIN}/bff`（少一跳 Vercel，需服务端 CORS 放行该 origin）
@@ -86,6 +88,7 @@ export function readBuildEnv(env = process.env) {
     cdnHost,
     siteHost,
     rootDomain,
+    oauthClientId,
     apiMode,
     apiOrigin,
   };
