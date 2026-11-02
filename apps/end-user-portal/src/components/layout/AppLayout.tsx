@@ -14,6 +14,9 @@ import {
 	refreshAccessToken,
 	logout,
 	getAUTH_PAGES_URL,
+	getDEVELOPER_PORTAL_URL,
+	getLANDING_SITE_URL,
+	getSTATUS_PAGE_URL,
 } from '@autional/shared';
 import { useQuery } from '@tanstack/react-query';
 import { useUnreadNotifications } from '@/hooks/queries';
@@ -62,6 +65,9 @@ import {
 	Mail,
 	Blocks,
 } from 'lucide-react';
+
+/** 门户切换器的白名单：只列同类控制台（2026-11-02），见使用处注释。 */
+const CONSOLE_PORTALS = new Set(['admin', 'security', 'user', 'platform']);
 
 export default function AppLayout() {
 	const { t } = useTranslation();
@@ -218,6 +224,10 @@ export default function AppLayout() {
 	const handleLogout = useLogout();
 
 	const { portals } = usePortalCatalog({ tenantId: currentTenant?.id, slug: tenantSlug });
+	// 切换器只列同类控制台（2026-11-02，白名单）：status/trust/developer/brand 是公开内容站，
+	// 混在控制台切换器里会把用户整页甩出工作上下文。纯终端用户过滤后通常只剩 user 一项，
+	// PortalSwitcher 会按 Gainsight 规则自动隐藏 —— 内容站入口由用户菜单承接（见下方 UserMenu）。
+	const consolePortals = portals.filter((p) => CONSOLE_PORTALS.has(p.code));
 
 	if (tenants.length === 0) {
 		return (
@@ -244,9 +254,13 @@ export default function AppLayout() {
 			 */}
 			<AppShell
 			brand={
-				<span className="truncate text-lg font-bold text-primary-700 dark:text-primary-400">
+				// 品牌区可点回本门户首页（2026-11-02）：此前纯文本，门户内没有「回家」入口。
+				<RouterLink
+					to={navHref('/')}
+					className="truncate text-lg font-bold text-primary-700 transition-opacity hover:opacity-80 dark:text-primary-400"
+				>
 					{t('app.brand')}
-				</span>
+				</RouterLink>
 			}
 			sidebarExtra={
 				tenants.length > 1 && currentTenant ? (
@@ -334,7 +348,7 @@ export default function AppLayout() {
 					{/* UP2-01：极窄屏（<360px）先让出门户切换，保证用户菜单可完整触达。
 					    hidden 放在外层 div 上：放在按钮上会留下一个空容器，仍占 flex gap。 */}
 					<div className="max-[359px]:hidden">
-						<PortalSwitcher portals={portals} currentPortal="user" />
+						<PortalSwitcher portals={consolePortals} currentPortal="user" />
 					</div>
 
 					<button
@@ -384,6 +398,10 @@ export default function AppLayout() {
 								label: t('nav.profile'),
 								onClick: () => navigate(navHref(ROUTES.profile)),
 							},
+							// 站外出口（2026-11-02）：此前只有资料/退出，用户态回不到官网/文档/状态页。
+							{ key: 'docs', type: 'custom', label: t('nav.docs'), href: getDEVELOPER_PORTAL_URL() },
+							{ key: 'status', type: 'custom', label: t('nav.statusPage'), href: getSTATUS_PAGE_URL() },
+							{ key: 'landing', type: 'custom', label: t('nav.officialSite'), href: getLANDING_SITE_URL() },
 							{ key: 'logout', type: 'logout', onClick: handleLogout },
 						]}
 					/>
