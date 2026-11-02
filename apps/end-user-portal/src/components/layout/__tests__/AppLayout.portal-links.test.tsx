@@ -10,6 +10,8 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 // 与生产同一条初始化路径：i18n 实例 + registerUiI18n（@autional/ui 的通用文案）
 import '@/i18n';
 import AppLayout from '../AppLayout';
+import zhCN from '@/i18n/locales/zh-CN.json';
+import enUS from '@/i18n/locales/en-US.json';
 
 const mockCatalog = vi.hoisted(() => ({
 	value: { portals: [] as Array<{ code: string; name?: string; url: string }> },
@@ -74,6 +76,13 @@ describe('用户中心 · 站外出口与切换器收窄', () => {
 	beforeEach(() => {
 		mockCatalog.value = { portals: [] };
 		mockLogout.mockClear();
+	});
+
+	it('i18n 键是顶层平铺键（keySeparator:false 口径）', () => {
+		for (const key of ['nav.docs', 'nav.statusPage', 'nav.officialSite']) {
+			expect(Object.prototype.hasOwnProperty.call(zhCN, key), key + ' 必须在 zh-CN 顶层').toBe(true);
+			expect(Object.prototype.hasOwnProperty.call(enUS, key), key + ' 必须在 en-US 顶层').toBe(true);
+		}
 	});
 
 	it('用户菜单有三条站外出口，登出为末项', async () => {

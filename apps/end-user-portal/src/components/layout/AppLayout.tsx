@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { Link as RouterLink, Outlet, useLocation, useNavigate } from 'react-router';
 import { useTranslation } from 'react-i18next';
 import { Breadcrumb } from './Breadcrumb';
@@ -227,7 +227,10 @@ export default function AppLayout() {
 	// 切换器只列同类控制台（2026-11-02，白名单）：status/trust/developer/brand 是公开内容站，
 	// 混在控制台切换器里会把用户整页甩出工作上下文。纯终端用户过滤后通常只剩 user 一项，
 	// PortalSwitcher 会按 Gainsight 规则自动隐藏 —— 内容站入口由用户菜单承接（见下方 UserMenu）。
-	const consolePortals = portals.filter((p) => CONSOLE_PORTALS.has(p.code));
+	const consolePortals = useMemo(
+		() => portals.filter((p) => CONSOLE_PORTALS.has(p.code)),
+		[portals],
+	);
 
 	if (tenants.length === 0) {
 		return (
