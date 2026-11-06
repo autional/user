@@ -122,12 +122,14 @@ describe('用户中心 · 站外出口与切换器收窄', () => {
 		expect(screen.queryByLabelText('切换门户')).not.toBeInTheDocument();
 	});
 
-	it('多控制台用户：切换器只保留控制台', async () => {
+	it('多控制台用户：切换器只保留控制台（含 config）', async () => {
 		mockCatalog.value = {
 			portals: [
 				{ code: 'user', name: '用户中心', url: 'https://user.example.com/demo' },
 				{ code: 'admin', name: '管理后台', url: 'https://admin.example.com/demo' },
 				{ code: 'security', name: '安全中心', url: 'https://security.example.com/demo' },
+				// 2026-11 接入配置中心：config 在白名单内，必须留在切换器里。
+				{ code: 'config', name: '配置中心', url: 'https://config.example.com/demo' },
 				{ code: 'status', name: '状态页', url: 'https://status.example.com' },
 				{ code: 'brand', name: '品牌入口', url: 'https://brand.example.com' },
 			],
@@ -139,6 +141,10 @@ describe('用户中心 · 站外出口与切换器收窄', () => {
 
 		expect(screen.getByRole('menuitem', { name: '管理后台' })).toBeInTheDocument();
 		expect(screen.getByRole('menuitem', { name: '安全中心' })).toBeInTheDocument();
+		expect(screen.getByRole('menuitem', { name: '配置中心' })).toHaveAttribute(
+			'href',
+			'https://config.example.com/demo',
+		);
 		expect(screen.queryByRole('menuitem', { name: '状态页' })).not.toBeInTheDocument();
 		expect(screen.queryByRole('menuitem', { name: '品牌入口' })).not.toBeInTheDocument();
 	});
