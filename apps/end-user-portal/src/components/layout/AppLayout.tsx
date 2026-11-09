@@ -1,3 +1,4 @@
+import { useSessionActivity } from '../../hooks/use-session-activity';
 import { useMemo, useState } from 'react';
 import { Link as RouterLink, Outlet, useLocation, useNavigate } from 'react-router';
 import { useTranslation } from 'react-i18next';
@@ -74,6 +75,7 @@ const CONSOLE_PORTALS = new Set(['config', 'secret', 'admin', 'security', 'user'
 const PORTAL_ICONS = { config: SlidersHorizontal };
 
 export default function AppLayout() {
+	useSessionActivity();
 	const { t } = useTranslation();
 	const [sidebarOpen, setSidebarOpen] = useState(false);
 	const { user } = useAuth();
