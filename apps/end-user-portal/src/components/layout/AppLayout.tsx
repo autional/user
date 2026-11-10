@@ -7,7 +7,7 @@ import { useTenant } from '@/hooks/use-tenant';
 
 import { ROUTES } from '@/lib/routes';
 import { buildNavHref, pickActiveNavPath, stripTenantPrefix } from '@/lib/nav';
-import { useTenantSlug, extractItem, usePortalCatalog } from '@autional/shared';
+import { extractItem, isConsolePortal, usePortalCatalog, useTenantSlug } from '@autional/shared';
 import {
 	useAuth,
 	useLogout,
@@ -68,9 +68,8 @@ import {
 	SlidersHorizontal,
 } from 'lucide-react';
 
-/** 门户切换器的白名单：只列同类控制台（2026-11-02），见使用处注释。
- *  2026-11 接入配置中心 —— config 同属管理面平面，加入白名单。 */
-const CONSOLE_PORTALS = new Set(['config', 'secret', 'admin', 'security', 'user', 'platform']);
+/** 门户切换器只列「同类控制台」——清单来自 `@autional/shared` 门户注册表（`isConsolePortal`），
+ *  新增控制台只改共享注册表，本仓无需再动。 */
 /** 目录里的 code → 图标；config 需显式补一个，否则落到 Globe 兜底。 */
 const PORTAL_ICONS = { config: SlidersHorizontal };
 
@@ -233,10 +232,7 @@ export default function AppLayout() {
 	// 切换器只列同类控制台（2026-11-02，白名单）：status/trust/developer/brand 是公开内容站，
 	// 混在控制台切换器里会把用户整页甩出工作上下文。纯终端用户过滤后通常只剩 user 一项，
 	// PortalSwitcher 会按 Gainsight 规则自动隐藏 —— 内容站入口由用户菜单承接（见下方 UserMenu）。
-	const consolePortals = useMemo(
-		() => portals.filter((p) => CONSOLE_PORTALS.has(p.code)),
-		[portals],
-	);
+	const consolePortals = useMemo(() => portals.filter((p) => isConsolePortal(p.code)), [portals]);
 
 	if (tenants.length === 0) {
 		return (
