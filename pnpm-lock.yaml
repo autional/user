@@ -51,8 +51,8 @@ importers:
   apps/end-user-portal:
     dependencies:
       '@autional/shared':
-        specifier: 0.1.0-rc.57
-        version: 0.1.0-rc.57(react-dom@19.2.5(react@19.2.5))(react@19.2.5)(use-sync-external-store@1.7.0(react@19.2.5))
+        specifier: 0.1.0-rc.58
+        version: 0.1.0-rc.58(react-dom@19.2.5(react@19.2.5))(react@19.2.5)(use-sync-external-store@1.7.0(react@19.2.5))
       '@autional/tailwind-preset':
         specifier: 0.1.0-rc.10
         version: 0.1.0-rc.10(tailwindcss@3.4.19)
@@ -258,8 +258,8 @@ packages:
       eslint: '>=9.0.0'
       typescript-eslint: '>=8.0.0'
 
-  '@autional/shared@0.1.0-rc.57':
-    resolution: {integrity: sha512-4jb/APlDhv5nlHBeA0op9AP8ftbjk/p9qGzmZVEXxn+CFU7joSAu2nZMYncK10OGqYCK+By7a/fMvntS3/uP6g==}
+  '@autional/shared@0.1.0-rc.58':
+    resolution: {integrity: sha512-AgVu8t0RTSElg/h93YKVouF8XagyLKHy/JUxDU8Gr7jOt/+ewE98fg1rFqMDkKKyOZSt3JZfkMegDBo7K9JFtg==}
     peerDependencies:
       react: 19.2.5
       react-dom: 19.2.5
@@ -4554,7 +4554,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@autional/shared@0.1.0-rc.57(react-dom@19.2.5(react@19.2.5))(react@19.2.5)(use-sync-external-store@1.7.0(react@19.2.5))':
+  '@autional/shared@0.1.0-rc.58(react-dom@19.2.5(react@19.2.5))(react@19.2.5)(use-sync-external-store@1.7.0(react@19.2.5))':
     dependencies:
       '@opentelemetry/api': 1.9.1
       '@tanstack/react-query': 5.100.9(react@19.2.5)
