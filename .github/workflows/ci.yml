@@ -1,0 +1,39 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 11
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+
+      - name: Install
+        run: pnpm install --frozen-lockfile
+
+      - name: Unit tests
+        run: pnpm test
+
+      - name: Portal literals（门户清单单一真源）
+        run: pnpm --filter @autional/end-user-portal exec autional-check-portal-literals --root .
+
+      # 生产构建需要部署环境变量（API_ORIGIN / VITE_GRAFANA_URL 等，缺一个就 fail-closed），
+      # 那是发布链路的职责；这里只做类型检查，避免在 CI 里伪造部署环境。
+      - name: Typecheck
+        run: pnpm typecheck
