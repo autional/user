@@ -15,9 +15,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      # 不指定 version：package.json 的 packageManager(pnpm@11.0.8) 是唯一真源。
+      # 两处都写会触发 action 报错「Multiple versions of pnpm specified」。
       - uses: pnpm/action-setup@v4
-        with:
-          version: 11
 
       - uses: actions/setup-node@v4
         with:
