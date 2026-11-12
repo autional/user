@@ -29,11 +29,29 @@ const spaFallback: Rewrite = {
   has: [{ type: 'header', key: 'accept', value: { re: 'text/html' } }],
 };
 
+/**
+ * 安全响应头（最小集）。
+ *
+ * 此前本站 **一个都没有**，而密钥中心早就有 —— 同类站点两套待遇。先补与 CSP 无关的
+ * 四项（nosniff / frame-options / referrer-policy / permissions-policy）+ HSTS：
+ * 这四项不影响页面加载，可以立即上线。
+ *
+ * **暂不加 CSP**：CSP 需先盘点外链资源（头像/图片 CDN、字体）再加，避免误伤。
+ */
+const SECURITY_HEADERS = [
+  { key: 'X-Content-Type-Options', value: 'nosniff' },
+  { key: 'X-Frame-Options', value: 'DENY' },
+  { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
+  { key: 'Permissions-Policy', value: 'geolocation=(), microphone=(), camera=()' },
+  { key: 'Strict-Transport-Security', value: 'max-age=31536000; includeSubDomains' },
+];
 export const config: VercelConfig = {
   framework: 'vite',
   installCommand: 'pnpm install --frozen-lockfile',
   buildCommand: 'pnpm --filter @autional/end-user-portal... build',
   outputDirectory: 'apps/end-user-portal/dist',
+  // 安全头对所有响应生效；静态资源另加长缓存（此处只补安全头，缓存策略维持现状）。
+  headers: [routes.header('/(.*)', SECURITY_HEADERS)],
   rewrites: [
     routes.rewrite('/bff/:path*', `${ORIGIN}/bff/:path*`),
     routes.rewrite('/api/v1/:path*', `${ORIGIN}/api/v1/:path*`),
