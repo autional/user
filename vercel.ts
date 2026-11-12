@@ -38,7 +38,16 @@ const spaFallback: Rewrite = {
  *
  * **暂不加 CSP**：CSP 需先盘点外链资源（头像/图片 CDN、字体）再加，避免误伤。
  */
+/**
+ * CSP：与 `.cn`（nginx `sec-csp` 头集）**逐字相同**，两区同一套策略。
+ * frame-src 允许 `*.autional.*` 与 grafana —— 生产 env.js 目前未配 GRAFANA（不渲染 iframe），
+ * 但配置后若不在 frame-src 里，ops 面板会变空白，故预留。
+ */
+const CSP =
+	"default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https://api.autional.com https://api.autional.cn https://cdn.autional.cn; font-src 'self' data:; connect-src 'self' https://api.autional.com https://api.autional.cn https://*.autional.com https://*.autional.cn; frame-src 'self' https://*.autional.com https://*.autional.cn https://grafana.autional.tianv.mobi; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; object-src 'none'; worker-src 'self' blob:; manifest-src 'self'; upgrade-insecure-requests";
+
 const SECURITY_HEADERS = [
+  { key: 'Content-Security-Policy', value: CSP },
   { key: 'X-Content-Type-Options', value: 'nosniff' },
   { key: 'X-Frame-Options', value: 'DENY' },
   { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
