@@ -289,6 +289,7 @@ export default function ConsentsPage() {
 						availableFields.map((field) => (
 							<label
 								key={field.key}
+								aria-label={t(field.labelKey)}
 								className={`flex items-start gap-3 rounded-lg border p-3 cursor-pointer transition-colors ${
 									selectedFields.has(field.key)
 										? 'border-primary-300 bg-primary-50'

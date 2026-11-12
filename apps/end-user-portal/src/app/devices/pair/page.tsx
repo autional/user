@@ -86,7 +86,6 @@ export default function DevicePairingPage() {
 								placeholder={t('devices.pair.codePlaceholder')}
 								value={code}
 								onChange={(e) => setCode(e.target.value)}
-								autoFocus
 								disabled={pairMutation.isPending}
 							/>
 						</div>

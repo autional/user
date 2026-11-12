@@ -287,7 +287,11 @@ export default function StoragePage() {
 		);
 
 	return (
-		<div className="max-w-6xl mx-auto space-y-4" onClick={() => setContextMenu(null)}>
+		<div
+			role="presentation"
+			className="max-w-6xl mx-auto space-y-4"
+			onClick={() => setContextMenu(null)}
+		>
 			<AppPageHeader title={t('storage.title')} />
 
 			{/* Quota Bar */}
@@ -423,9 +427,15 @@ export default function StoragePage() {
 								{/* Context Menu */}
 								{contextMenu?.entry === entry && (
 									<div
+										role="presentation"
 										className="absolute top-8 right-2 z-50 bg-white border rounded-lg shadow-brand py-1 min-w-[140px]"
 										onClick={(e) => e.stopPropagation()}
 									>
+										{entry._type === 'file' && (entry as { purpose?: string }).purpose && (entry as { purpose?: string }).purpose !== 'user' && (
+											<div className="px-3 py-1.5 text-xs text-neutral-500">
+												{t('storage.managedHint')}
+											</div>
+										)}
 										{entry._type === 'file' && (
 											<>
 												<button
@@ -434,12 +444,14 @@ export default function StoragePage() {
 												>
 													<Download size={14} /> {t('storage.download')}
 												</button>
-												<button
-													onClick={() => shareMut.mutate(entry.fileId!)}
-													className="w-full text-left px-3 py-1.5 text-sm hover:bg-neutral-50 flex items-center gap-2"
-												>
-													<Share2 size={14} /> {t('storage.share')}
-												</button>
+												{!((entry as { purpose?: string }).purpose && (entry as { purpose?: string }).purpose !== 'user') && (
+													<button
+														onClick={() => shareMut.mutate(entry.fileId!)}
+														className="w-full text-left px-3 py-1.5 text-sm hover:bg-neutral-50 flex items-center gap-2"
+													>
+														<Share2 size={14} /> {t('storage.share')}
+													</button>
+												)}
 											</>
 										)}
 										{entry._type === 'folder' && (
@@ -450,26 +462,30 @@ export default function StoragePage() {
 												<FolderOpen size={14} /> {t('storage.open')}
 											</button>
 										)}
-										<button
-											onClick={() => {
-												setRenameTarget(entry);
-												setRenameName(entry.name || '');
-												setContextMenu(null);
-											}}
-											className="w-full text-left px-3 py-1.5 text-sm hover:bg-neutral-50 flex items-center gap-2"
-										>
-											<Copy size={14} /> {t('storage.rename')}
-										</button>
-										<hr className="my-1" />
-										<button
-											onClick={() => {
-												deleteEntryMut.mutate(entry);
-												setContextMenu(null);
-											}}
-											className="w-full text-left px-3 py-1.5 text-sm hover:bg-danger-soft text-danger flex items-center gap-2"
-										>
-											<Trash2 size={14} /> {t('common.delete')}
-										</button>
+										{!((entry as { purpose?: string }).purpose && (entry as { purpose?: string }).purpose !== 'user') && (
+											<>
+												<button
+													onClick={() => {
+														setRenameTarget(entry);
+														setRenameName(entry.name || '');
+														setContextMenu(null);
+													}}
+													className="w-full text-left px-3 py-1.5 text-sm hover:bg-neutral-50 flex items-center gap-2"
+												>
+													<Copy size={14} /> {t('storage.rename')}
+												</button>
+												<hr className="my-1" />
+												<button
+													onClick={() => {
+														deleteEntryMut.mutate(entry);
+														setContextMenu(null);
+													}}
+													className="w-full text-left px-3 py-1.5 text-sm hover:bg-danger-soft text-danger flex items-center gap-2"
+												>
+													<Trash2 size={14} /> {t('common.delete')}
+												</button>
+											</>
+										)}
 									</div>
 								)}
 							</div>
@@ -504,7 +520,6 @@ export default function StoragePage() {
 			>
 				<input
 					type="text"
-					autoFocus
 					value={newFolderName}
 					onChange={(e) => setNewFolderName(e.target.value)}
 					onKeyDown={(e) =>
@@ -546,7 +561,6 @@ export default function StoragePage() {
 			>
 				<input
 					type="text"
-					autoFocus
 					value={renameName}
 					onChange={(e) => setRenameName(e.target.value)}
 					onKeyDown={(e) =>
