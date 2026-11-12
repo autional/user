@@ -7,6 +7,10 @@ storybook-static/
 .env.local
 *.log
 
+# Playwright（e2e 产物，勿入库）
+test-results/
+playwright-report/
+
 # B3 生成物（scripts/gen-env.mjs）——勿手改、勿入库
 apps/end-user-portal/public/env.js
 apps/end-user-portal/public/robots.txt
