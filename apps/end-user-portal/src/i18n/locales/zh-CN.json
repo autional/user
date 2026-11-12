@@ -2505,6 +2505,7 @@
   "storage.emptyDesc": "上传文件或创建文件夹以开始使用",
   "storage.noResults": "未找到匹配的文件",
   "storage.download": "下载",
+  "storage.managedHint": "由认证器管理（请到认证器应用删除）",
   "storage.share": "分享",
   "storage.open": "打开",
   "storage.rename": "重命名",

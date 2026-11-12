@@ -2505,6 +2505,7 @@
   "storage.emptyDesc": "Upload files or create folders to get started",
   "storage.noResults": "No matching files found",
   "storage.download": "Download",
+  "storage.managedHint": "Managed by Authenticator (open the app to delete)",
   "storage.share": "Share",
   "storage.open": "Open",
   "storage.rename": "Rename",
