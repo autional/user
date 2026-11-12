@@ -37,3 +37,25 @@ jobs:
       # 那是发布链路的职责；这里只做类型检查，避免在 CI 里伪造部署环境。
       - name: Typecheck
         run: pnpm typecheck
+
+  e2e:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+
+      - name: Install
+        run: pnpm install --frozen-lockfile
+
+      - name: Install Chromium
+        run: pnpm --filter @autional/end-user-portal exec playwright install --with-deps chromium
+
+      # 纯 API 控制台：用例内用 page.route 打桩，不需要后端
+      - name: E2E smoke
+        run: pnpm --filter @autional/end-user-portal test:e2e
